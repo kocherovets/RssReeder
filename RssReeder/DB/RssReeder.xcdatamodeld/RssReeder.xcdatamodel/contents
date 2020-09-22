@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17192" systemVersion="19G2021" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="DBNews" representedClassName="DBNews" syncable="YES">
+        <attribute name="body" attributeType="String"/>
+        <attribute name="guid" attributeType="String"/>
+        <attribute name="imageURL" attributeType="String"/>
+        <attribute name="sourceTitle" attributeType="String"/>
+        <attribute name="time" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="title" attributeType="String"/>
+        <attribute name="unread" attributeType="Boolean" usesScalarValueType="YES"/>
+        <relationship name="source" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DBSource" inverseName="news" inverseEntity="DBSource"/>
+    </entity>
+    <entity name="DBSettings" representedClassName="DBSettings" syncable="YES">
+        <attribute name="updateInterval" attributeType="Integer 16" defaultValueString="300" usesScalarValueType="YES"/>
+    </entity>
+    <entity name="DBSource" representedClassName="DBSource" syncable="YES">
+        <attribute name="active" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="url" attributeType="String"/>
+        <relationship name="news" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="DBNews" inverseName="source" inverseEntity="DBNews"/>
+    </entity>
+    <elements>
+        <element name="DBNews" positionX="-63" positionY="-18" width="128" height="163"/>
+        <element name="DBSource" positionX="-54" positionY="0" width="128" height="88"/>
+        <element name="DBSettings" positionX="-54" positionY="54" width="128" height="58"/>
+    </elements>
+</model>

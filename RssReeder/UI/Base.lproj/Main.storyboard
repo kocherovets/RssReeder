@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="GpT-0S-9V1">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--NewsTVC-->
+        <scene sceneID="NHs-jQ-H1q">
+            <objects>
+                <tableViewController id="imo-D3-RWj" customClass="NewsTVC" customModule="RssReeder" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="3uJ-5y-wF8">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <connections>
+                            <outlet property="dataSource" destination="imo-D3-RWj" id="pcr-lv-I57"/>
+                            <outlet property="delegate" destination="imo-D3-RWj" id="Ign-FI-09x"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" largeTitleDisplayMode="never" id="tW8-Yr-GcJ">
+                        <barButtonItem key="leftBarButtonItem" image="gearshape" catalog="system" style="plain" id="2s1-Gg-AZh"/>
+                        <barButtonItem key="rightBarButtonItem" image="eye" catalog="system" style="plain" id="icg-qr-ogD">
+                            <connections>
+                                <action selector="changeMode" destination="imo-D3-RWj" id="hQv-76-UHh"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="WrN-RP-s3K" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="619" y="67"/>
+        </scene>
+        <!--News ViewTVC-->
+        <scene sceneID="jyN-T6-PBr">
+            <objects>
+                <tableViewController storyboardIdentifier="NewsViewTVC" id="49g-k7-kbe" customClass="NewsViewTVC" customModule="RssReeder" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="3sh-aC-oBg">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <connections>
+                            <outlet property="dataSource" destination="49g-k7-kbe" id="Mxu-sr-dnK"/>
+                            <outlet property="delegate" destination="49g-k7-kbe" id="fDm-hl-26A"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="6iK-uo-daJ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1384" y="68"/>
+        </scene>
+        <!--Settings-->
+        <scene sceneID="mZO-mm-aOm">
+            <objects>
+                <tableViewController id="L8P-FK-qMQ" customClass="SettingsTVC" customModule="RssReeder" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="A5x-M2-hiW">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <connections>
+                            <outlet property="dataSource" destination="L8P-FK-qMQ" id="Qf5-b3-1Ri"/>
+                            <outlet property="delegate" destination="L8P-FK-qMQ" id="lxG-td-fLm"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Settings" id="K68-UQ-hMe"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="WCR-Sw-81x" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-97" y="792"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="m9q-Pq-yds">
+            <objects>
+                <navigationController id="GpT-0S-9V1" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="pY7-lM-9bP">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="kDN-zW-sqg" kind="relationship" relationship="rootViewController" id="xr2-WB-CZ2"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="cCf-8I-L0c" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-823" y="67"/>
+        </scene>
+        <!--NewsVC-->
+        <scene sceneID="NJv-ym-QmX">
+            <objects>
+                <viewController id="kDN-zW-sqg" customClass="NewsVC" customModule="RssReeder" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="lme-gP-unO">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UzW-Ah-HqY">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <connections>
+                                    <segue destination="imo-D3-RWj" kind="embed" id="uwa-5e-kgY"/>
+                                </connections>
+                            </containerView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="MvT-6l-cao"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="UzW-Ah-HqY" firstAttribute="trailing" secondItem="MvT-6l-cao" secondAttribute="trailing" id="43C-Df-G0F"/>
+                            <constraint firstAttribute="bottom" secondItem="UzW-Ah-HqY" secondAttribute="bottom" id="OmB-uF-Cdg"/>
+                            <constraint firstItem="UzW-Ah-HqY" firstAttribute="top" secondItem="lme-gP-unO" secondAttribute="top" id="acL-6V-EzS"/>
+                            <constraint firstItem="UzW-Ah-HqY" firstAttribute="leading" secondItem="MvT-6l-cao" secondAttribute="leading" id="wLa-Oc-Ohj"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="56q-I4-1Zf">
+                        <barButtonItem key="leftBarButtonItem" image="gearshape" catalog="system" style="plain" id="U3R-1A-zMz">
+                            <connections>
+                                <segue destination="L8P-FK-qMQ" kind="show" id="19c-7Q-iXL"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" image="eye" catalog="system" style="plain" id="WIP-gP-KYS">
+                            <connections>
+                                <action selector="changeMode" destination="kDN-zW-sqg" id="tmg-Q8-8Is"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="zm8-Vu-UCW" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-97.101449275362327" y="66.964285714285708"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="eye" catalog="system" width="128" height="81"/>
+        <image name="gearshape" catalog="system" width="128" height="121"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>
