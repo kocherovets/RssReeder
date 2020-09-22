@@ -11,7 +11,7 @@ import RedSwift
 
 struct State: RootStateType
 {
-    struct News {
+    struct News: Equatable {
         var sourceURL: String
         var source: String
         var guid: String
@@ -24,7 +24,7 @@ struct State: RootStateType
     var hideBody = false { didSet { lastUpdateTS = Date() } }
     var selectedNews: News?
 
-    struct SourceInfo {
+    struct SourceInfo: Equatable {
         var items = [News]()
         var active = true
     }
