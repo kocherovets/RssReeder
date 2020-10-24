@@ -9,7 +9,7 @@
 import Foundation
 import RedSwift
 
-struct State: RootStateType
+struct AppState: RootStateType, Equatable
 {
     struct News: Equatable {
         var sourceURL: String
@@ -43,16 +43,21 @@ struct State: RootStateType
             .sorted(by: { $0.time > $1.time })
     }
 
-    var error: Error?
+    var error = StateError.none
 }
 
-extension State
+enum StateError: Error, Equatable {
+    case none
+    case error(String)
+}
+
+extension AppState
 {
     struct ErrorAction: Action
     {
-        let error: Error?
+        let error: StateError
 
-        func updateState(_ state: inout State)
+        func updateState(_ state: inout AppState)
         {
             state.error = error
         }
@@ -62,7 +67,7 @@ extension State
     {
         let value: Bool
 
-        func updateState(_ state: inout State)
+        func updateState(_ state: inout AppState)
         {
             state.hideBody = value
         }
@@ -73,12 +78,18 @@ extension State
         let sourceURL: String
         let news: [News]
 
-        func updateState(_ state: inout State)
+        func updateState(_ state: inout AppState)
         {
             guard news.count > 0 else {
                 return
             }
             state.sources[sourceURL]?.items = news.sorted(by: { $0.time > $1.time })
+        }
+
+        init(sourceURL: String, news: [News])
+        {
+            self.sourceURL = sourceURL
+            self.news = news
         }
     }
 
@@ -92,7 +103,7 @@ extension State
         let sources: [Info]
         let fromDB: Bool
 
-        func updateState(_ state: inout State)
+        func updateState(_ state: inout AppState)
         {
             for source in sources {
                 state.sources[source.url] = SourceInfo(active: source.active)
@@ -104,7 +115,7 @@ extension State
     {
         let sourceURL: String
 
-        func updateState(_ state: inout State)
+        func updateState(_ state: inout AppState)
         {
             state.sources[sourceURL] = nil
         }
@@ -115,7 +126,7 @@ extension State
         let sourceURL: String
         let activity: Bool
 
-        func updateState(_ state: inout State)
+        func updateState(_ state: inout AppState)
         {
             state.sources[sourceURL]?.active = activity
         }
@@ -126,7 +137,7 @@ extension State
         let seconds: Int
         let fromDB: Bool
 
-        func updateState(_ state: inout State)
+        func updateState(_ state: inout AppState)
         {
             state.updateIntervalSeconds = max(10, seconds)
         }

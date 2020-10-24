@@ -105,7 +105,8 @@ class AppendNewsActionTests: XCTestCase {
 
     func test6() {
 
-        var state = State()
+        var initState = State()
+        var state = initState
         state.sources[sourceURL] = State.SourceInfo()
 
         let action = State.AppendNewsAction(sourceURL: sourceURL,
@@ -113,11 +114,17 @@ class AppendNewsActionTests: XCTestCase {
         action.updateState(&state)
 
         XCTAssertEqual(state.sources[sourceURL], State.SourceInfo(items: [news3, news2, news1], active: true))
+        
+        initState.sources[sourceURL] = State.SourceInfo(items: [news3, news2, news1], active: true)
+        initState.lastUpdateTS = state.lastUpdateTS
+
+        XCTAssertEqual(initState, state)
     }
 
     func test7() {
 
-        var state = State()
+        var initState = State()
+        var state = initState
         state.sources[sourceURL] = State.SourceInfo(items: [news3, news2, news1], active: true)
 
         let action = State.AppendNewsAction(sourceURL: sourceURL,
@@ -125,6 +132,10 @@ class AppendNewsActionTests: XCTestCase {
         action.updateState(&state)
 
         XCTAssertEqual(state.sources[sourceURL], State.SourceInfo(items: [news3, news2, news1], active: true))
-    }
 
+        initState.sources[sourceURL] = State.SourceInfo(items: [news3, news2, news1], active: true)
+        initState.lastUpdateTS = state.lastUpdateTS
+
+        XCTAssertEqual(initState, state)
+    }
 }

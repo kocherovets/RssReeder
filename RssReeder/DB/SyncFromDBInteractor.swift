@@ -33,11 +33,11 @@ extension DBSync
     }
 }
 
-class SyncFromDBInteractor: Interactor<State>
+class SyncFromDBInteractor: Interactor<AppState>
 {
     fileprivate let db: DBService
 
-    init(store: Store<State>, db: DBService)
+    init(store: Store<AppState>, db: DBService)
     {
         self.db = db
 
@@ -131,22 +131,23 @@ class SyncFromDBInteractor: Interactor<State>
     }
 }
 
+extension Action {
+
+    func updateState(_ state: inout AppState) { }
+}
+
 extension SyncFromDBInteractor
 {
     struct StartSyncSE: SideEffect
     {
-        struct StartAction: Action {
+        struct StartAction: Action { }
 
-            func updateState(_ state: inout State) {
-            }
-        }
-
-        func condition(box: StateBox<State>) -> Bool
+        func condition(box: StateBox<AppState>) -> Bool
         {
             box.lastAction is StartAction
         }
 
-        func execute(box: StateBox<State>, trunk: Trunk, interactor: SyncFromDBInteractor)
+        func execute(box: StateBox<AppState>, trunk: Trunk, interactor: SyncFromDBInteractor)
         {
             NotificationCenter.default.addObserver(interactor,
                                                    selector: #selector(interactor.contextSave(_:)),
@@ -156,8 +157,8 @@ extension SyncFromDBInteractor
             switch interactor.db.sources() {
             case .success(let sources):
                 let infos = sources
-                    .map { State.AddSourcesAction.Info(url: $0.url, active: $0.active) }
-                trunk.dispatch(State.AddSourcesAction(sources: infos,
+                    .map { AppState.AddSourcesAction.Info(url: $0.url, active: $0.active) }
+                trunk.dispatch(AppState.AddSourcesAction(sources: infos,
                                                       fromDB: true))
 
                 for info in infos.filter({ $0.active }) {
@@ -167,29 +168,29 @@ extension SyncFromDBInteractor
 
                 switch interactor.db.updateInterval() {
                 case .success(let updateInterval):
-                    trunk.dispatch(State.SetUpdateIntervalAction(seconds: updateInterval,
+                    trunk.dispatch(AppState.SetUpdateIntervalAction(seconds: updateInterval,
                                                                  fromDB: true))
                 case .failure(let error):
-                    trunk.dispatch(State.ErrorAction(error: error))
+                    trunk.dispatch(AppState.ErrorAction(error: StateError.error(error.localizedDescription)))
                 }
 
             case .failure(let error):
-                trunk.dispatch(State.ErrorAction(error: error))
+                trunk.dispatch(AppState.ErrorAction(error: StateError.error(error.localizedDescription)))
             }
         }
     }
 
     struct SyncNewsSE: SideEffect
     {
-        func condition(box: StateBox<State>) -> Bool
+        func condition(box: StateBox<AppState>) -> Bool
         {
-            box.lastAction is State.SetSourceActivityAction
+            box.lastAction is AppState.SetSourceActivityAction
         }
 
-        func execute(box: StateBox<State>, trunk: Trunk, interactor: SyncFromDBInteractor)
+        func execute(box: StateBox<AppState>, trunk: Trunk, interactor: SyncFromDBInteractor)
         {
-            if let lastAction = box.lastAction as? State.SetSourceActivityAction, lastAction.activity {
-                
+            if let lastAction = box.lastAction as? AppState.SetSourceActivityAction, lastAction.activity {
+
                 interactor.getNews(trunk: trunk, interactor: interactor, sourceURL: lastAction.sourceURL)
             }
         }
@@ -204,18 +205,18 @@ extension SyncFromDBInteractor
         case .success(let dbNews):
             let news = dbNews
                 .map {
-                    State.News(sourceURL: sourceURL,
-                               source: $0.sourceTitle,
-                               guid: $0.guid,
-                               title: $0.title,
-                               body: $0.body,
-                               time: $0.time,
-                               imageURL: $0.imageURL,
-                               unread: $0.unread)
+                    AppState.News(sourceURL: sourceURL,
+                           source: $0.sourceTitle,
+                           guid: $0.guid,
+                           title: $0.title,
+                           body: $0.body,
+                           time: $0.time,
+                           imageURL: $0.imageURL,
+                           unread: $0.unread)
             }
-            trunk.dispatch(State.AppendNewsAction(sourceURL: sourceURL, news: news))
+            trunk.dispatch(AppState.AppendNewsAction(sourceURL: sourceURL, news: news))
         case .failure(let error):
-            trunk.dispatch(State.ErrorAction(error: error))
+            trunk.dispatch(AppState.ErrorAction(error: StateError.error(error.localizedDescription)))
         }
     }
 

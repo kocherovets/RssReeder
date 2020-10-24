@@ -15,14 +15,14 @@ class AppFramework: DIFramework
 {
     static func load(container: DIContainer)
     {
-        container.register(State.init).lifetime(.single)
+        container.register(AppState.init).lifetime(.single)
 
         container.register { DispatchQueue(label: "rssReeder", qos: .userInteractive) }
             .as(DispatchQueue.self, name: "storeQueue")
             .lifetime(.single)
 
         container.register {
-            Store<State>(state: $0,
+            Store<AppState>(state: $0,
                          queue: $1,
                          middleware: [
                              LoggingMiddleware(loggingExcludedActions: [
@@ -75,7 +75,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         InteractorLogger.loggingExcludedSideEffects = [
         ]
         
-        (container.resolve() as Store<State>).dispatch(SyncFromDBInteractor.StartSyncSE.StartAction())
+        (container.resolve() as Store<AppState>).dispatch(SyncFromDBInteractor.StartSyncSE.StartAction())
 
         return true
     }

@@ -14,14 +14,14 @@ import DeclarativeTVC
 
 enum NewsViewTVCModule
 {
-    class Presenter: PresenterBase<State, TableProps, ViewController>
+    class Presenter: PresenterBase<AppState, TableProps, ViewController>
     {
-        override func reaction(for box: StateBox<State>) -> ReactionToState
+        override func reaction(for box: StateBox<AppState>) -> ReactionToState
         {
             return .props
         }
 
-        override func props(for box: StateBox<State>, trunk: Trunk) -> TableProps?
+        override func props(for box: StateBox<AppState>, trunk: Trunk) -> TableProps?
         {
             var rows = [CellAnyModel]()
 

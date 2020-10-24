@@ -14,23 +14,23 @@ import DeclarativeTVC
 
 enum SettingsTVCModule
 {
-    class Presenter: PresenterBase<State, TableProps, ViewController>
+    class Presenter: PresenterBase<AppState, TableProps, ViewController>
     {
         private var localDate = Date.distantPast
 
-        override func reaction(for box: StateBox<State>) -> ReactionToState
+        override func reaction(for box: StateBox<AppState>) -> ReactionToState
         {
             return .props
         }
 
-        override func props(for box: StateBox<State>, trunk: Trunk) -> TableProps?
+        override func props(for box: StateBox<AppState>, trunk: Trunk) -> TableProps?
         {
             var rows: [CellAnyModel] = [
 
                 SectionHeaderCellVM(title: "General"),
                 UpdateIntervalCellVM(text: String(box.state.updateIntervalSeconds),
                                      valueChangedCommand: CommandWith<Int> { value in
-                                         trunk.dispatch(State.SetUpdateIntervalAction(seconds: value,
+                                         trunk.dispatch(AppState.SetUpdateIntervalAction(seconds: value,
                                                                                       fromDB: false))
                                      }),
                 SectionHeaderCellVM(title: "Sources"),
@@ -43,10 +43,10 @@ enum SettingsTVCModule
                     return SourceCellVM(title: url,
                                         isActive: isActive,
                                         valueChangedCommand: Command {
-                                            trunk.dispatch(State.SetSourceActivityAction(sourceURL: url, activity: !isActive))
+                                            trunk.dispatch(AppState.SetSourceActivityAction(sourceURL: url, activity: !isActive))
                                         },
                                         removeCommand: Command {
-                                            trunk.dispatch(State.RemoveSourceAction(sourceURL: url))
+                                            trunk.dispatch(AppState.RemoveSourceAction(sourceURL: url))
                                         })
             })
 
@@ -54,7 +54,7 @@ enum SettingsTVCModule
                 AddSourceCellVM(
                     selectCommand: Command {
                         if let url = UIPasteboard.general.string?.trimmingCharacters(in: .whitespaces) {
-                            trunk.dispatch(State.AddSourcesAction(sources: [State.AddSourcesAction.Info(url: url,
+                            trunk.dispatch(AppState.AddSourcesAction(sources: [AppState.AddSourcesAction.Info(url: url,
                                                                                                         active: true)],
                                                                   fromDB: false))
                         }

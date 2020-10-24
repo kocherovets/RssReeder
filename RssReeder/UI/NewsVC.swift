@@ -19,18 +19,18 @@ enum NewsVCModule {
         let changeViewModeCommand: Command
     }
 
-    class Presenter: PresenterBase<State, Props, ViewController> {
+    class Presenter: PresenterBase<AppState, Props, ViewController> {
 
-        override func reaction(for box: StateBox<State>) -> ReactionToState {
+        override func reaction(for box: StateBox<AppState>) -> ReactionToState {
             return .props
         }
 
-        override func props(for box: StateBox<State>, trunk: Trunk) -> Props? {
+        override func props(for box: StateBox<AppState>, trunk: Trunk) -> Props? {
 
             Props(
                 rightBarButtonImageName: box.state.hideBody ? "eye.slash" : "eye",
                 changeViewModeCommand: Command {
-                    trunk.dispatch(State.SetHideBodyAction(value: !box.state.hideBody))
+                    trunk.dispatch(AppState.SetHideBodyAction(value: !box.state.hideBody))
                 }
             )
         }

@@ -9,9 +9,9 @@ import UIKit
 import RedSwift
 import FeedKit
 
-class UpdateNewsInteractor: Interactor<State>
+class UpdateNewsInteractor: Interactor<AppState>
 {
-    override init(store: Store<State>)
+    override init(store: Store<AppState>)
     {
         super.init(store: store)
     }
@@ -28,18 +28,18 @@ extension UpdateNewsInteractor
 {
     struct UpdateNewsSE: SideEffect
     {
-        struct StartAction: Action {
+        public struct StartAction: Action {
 
             func updateState(_ state: inout State) {
             }
         }
 
-        func condition(box: StateBox<State>) -> Bool {
+        func condition(box: StateBox<AppState>) -> Bool {
 
             box.lastAction is StartAction
         }
 
-        func execute(box: StateBox<State>, trunk: Trunk, interactor: UpdateNewsInteractor) {
+        func execute(box: StateBox<AppState>, trunk: Trunk, interactor: UpdateNewsInteractor) {
 
             for source in box.state.sources.keys {
 
@@ -57,9 +57,9 @@ extension UpdateNewsInteractor
                                 let rssFeed = feed.rssFeed,
                                 let items = rssFeed.items {
 
-                                    let news = items.map { item -> State.News in
+                                    let news = items.map { item -> AppState.News in
 
-                                        State.News(sourceURL: source,
+                                        AppState.News(sourceURL: source,
                                                    source: rssFeed.title ?? "",
                                                    guid: item.guid?.value ?? UUID().uuidString,
                                                    title: item.title ?? "",

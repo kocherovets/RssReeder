@@ -12,11 +12,11 @@ import DITranquillity
 import RedSwift
 import DeclarativeTVC
 
-class SyncToDBInteractor: Interactor<State>
+class SyncToDBInteractor: Interactor<AppState>
 {
     fileprivate let db: DBService
 
-    init(store: Store<State>, db: DBService)
+    init(store: Store<AppState>, db: DBService)
     {
         self.db = db
         super.init(store: store)
@@ -39,17 +39,17 @@ extension SyncToDBInteractor
 {
     struct AddSourceSE: SideEffect
     {
-        func condition(box: StateBox<State>) -> Bool
+        func condition(box: StateBox<AppState>) -> Bool
         {
-            if let lastAction = box.lastAction as? State.AddSourcesAction, !lastAction.fromDB {
+            if let lastAction = box.lastAction as? AppState.AddSourcesAction, !lastAction.fromDB {
                 return true
             }
             return false
         }
 
-        func execute(box: StateBox<State>, trunk: Trunk, interactor: SyncToDBInteractor)
+        func execute(box: StateBox<AppState>, trunk: Trunk, interactor: SyncToDBInteractor)
         {
-            if let lastAction = box.lastAction as? State.AddSourcesAction {
+            if let lastAction = box.lastAction as? AppState.AddSourcesAction {
 
                 for url in lastAction.sources.map({ $0.url }) {
                     _ = interactor.db.addSource(url: url, active: true)
@@ -60,14 +60,14 @@ extension SyncToDBInteractor
 
     struct RemoveSourceSE: SideEffect
     {
-        func condition(box: StateBox<State>) -> Bool
+        func condition(box: StateBox<AppState>) -> Bool
         {
-            box.lastAction is State.RemoveSourceAction
+            box.lastAction is AppState.RemoveSourceAction
         }
 
-        func execute(box: StateBox<State>, trunk: Trunk, interactor: SyncToDBInteractor)
+        func execute(box: StateBox<AppState>, trunk: Trunk, interactor: SyncToDBInteractor)
         {
-            if let lastAction = box.lastAction as? State.RemoveSourceAction {
+            if let lastAction = box.lastAction as? AppState.RemoveSourceAction {
 
                 _ = interactor.db.removeSource(url: lastAction.sourceURL)
             }
@@ -76,14 +76,14 @@ extension SyncToDBInteractor
 
     struct SetSourceActivitySE: SideEffect
     {
-        func condition(box: StateBox<State>) -> Bool
+        func condition(box: StateBox<AppState>) -> Bool
         {
-            box.lastAction is State.SetSourceActivityAction
+            box.lastAction is AppState.SetSourceActivityAction
         }
 
-        func execute(box: StateBox<State>, trunk: Trunk, interactor: SyncToDBInteractor)
+        func execute(box: StateBox<AppState>, trunk: Trunk, interactor: SyncToDBInteractor)
         {
-            if let lastAction = box.lastAction as? State.SetSourceActivityAction {
+            if let lastAction = box.lastAction as? AppState.SetSourceActivityAction {
 
                 _ = interactor.db.set(active: lastAction.activity, forSource: lastAction.sourceURL)
             }
@@ -92,12 +92,12 @@ extension SyncToDBInteractor
 
     struct SetUnreadSE: SideEffect
     {
-        func condition(box: StateBox<State>) -> Bool
+        func condition(box: StateBox<AppState>) -> Bool
         {
             box.lastAction is RouterInteractor.ShowsNewsItemSE.ShowsAction
         }
 
-        func execute(box: StateBox<State>, trunk: Trunk, interactor: SyncToDBInteractor)
+        func execute(box: StateBox<AppState>, trunk: Trunk, interactor: SyncToDBInteractor)
         {
             if let lastAction = box.lastAction as? RouterInteractor.ShowsNewsItemSE.ShowsAction {
 
@@ -113,16 +113,16 @@ extension SyncToDBInteractor
             let sourceURL: String
             let news: [State.News]
 
-            func updateState(_ state: inout State) {
+            func updateState(_ state: inout AppState) {
             }
         }
         
-        func condition(box: StateBox<State>) -> Bool
+        func condition(box: StateBox<AppState>) -> Bool
         {
             box.lastAction is StartAction
         }
 
-        func execute(box: StateBox<State>, trunk: Trunk, interactor: SyncToDBInteractor)
+        func execute(box: StateBox<AppState>, trunk: Trunk, interactor: SyncToDBInteractor)
         {
             if let lastAction = box.lastAction as? StartAction {
 
@@ -145,14 +145,14 @@ extension SyncToDBInteractor
     
     struct SetUpdateIntervalSE: SideEffect
     {
-        func condition(box: StateBox<State>) -> Bool
+        func condition(box: StateBox<AppState>) -> Bool
         {
-            box.lastAction is State.SetUpdateIntervalAction && !(box.lastAction as! State.SetUpdateIntervalAction).fromDB
+            box.lastAction is AppState.SetUpdateIntervalAction && !(box.lastAction as! AppState.SetUpdateIntervalAction).fromDB
         }
 
-        func execute(box: StateBox<State>, trunk: Trunk, interactor: SyncToDBInteractor)
+        func execute(box: StateBox<AppState>, trunk: Trunk, interactor: SyncToDBInteractor)
         {
-            if let lastAction = box.lastAction as? State.SetUpdateIntervalAction {
+            if let lastAction = box.lastAction as? AppState.SetUpdateIntervalAction {
 
                 _ = interactor.db.set(updateInterval: lastAction.seconds)
             }

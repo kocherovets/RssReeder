@@ -13,7 +13,7 @@ import ReduxVM
 fileprivate var timer: DispatchSourceTimer?
 fileprivate let queue = DispatchQueue(label: "com.TimerInteractor", attributes: .concurrent)
 
-class TimerInteractor: Interactor<State> {
+class TimerInteractor: Interactor<AppState> {
 
     override var sideEffects: [AnySideEffect] {
         [
@@ -39,15 +39,15 @@ extension TimerInteractor {
             }
         }
 
-        func condition(box: StateBox<State>) -> Bool {
+        func condition(box: StateBox<AppState>) -> Bool {
 
             box.lastAction is StartAction ||
-                (box.lastAction is State.AddSourcesAction && !(box.lastAction as! State.AddSourcesAction).fromDB) ||
-                box.lastAction is State.SetSourceActivityAction ||
-                box.lastAction is State.SetUpdateIntervalAction
+                (box.lastAction is AppState.AddSourcesAction && !(box.lastAction as! AppState.AddSourcesAction).fromDB) ||
+                box.lastAction is AppState.SetSourceActivityAction ||
+                box.lastAction is AppState.SetUpdateIntervalAction
         }
 
-        func execute(box: StateBox<State>, trunk: Trunk, interactor: TimerInteractor) {
+        func execute(box: StateBox<AppState>, trunk: Trunk, interactor: TimerInteractor) {
 
             timer?.cancel()
             timer = DispatchSource.makeTimerSource(queue: queue)
@@ -67,12 +67,12 @@ extension TimerInteractor {
             }
         }
 
-        func condition(box: StateBox<State>) -> Bool {
+        func condition(box: StateBox<AppState>) -> Bool {
 
             box.lastAction is FinishAction
         }
 
-        func execute(box: StateBox<State>, trunk: Trunk, interactor: TimerInteractor) {
+        func execute(box: StateBox<AppState>, trunk: Trunk, interactor: TimerInteractor) {
 
             timer?.cancel()
             timer = nil

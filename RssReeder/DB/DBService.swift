@@ -129,7 +129,7 @@ public class DBService
         }
     }
 
-    func set(news items: [State.News], forSource url: String) -> Error?
+    func set(news items: [AppState.News], forSource url: String) -> Error?
     {
         switch source(url: url) {
         case .success(let source):

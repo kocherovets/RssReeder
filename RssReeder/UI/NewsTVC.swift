@@ -14,11 +14,11 @@ import DeclarativeTVC
 
 enum NewsTVCModule
 {
-    class Presenter: PresenterBase<State, TableProps, ViewController>
+    class Presenter: PresenterBase<AppState, TableProps, ViewController>
     {
         private var localDate = Date.distantPast
         
-        override func reaction(for box: StateBox<State>) -> ReactionToState
+        override func reaction(for box: StateBox<AppState>) -> ReactionToState
         {
             if localDate == box.state.lastUpdateTS {
                 return .none
@@ -27,7 +27,7 @@ enum NewsTVCModule
             return .props
         }
 
-        override func props(for box: StateBox<State>, trunk: Trunk) -> TableProps?
+        override func props(for box: StateBox<AppState>, trunk: Trunk) -> TableProps?
         {
             let rows = box.state.news
                 .map { news in

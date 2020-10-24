@@ -8,9 +8,9 @@
 import UIKit
 import RedSwift
 
-class RouterInteractor: Interactor<State>
+class RouterInteractor: Interactor<AppState>
 {
-    override init(store: Store<State>)
+    override init(store: Store<AppState>)
     {
         super.init(store: store)
     }
@@ -31,7 +31,7 @@ extension RouterInteractor
 
             let news: State.News
 
-            func updateState(_ state: inout State) {
+            func updateState(_ state: inout AppState) {
                 
                 state.selectedNews = news
                 
@@ -42,12 +42,12 @@ extension RouterInteractor
             }
         }
 
-        func condition(box: StateBox<State>) -> Bool {
+        func condition(box: StateBox<AppState>) -> Bool {
             
             box.lastAction is ShowsAction
         }
 
-        func execute(box: StateBox<State>, trunk: Trunk, interactor: RouterInteractor) {
+        func execute(box: StateBox<AppState>, trunk: Trunk, interactor: RouterInteractor) {
             
             Router.showNewsItem()
         }
