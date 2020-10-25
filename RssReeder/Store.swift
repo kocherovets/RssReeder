@@ -11,6 +11,28 @@ import RedSwift
 
 struct AppState: RootStateType, Equatable
 {
+    var news = [UUID: NewsState]()
+    var settings = SettingsState()
+    var error = StateError.none
+
+    struct ErrorAction: Action
+    {
+        let error: StateError
+
+        func updateState(_ state: inout AppState)
+        {
+            state.error = error
+        }
+    }
+}
+
+enum StateError: Error, Equatable {
+    case none
+    case error(String)
+}
+
+struct NewsState: StateType, Equatable
+{
     struct News: Equatable {
         var source: String
         var guid: String
@@ -22,47 +44,26 @@ struct AppState: RootStateType, Equatable
     }
     var hideBody = false
     var selectedNews: News?
-
-    var sources: [String: Bool] = [:]
-    var updateIntervalSeconds: Int = 10
-
     var news = [News]()
 
-    var error = StateError.none
-}
-
-enum StateError: Error, Equatable {
-    case none
-    case error(String)
-}
-
-extension Action {
-
-    func updateState(_ state: inout AppState) { }
-}
-
-protocol UIUpdateNews { }
-
-extension AppState
-{
-
-    struct ErrorAction: Action
+    struct AddNewsStateAction: Action, UIUpdateNews
     {
-        let error: StateError
+        let uuid: UUID
 
         func updateState(_ state: inout AppState)
         {
-            state.error = error
+            state.news[uuid] = NewsState()
         }
     }
 
     struct SetHideBodyAction: Action, UIUpdateNews
     {
+        let uuid: UUID
         let value: Bool
 
         func updateState(_ state: inout AppState)
         {
-            state.hideBody = value
+            state.news[uuid]?.hideBody = value
         }
     }
 
@@ -72,9 +73,34 @@ extension AppState
 
         func updateState(_ state: inout AppState)
         {
-            state.news = news
+            for uuid in state.news.keys {
+                state.news[uuid]?.news = news
+            }
         }
     }
+
+    struct SelectNewsAction: Action, UIUpdateNews {
+
+        let uuid: UUID
+        let news: News
+
+        func updateState(_ state: inout AppState) {
+
+            state.news[uuid]?.selectedNews = news
+            
+            for uuid in state.news.keys {
+                if let index = state.news[uuid]?.news.firstIndex(where: { $0.guid == news.guid }) {
+                    state.news[uuid]?.news[index].unread = false
+                }
+            }
+        }
+    }
+}
+
+struct SettingsState: StateType, Equatable
+{
+    var sources: [String: Bool] = [:]
+    var updateIntervalSeconds: Int = 10
 
     struct AddSourcesAction: Action
     {
@@ -89,7 +115,7 @@ extension AppState
         func updateState(_ state: inout AppState)
         {
             for source in sources {
-                state.sources[source.url] = source.active
+                state.settings.sources[source.url] = source.active
             }
         }
     }
@@ -100,7 +126,7 @@ extension AppState
 
         func updateState(_ state: inout AppState)
         {
-            state.sources[sourceURL] = nil
+            state.settings.sources[sourceURL] = nil
         }
     }
 
@@ -111,7 +137,7 @@ extension AppState
 
         func updateState(_ state: inout AppState)
         {
-            state.sources[sourceURL] = activity
+            state.settings.sources[sourceURL] = activity
         }
     }
 
@@ -122,22 +148,14 @@ extension AppState
 
         func updateState(_ state: inout AppState)
         {
-            state.updateIntervalSeconds = max(10, seconds)
-        }
-    }
-    
-    struct SelectNewsAction: Action, UIUpdateNews {
-
-        let news: State.News
-
-        func updateState(_ state: inout AppState) {
-            
-            state.selectedNews = news
-
-            if let index = state.news.firstIndex(where: { $0.guid == news.guid }) {
-
-                state.news[index].unread = false
-            }
+            state.settings.updateIntervalSeconds = max(10, seconds)
         }
     }
 }
+
+extension Action {
+
+    func updateState(_ state: inout AppState) { }
+}
+
+protocol UIUpdateNews { }

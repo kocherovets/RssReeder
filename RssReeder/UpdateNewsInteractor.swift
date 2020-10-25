@@ -41,9 +41,9 @@ extension UpdateNewsInteractor
 
         func execute(box: StateBox<AppState>, trunk: Trunk, interactor: UpdateNewsInteractor) {
 
-            for source in box.state.sources.keys {
+            for source in box.state.settings.sources.keys {
 
-                if box.state.sources[source] != true {
+                if box.state.settings.sources[source] != true {
                     continue
                 }
                 if let feedURL = URL(string: source) {
@@ -57,9 +57,9 @@ extension UpdateNewsInteractor
                                 let rssFeed = feed.rssFeed,
                                 let items = rssFeed.items {
 
-                                let news = items.map { item -> AppState.News in
+                                let news = items.map { item -> NewsState.News in
 
-                                    AppState.News(
+                                    NewsState.News(
                                         source: rssFeed.title ?? "",
                                         guid: item.guid?.value ?? UUID().uuidString,
                                         title: item.title ?? "",

@@ -41,7 +41,7 @@ extension SyncToDBInteractor
     {
         func condition(box: StateBox<AppState>) -> Bool
         {
-            if let lastAction = box.lastAction as? AppState.AddSourcesAction, !lastAction.fromDB {
+            if let lastAction = box.lastAction as? SettingsState.AddSourcesAction, !lastAction.fromDB {
                 return true
             }
             return false
@@ -49,7 +49,7 @@ extension SyncToDBInteractor
 
         func execute(box: StateBox<AppState>, trunk: Trunk, interactor: SyncToDBInteractor)
         {
-            if let lastAction = box.lastAction as? AppState.AddSourcesAction {
+            if let lastAction = box.lastAction as? SettingsState.AddSourcesAction {
 
                 for url in lastAction.sources.map({ $0.url }) {
                     _ = interactor.db.addSource(url: url, active: true)
@@ -62,16 +62,18 @@ extension SyncToDBInteractor
     {
         func condition(box: StateBox<AppState>) -> Bool
         {
-            box.lastAction is AppState.RemoveSourceAction
+            box.lastAction is SettingsState.RemoveSourceAction
         }
 
         func execute(box: StateBox<AppState>, trunk: Trunk, interactor: SyncToDBInteractor)
         {
-            if let lastAction = box.lastAction as? AppState.RemoveSourceAction {
+            if let lastAction = box.lastAction as? SettingsState.RemoveSourceAction {
 
                 _ = interactor.db.removeSource(url: lastAction.sourceURL)
 
-                trunk.dispatch(SyncFromDBInteractor.LoadNewsSE.StartAction())
+                for uuid in box.state.news.keys {
+                    trunk.dispatch(SyncFromDBInteractor.LoadNewsSE.StartAction(uuid: uuid))
+                }
             }
         }
     }
@@ -80,16 +82,18 @@ extension SyncToDBInteractor
     {
         func condition(box: StateBox<AppState>) -> Bool
         {
-            box.lastAction is AppState.SetSourceActivityAction
+            box.lastAction is SettingsState.SetSourceActivityAction
         }
 
         func execute(box: StateBox<AppState>, trunk: Trunk, interactor: SyncToDBInteractor)
         {
-            if let lastAction = box.lastAction as? AppState.SetSourceActivityAction {
+            if let lastAction = box.lastAction as? SettingsState.SetSourceActivityAction {
 
                 _ = interactor.db.set(active: lastAction.activity, forSource: lastAction.sourceURL)
 
-                trunk.dispatch(SyncFromDBInteractor.LoadNewsSE.StartAction())
+                for uuid in box.state.news.keys {
+                    trunk.dispatch(SyncFromDBInteractor.LoadNewsSE.StartAction(uuid: uuid))
+                }
             }
         }
     }
@@ -98,12 +102,12 @@ extension SyncToDBInteractor
     {
         func condition(box: StateBox<AppState>) -> Bool
         {
-            box.lastAction is AppState.SelectNewsAction
+            box.lastAction is NewsState.SelectNewsAction
         }
 
         func execute(box: StateBox<AppState>, trunk: Trunk, interactor: SyncToDBInteractor)
         {
-            if let lastAction = box.lastAction as? AppState.SelectNewsAction {
+            if let lastAction = box.lastAction as? NewsState.SelectNewsAction {
 
                 _ = interactor.db.setRead(guid: lastAction.news.guid)
             }
@@ -115,7 +119,7 @@ extension SyncToDBInteractor
         struct StartAction: Action {
 
             let sourceURL: String
-            let news: [State.News]
+            let news: [NewsState.News]
         }
 
         func condition(box: StateBox<AppState>) -> Bool
@@ -134,7 +138,9 @@ extension SyncToDBInteractor
 
                     trunk.dispatch(AppState.ErrorAction(error: StateError.error(error.localizedDescription)))
                 } else {
-                    trunk.dispatch(SyncFromDBInteractor.LoadNewsSE.StartAction())
+                    for uuid in box.state.news.keys {
+                        trunk.dispatch(SyncFromDBInteractor.LoadNewsSE.StartAction(uuid: uuid))
+                    }
                 }
             }
         }
@@ -144,12 +150,12 @@ extension SyncToDBInteractor
     {
         func condition(box: StateBox<AppState>) -> Bool
         {
-            box.lastAction is AppState.SetUpdateIntervalAction && !(box.lastAction as! AppState.SetUpdateIntervalAction).fromDB
+            box.lastAction is SettingsState.SetUpdateIntervalAction && !(box.lastAction as! SettingsState.SetUpdateIntervalAction).fromDB
         }
 
         func execute(box: StateBox<AppState>, trunk: Trunk, interactor: SyncToDBInteractor)
         {
-            if let lastAction = box.lastAction as? AppState.SetUpdateIntervalAction {
+            if let lastAction = box.lastAction as? SettingsState.SetUpdateIntervalAction {
 
                 _ = interactor.db.set(updateInterval: lastAction.seconds)
             }

@@ -22,7 +22,17 @@ enum NewsTVCModule
             firstPass = false
             return result
         }
-        
+
+        var uuid: UUID?
+
+        override func onInit(state: AppState, trunk: Trunk) {
+
+            if let uuid = uuid
+            {
+                trunk.dispatch(NewsState.AddNewsStateAction(uuid: uuid))
+            }
+        }
+
         override func reaction(for box: StateBox<AppState>) -> ReactionToState
         {
             if isFirstPass() || box.lastAction is UIUpdateNews {
@@ -33,19 +43,25 @@ enum NewsTVCModule
 
         override func props(for box: StateBox<AppState>, trunk: Trunk) -> TableProps?
         {
-            let rows = box.state.news
+            guard
+                let uuid = uuid,
+                let newsState = box.state.news[uuid] else {
+                return nil
+            }
+
+            let rows = newsState.news
                 .map { news in
-                    return NewsCellVM(
-                        source: news.source.uppercased(),
-                        title: news.title,
-                        body: news.body,
-                        hideBody: box.state.hideBody,
-                        time: dateFormatter.string(from: news.time),
-                        imageURL: news.imageURL,
-                        unread: news.unread,
-                        selectCommand: Command {
-                            trunk.dispatch(AppState.SelectNewsAction(news: news))
-                        })
+                return NewsCellVM(
+                    source: news.source.uppercased(),
+                    title: news.title,
+                    body: news.body,
+                    hideBody: newsState.hideBody,
+                    time: dateFormatter.string(from: news.time),
+                    imageURL: news.imageURL,
+                    unread: news.unread,
+                    selectCommand: Command {
+                        trunk.dispatch(NewsState.SelectNewsAction(uuid: uuid, news: news))
+                    })
             }
 
             return TableProps(tableModel: TableModel(rows: rows))
@@ -75,8 +91,8 @@ extension NewsTVCModule
         {
             container.register(ViewController.self)
                 .injection(\ViewController.presenter) {
-                    $0 as Presenter
-                }
+                $0 as Presenter
+            }
                 .lifetime(.objectGraph)
 
             container.register(Presenter.init)

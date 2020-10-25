@@ -129,33 +129,30 @@ public class DBService
         }
     }
 
-    func set(news items: [AppState.News], forSource url: String) -> Error?
+    func set(news items: [NewsState.News], forSource url: String) -> Error?
     {
         switch source(url: url) {
         case .success(let source):
             do
             {
-                var newItems = items
-
-                let request = NSFetchRequest<DBNews>(entityName: "DBNews")
+                let request: NSFetchRequest<DBNews> = DBNews.fetchRequest()
                 request.fetchLimit = 1
                 request.predicate = NSPredicate(format: "(source == %@) AND (time == max(time))", source)
-                if let last = try moc.fetch(request).first {
-                    newItems = newItems.filter({ $0.time > last.time })
-                }
+                let lastTime = try moc.fetch(request).first?.time ?? Date.distantPast
 
-                for item in newItems {
-
-                    let news = DBNews(context: moc)
-                    news.source = source
-                    news.guid = item.guid
-                    news.sourceTitle = item.source
-                    news.title = item.title
-                    news.body = item.body
-                    news.time = item.time
-                    news.imageURL = item.imageURL
-                    news.unread = true
-                    moc.insert(news)
+                for item in items {
+                    if item.time > lastTime {
+                        let news = DBNews(context: moc)
+                        news.source = source
+                        news.guid = item.guid
+                        news.sourceTitle = item.source
+                        news.title = item.title
+                        news.body = item.body
+                        news.time = item.time
+                        news.imageURL = item.imageURL
+                        news.unread = true
+                        moc.insert(news)
+                    }
                 }
                 try moc.save()
 

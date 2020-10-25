@@ -28,35 +28,37 @@ enum SettingsTVCModule
             var rows: [CellAnyModel] = [
 
                 SectionHeaderCellVM(title: "General"),
-                UpdateIntervalCellVM(text: String(box.state.updateIntervalSeconds),
+                UpdateIntervalCellVM(text: String(box.state.settings.updateIntervalSeconds),
                                      valueChangedCommand: CommandWith<Int> { value in
-                                         trunk.dispatch(AppState.SetUpdateIntervalAction(seconds: value,
-                                                                                      fromDB: false))
+                                         trunk.dispatch(SettingsState.SetUpdateIntervalAction(seconds: value,
+                                                                                              fromDB: false))
                                      }),
                 SectionHeaderCellVM(title: "Sources"),
             ]
 
             rows.append(contentsOf:
-                box.state.sources.keys.sorted()
+                box.state.settings.sources.keys.sorted()
                 .map { url in
-                    let isActive = box.state.sources[url] == true
-                    return SourceCellVM(title: url,
-                                        isActive: isActive,
-                                        valueChangedCommand: Command {
-                                            trunk.dispatch(AppState.SetSourceActivityAction(sourceURL: url, activity: !isActive))
-                                        },
-                                        removeCommand: Command {
-                                            trunk.dispatch(AppState.RemoveSourceAction(sourceURL: url))
-                                        })
+                let isActive = box.state.settings.sources[url] == true
+                return SourceCellVM(title: url,
+                                    isActive: isActive,
+                                    valueChangedCommand: Command {
+                                        trunk.dispatch(SettingsState.SetSourceActivityAction(sourceURL: url,
+                                                                                             activity: !isActive))
+                                    },
+                                    removeCommand: Command {
+                                        trunk.dispatch(SettingsState.RemoveSourceAction(sourceURL: url))
+                                    })
             })
 
             rows.append(
                 AddSourceCellVM(
                     selectCommand: Command {
                         if let url = UIPasteboard.general.string?.trimmingCharacters(in: .whitespaces) {
-                            trunk.dispatch(AppState.AddSourcesAction(sources: [AppState.AddSourcesAction.Info(url: url,
-                                                                                                        active: true)],
-                                                                  fromDB: false))
+                            trunk.dispatch(SettingsState.AddSourcesAction(
+                                sources: [SettingsState.AddSourcesAction.Info(url: url,
+                                                                              active: true)],
+                                fromDB: false))
                         }
                     }))
 
@@ -98,8 +100,8 @@ extension SettingsTVCModule
         {
             container.register(ViewController.self)
                 .injection(\ViewController.presenter) {
-                    $0 as Presenter
-                }
+                $0 as Presenter
+            }
                 .lifetime(.objectGraph)
 
             container.register(Presenter.init)

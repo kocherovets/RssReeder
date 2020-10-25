@@ -21,16 +21,22 @@ enum NewsVCModule {
 
     class Presenter: PresenterBase<AppState, Props, ViewController> {
 
+        var uuid = UUID()
+
         override func reaction(for box: StateBox<AppState>) -> ReactionToState {
             return .props
         }
 
         override func props(for box: StateBox<AppState>, trunk: Trunk) -> Props? {
 
-            Props(
-                rightBarButtonImageName: box.state.hideBody ? "eye.slash" : "eye",
+            guard let news = box.state.news[uuid] else {
+                return nil
+            }
+
+            return Props(
+                rightBarButtonImageName: news.hideBody ? "eye.slash" : "eye",
                 changeViewModeCommand: Command {
-                    trunk.dispatch(AppState.SetHideBodyAction(value: !box.state.hideBody))
+                    trunk.dispatch(NewsState.SetHideBodyAction(uuid: self.uuid, value: !news.hideBody))
                 }
             )
         }
@@ -54,6 +60,13 @@ class NewsVC: VC, PropsReceiver {
     @IBAction func changeMode() {
         props?.changeViewModeCommand.perform()
     }
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+
+        if let vc = segue.destination as? NewsTVC {
+            (vc.presenter as? NewsTVCModule.Presenter)?.uuid = (presenter as? NewsVCModule.Presenter)?.uuid
+        }
+    }
 }
 
 extension NewsVCModule
@@ -66,8 +79,8 @@ extension NewsVCModule
         {
             container.register(ViewController.self)
                 .injection(\ViewController.presenter) {
-                    $0 as Presenter
-                }
+                $0 as Presenter
+            }
                 .lifetime(.objectGraph)
 
             container.register(Presenter.init)

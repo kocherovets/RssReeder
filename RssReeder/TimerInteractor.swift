@@ -42,16 +42,18 @@ extension TimerInteractor {
         func condition(box: StateBox<AppState>) -> Bool {
 
             box.lastAction is StartAction ||
-                (box.lastAction is AppState.AddSourcesAction && !(box.lastAction as! AppState.AddSourcesAction).fromDB) ||
-                box.lastAction is AppState.SetSourceActivityAction ||
-                box.lastAction is AppState.SetUpdateIntervalAction
+                (box.lastAction is SettingsState.AddSourcesAction && !(box.lastAction as! SettingsState.AddSourcesAction).fromDB) ||
+                box.lastAction is SettingsState.SetSourceActivityAction ||
+                box.lastAction is SettingsState.SetUpdateIntervalAction
         }
 
         func execute(box: StateBox<AppState>, trunk: Trunk, interactor: TimerInteractor) {
 
             timer?.cancel()
             timer = DispatchSource.makeTimerSource(queue: queue)
-            timer?.schedule(deadline: .now(), repeating: .seconds(box.state.updateIntervalSeconds), leeway: .milliseconds(100))
+            timer?.schedule(deadline: .now(),
+                            repeating: .seconds(box.state.settings.updateIntervalSeconds),
+                            leeway: .milliseconds(100))
             timer?.setEventHandler {
                 trunk.dispatch(UpdateNewsInteractor.UpdateNewsSE.StartAction())
             }

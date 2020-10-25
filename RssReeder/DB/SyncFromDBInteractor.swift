@@ -49,16 +49,16 @@ extension SyncFromDBInteractor
             switch interactor.db.sources() {
             case .success(let sources):
                 let infos = sources
-                    .map { AppState.AddSourcesAction.Info(url: $0.url, active: $0.active) }
-                trunk.dispatch(AppState.AddSourcesAction(sources: infos,
-                                                         fromDB: true))
+                    .map { SettingsState.AddSourcesAction.Info(url: $0.url, active: $0.active) }
+                trunk.dispatch(SettingsState.AddSourcesAction(sources: infos,
+                                                              fromDB: true))
 
                 interactor.getNews(trunk: trunk, interactor: interactor)
 
                 switch interactor.db.updateInterval() {
                 case .success(let updateInterval):
-                    trunk.dispatch(AppState.SetUpdateIntervalAction(seconds: updateInterval,
-                                                                    fromDB: true))
+                    trunk.dispatch(SettingsState.SetUpdateIntervalAction(seconds: updateInterval,
+                                                                         fromDB: true))
                 case .failure(let error):
                     trunk.dispatch(AppState.ErrorAction(error: StateError.error(error.localizedDescription)))
                 }
@@ -71,11 +71,14 @@ extension SyncFromDBInteractor
 
     struct LoadNewsSE: SideEffect
     {
-        struct StartAction: Action { }
+        struct StartAction: Action {
+            let uuid: UUID
+        }
 
         func condition(box: StateBox<AppState>) -> Bool
         {
-            box.lastAction is StartAction
+            box.lastAction is StartAction ||
+                box.lastAction is NewsState.AddNewsStateAction
         }
 
         func execute(box: StateBox<AppState>, trunk: Trunk, interactor: SyncFromDBInteractor)
@@ -83,14 +86,14 @@ extension SyncFromDBInteractor
             interactor.getNews(trunk: trunk, interactor: interactor)
         }
     }
-    
+
     func getNews(trunk: Trunk, interactor: SyncFromDBInteractor) {
 
         switch interactor.db.news() {
         case .success(let dbNews):
             let news = dbNews
                 .map {
-                AppState.News(
+                NewsState.News(
                     source: $0.sourceTitle,
                     guid: $0.guid,
                     title: $0.title,
@@ -99,7 +102,7 @@ extension SyncFromDBInteractor
                     imageURL: $0.imageURL,
                     unread: $0.unread)
             }
-            trunk.dispatch(AppState.SetNewsAction(news: news))
+            trunk.dispatch(NewsState.SetNewsAction(news: news))
         case .failure(let error):
             trunk.dispatch(AppState.ErrorAction(error: StateError.error(error.localizedDescription)))
         }

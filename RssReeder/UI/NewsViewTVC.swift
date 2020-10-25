@@ -16,6 +16,8 @@ enum NewsViewTVCModule
 {
     class Presenter: PresenterBase<AppState, TableProps, ViewController>
     {
+        var uuid = UUID()
+        
         override func reaction(for box: StateBox<AppState>) -> ReactionToState
         {
             return .props
@@ -25,7 +27,7 @@ enum NewsViewTVCModule
         {
             var rows = [CellAnyModel]()
 
-            if let news = box.state.selectedNews {
+            if let news = box.state.news[uuid]?.selectedNews {
                 
                 rows.append(NewsDateCellVM(date: dateFormatter.string(from: news.time).uppercased()))
                 rows.append(NewsTitleCellVM(title: news.title))

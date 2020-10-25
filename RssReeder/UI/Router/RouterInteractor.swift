@@ -29,7 +29,7 @@ extension RouterInteractor
     {
         func condition(box: StateBox<AppState>) -> Bool {
 
-            box.lastAction is AppState.SelectNewsAction
+            box.lastAction is NewsState.SelectNewsAction
         }
 
         func execute(box: StateBox<AppState>, trunk: Trunk, interactor: RouterInteractor) {
