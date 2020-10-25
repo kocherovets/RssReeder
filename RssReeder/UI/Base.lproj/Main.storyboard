@@ -35,6 +35,22 @@
             </objects>
             <point key="canvasLocation" x="348" y="68"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="0Vp-KT-nF1">
+            <objects>
+                <navigationController id="XZN-6g-opu" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Vok-QO-ac6">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="49g-k7-kbe" kind="relationship" relationship="rootViewController" id="Spr-84-Lua"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="e9u-qt-rH0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1220" y="67"/>
+        </scene>
         <!--News ViewTVC-->
         <scene sceneID="jyN-T6-PBr">
             <objects>
@@ -48,10 +64,15 @@
                             <outlet property="delegate" destination="49g-k7-kbe" id="fDm-hl-26A"/>
                         </connections>
                     </tableView>
+                    <navigationItem key="navigationItem" id="fq7-u1-zAh">
+                        <barButtonItem key="rightBarButtonItem" image="star.fill" catalog="system" id="eCm-vM-sFg">
+                            <color key="tintColor" systemColor="systemYellowColor"/>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6iK-uo-daJ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1090" y="68"/>
+            <point key="canvasLocation" x="1971" y="67"/>
         </scene>
         <!--Settings-->
         <scene sceneID="mZO-mm-aOm">
@@ -134,7 +155,6 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="56q-I4-1Zf">
-                        <barButtonItem key="leftBarButtonItem" image="gearshape" catalog="system" style="plain" id="U3R-1A-zMz"/>
                         <barButtonItem key="rightBarButtonItem" image="eye" catalog="system" style="plain" id="WIP-gP-KYS">
                             <connections>
                                 <action selector="changeMode" destination="kDN-zW-sqg" id="tmg-Q8-8Is"/>
@@ -171,8 +191,12 @@
         <image name="eye" catalog="system" width="128" height="81"/>
         <image name="gearshape" catalog="system" width="128" height="121"/>
         <image name="newspaper" catalog="system" width="128" height="108"/>
+        <image name="star.fill" catalog="system" width="128" height="116"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemYellowColor">
+            <color red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
