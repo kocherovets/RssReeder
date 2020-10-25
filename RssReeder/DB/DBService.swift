@@ -169,12 +169,16 @@ public class DBService
         }
     }
 
-    func news() -> Result<[NewsState.News], Error>
+    func news(onlyStarred: Bool) -> Result<[NewsState.News], Error>
     {
         do
         {
             let request = NSFetchRequest<DBNews>(entityName: "DBNews")
-            request.predicate = NSPredicate(format: "source.active == YES")
+            var predicate = "(source.active == YES)"
+            if onlyStarred {
+                predicate += "AND (starred == YES)"
+            }
+            request.predicate = NSPredicate(format: predicate)
             request.sortDescriptors = [NSSortDescriptor(key: #keyPath(DBNews.time), ascending: false)]
             let items = try moc.fetch(request)
             let result = items.map {

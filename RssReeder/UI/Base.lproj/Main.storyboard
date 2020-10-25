@@ -184,6 +184,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="56q-I4-1Zf">
+                        <barButtonItem key="leftBarButtonItem" image="star" catalog="system" id="g7O-je-RAf"/>
                         <barButtonItem key="rightBarButtonItem" image="eye" catalog="system" style="plain" id="WIP-gP-KYS">
                             <connections>
                                 <action selector="changeMode" destination="kDN-zW-sqg" id="tmg-Q8-8Is"/>
@@ -220,6 +221,7 @@
         <image name="eye" catalog="system" width="128" height="81"/>
         <image name="gearshape" catalog="system" width="128" height="121"/>
         <image name="newspaper" catalog="system" width="128" height="108"/>
+        <image name="star" catalog="system" width="128" height="116"/>
         <image name="star.fill" catalog="system" width="128" height="116"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

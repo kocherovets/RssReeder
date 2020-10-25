@@ -15,6 +15,9 @@ import DeclarativeTVC
 enum NewsVCModule {
 
     struct Props: Properties, Equatable {
+        let leftBarButtonImageName: String
+        let leftBarButtonTintColor: UIColor?
+        let showsStarredOnlyCommand: Command
         let rightBarButtonImageName: String
         let changeViewModeCommand: Command
     }
@@ -34,6 +37,11 @@ enum NewsVCModule {
             }
 
             return Props(
+                leftBarButtonImageName: news.showsStarredOnly ? "star.fill" : "star",
+                leftBarButtonTintColor: news.showsStarredOnly ? UIColor(red: 1, green: 204.0/255.0, blue: 0, alpha: 1) : nil,
+                showsStarredOnlyCommand: Command {
+                    trunk.dispatch(NewsState.ShowsOnlyStarredAction(uuid: self.uuid, value: !news.showsStarredOnly))
+                },
                 rightBarButtonImageName: news.hideBody ? "eye.slash" : "eye",
                 changeViewModeCommand: Command {
                     trunk.dispatch(NewsState.SetHideBodyAction(uuid: self.uuid, value: !news.hideBody))
@@ -51,10 +59,20 @@ class NewsVC: VC, PropsReceiver {
 
         guard let props = props else { return }
 
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: props.leftBarButtonImageName),
+                                                            style: .plain,
+                                                            target: self,
+                                                            action: #selector(showsStarredOnly))
+        navigationItem.leftBarButtonItem?.tintColor = props.leftBarButtonTintColor
+
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: props.rightBarButtonImageName),
                                                             style: .plain,
                                                             target: self,
                                                             action: #selector(changeMode))
+    }
+
+    @objc func showsStarredOnly() {
+        props?.showsStarredOnlyCommand.perform()
     }
 
     @objc func changeMode() {

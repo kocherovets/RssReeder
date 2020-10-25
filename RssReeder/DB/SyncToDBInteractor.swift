@@ -72,9 +72,7 @@ extension SyncToDBInteractor
 
                 _ = interactor.db.removeSource(url: lastAction.sourceURL)
 
-                for uuid in box.state.news.keys {
-                    trunk.dispatch(SyncFromDBInteractor.LoadNewsSE.StartAction(uuid: uuid))
-                }
+                trunk.dispatch(SyncFromDBInteractor.LoadNewsSE.StartAction())
             }
         }
     }
@@ -92,9 +90,7 @@ extension SyncToDBInteractor
 
                 _ = interactor.db.set(active: lastAction.activity, forSource: lastAction.sourceURL)
 
-                for uuid in box.state.news.keys {
-                    trunk.dispatch(SyncFromDBInteractor.LoadNewsSE.StartAction(uuid: uuid))
-                }
+                trunk.dispatch(SyncFromDBInteractor.LoadNewsSE.StartAction())
             }
         }
     }
@@ -126,11 +122,15 @@ extension SyncToDBInteractor
         {
             if let lastAction = box.lastAction as? NewsState.SetStarAction {
 
-                _ = interactor.db.setStarred(guid: lastAction.guid, starred: lastAction.starred) 
+                _ = interactor.db.setStarred(guid: lastAction.guid, starred: lastAction.starred)
+                
+                trunk.dispatch(FinishAction())
             }
         }
+        
+        struct FinishAction: Action { }
     }
-    
+
     struct SetNewsSE: SideEffect
     {
         struct StartAction: Action {
@@ -155,9 +155,7 @@ extension SyncToDBInteractor
 
                     trunk.dispatch(AppState.ErrorAction(error: StateError.error(error.localizedDescription)))
                 } else {
-                    for uuid in box.state.news.keys {
-                        trunk.dispatch(SyncFromDBInteractor.LoadNewsSE.StartAction(uuid: uuid))
-                    }
+                    trunk.dispatch(SyncFromDBInteractor.LoadNewsSE.StartAction())
                 }
             }
         }

@@ -53,7 +53,12 @@ extension SyncFromDBInteractor
                 trunk.dispatch(SettingsState.AddSourcesAction(sources: infos,
                                                               fromDB: true))
 
-                interactor.getNews(trunk: trunk, interactor: interactor)
+                for uuid in box.state.news.keys {
+                    interactor.getNews(uuid: uuid,
+                                       showsOnlyStarred: box.state.news[uuid]?.showsStarredOnly ?? false,
+                                       trunk: trunk,
+                                       interactor: interactor)
+                }
 
                 switch interactor.db.updateInterval() {
                 case .success(let updateInterval):
@@ -71,27 +76,39 @@ extension SyncFromDBInteractor
 
     struct LoadNewsSE: SideEffect
     {
-        struct StartAction: Action {
-            let uuid: UUID
-        }
+        struct StartAction: Action { }
 
         func condition(box: StateBox<AppState>) -> Bool
         {
             box.lastAction is StartAction ||
-                box.lastAction is NewsState.AddNewsStateAction
+                box.lastAction is NewsState.AddNewsStateAction ||
+                box.lastAction is NewsState.ShowsOnlyStarredAction ||
+                box.lastAction is SyncToDBInteractor.SetStarredSE.FinishAction
         }
 
         func execute(box: StateBox<AppState>, trunk: Trunk, interactor: SyncFromDBInteractor)
         {
-            interactor.getNews(trunk: trunk, interactor: interactor)
+            for uuid in box.state.news.keys {
+                if
+                    box.lastAction is SyncToDBInteractor.SetStarredSE.FinishAction,
+                    let showsStarredOnly = box.state.news[uuid]?.showsStarredOnly,
+                    showsStarredOnly == false
+                {
+                    continue
+                }
+                interactor.getNews(uuid: uuid,
+                                   showsOnlyStarred: box.state.news[uuid]?.showsStarredOnly ?? false,
+                                   trunk: trunk,
+                                   interactor: interactor)
+            }
         }
     }
 
-    func getNews(trunk: Trunk, interactor: SyncFromDBInteractor) {
+    func getNews(uuid: UUID, showsOnlyStarred: Bool, trunk: Trunk, interactor: SyncFromDBInteractor) {
 
-        switch interactor.db.news() {
+        switch interactor.db.news(onlyStarred: showsOnlyStarred) {
         case .success(let news):
-            trunk.dispatch(NewsState.SetNewsAction(news: news))
+            trunk.dispatch(NewsState.SetNewsAction(uuid: uuid, news: news))
         case .failure(let error):
             trunk.dispatch(AppState.ErrorAction(error: StateError.error(error.localizedDescription)))
         }

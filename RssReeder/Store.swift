@@ -44,6 +44,7 @@ struct NewsState: StateType, Equatable
         var starred: Bool
     }
     var hideBody = false
+    var showsStarredOnly = false
     var selectedNews: News?
     var news = [News]()
 
@@ -70,13 +71,12 @@ struct NewsState: StateType, Equatable
 
     struct SetNewsAction: Action, UIUpdateNews
     {
+        let uuid: UUID
         let news: [News]
 
         func updateState(_ state: inout AppState)
         {
-            for uuid in state.news.keys {
-                state.news[uuid]?.news = news
-            }
+            state.news[uuid]?.news = news
         }
     }
 
@@ -88,7 +88,7 @@ struct NewsState: StateType, Equatable
         func updateState(_ state: inout AppState) {
 
             state.news[uuid]?.selectedNews = news
-            
+
             for uuid in state.news.keys {
                 if let index = state.news[uuid]?.news.firstIndex(where: { $0.guid == news.guid }) {
                     state.news[uuid]?.news[index].unread = false
@@ -96,7 +96,7 @@ struct NewsState: StateType, Equatable
             }
         }
     }
-    
+
     struct SetStarAction: Action, UIUpdateNews
     {
         let guid: String
@@ -112,6 +112,17 @@ struct NewsState: StateType, Equatable
                     state.news[uuid]?.selectedNews?.starred = starred
                 }
             }
+        }
+    }
+
+    struct ShowsOnlyStarredAction: Action, UIUpdateNews
+    {
+        let uuid: UUID
+        let value: Bool
+
+        func updateState(_ state: inout AppState)
+        {
+            state.news[uuid]?.showsStarredOnly = value
         }
     }
 }
