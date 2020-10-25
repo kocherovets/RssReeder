@@ -27,28 +27,13 @@ extension RouterInteractor
 {
     struct ShowsNewsItemSE: SideEffect
     {
-        struct ShowsAction: Action {
-
-            let news: State.News
-
-            func updateState(_ state: inout AppState) {
-                
-                state.selectedNews = news
-                
-                if let index = state.sources[news.sourceURL]?.items.firstIndex(where: { $0.guid == news.guid }) {
-                    
-                    state.sources[news.sourceURL]?.items[index].unread = false
-                }
-            }
-        }
-
         func condition(box: StateBox<AppState>) -> Bool {
-            
-            box.lastAction is ShowsAction
+
+            box.lastAction is AppState.SelectNewsAction
         }
 
         func execute(box: StateBox<AppState>, trunk: Trunk, interactor: RouterInteractor) {
-            
+
             Router.showNewsItem()
         }
     }

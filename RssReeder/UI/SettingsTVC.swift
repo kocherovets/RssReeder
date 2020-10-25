@@ -39,7 +39,7 @@ enum SettingsTVCModule
             rows.append(contentsOf:
                 box.state.sources.keys.sorted()
                 .map { url in
-                    let isActive = box.state.sources[url]?.active == true
+                    let isActive = box.state.sources[url] == true
                     return SourceCellVM(title: url,
                                         isActive: isActive,
                                         valueChangedCommand: Command {

@@ -36,7 +36,7 @@ public class DBService
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             print("storeDescription = \(storeDescription)")
             if let error = error as NSError?
-                {
+            {
                 fatalError("Unresolved error \(error), \(error.userInfo)")
             }
         })
@@ -135,22 +135,16 @@ public class DBService
         case .success(let source):
             do
             {
+                var newItems = items
+
                 let request = NSFetchRequest<DBNews>(entityName: "DBNews")
-                request.predicate = NSPredicate(format: "(source == %@) AND (unread == false)", source)
-                let readItems = try moc.fetch(request)
-                let readGUIDs = readItems.map({ $0.guid })
+                request.fetchLimit = 1
+                request.predicate = NSPredicate(format: "(source == %@) AND (time == max(time))", source)
+                if let last = try moc.fetch(request).first {
+                    newItems = newItems.filter({ $0.time > last.time })
+                }
 
-                let request2 = NSFetchRequest<NSFetchRequestResult>(entityName: String(describing: DBNews.self))
-                request2.predicate = NSPredicate(format: "source == %@", source)
-                let batchRequest = NSBatchDeleteRequest(fetchRequest: request2)
-                try moc.execute(batchRequest)
-
-                for item in items {
-
-                    var unread = true
-                    if let _ = readGUIDs.first(where: { $0 == item.guid }) {
-                        unread = false
-                    }
+                for item in newItems {
 
                     let news = DBNews(context: moc)
                     news.source = source
@@ -160,7 +154,7 @@ public class DBService
                     news.body = item.body
                     news.time = item.time
                     news.imageURL = item.imageURL
-                    news.unread = unread
+                    news.unread = true
                     moc.insert(news)
                 }
                 try moc.save()
@@ -177,22 +171,18 @@ public class DBService
         }
     }
 
-    func news(forSource url: String) -> Result<[DBNews], Error>
+    func news() -> Result<[DBNews], Error>
     {
-        switch source(url: url) {
-        case .success(let source):
-            do
-            {
-                let request = NSFetchRequest<DBNews>(entityName: "DBNews")
-                request.predicate = NSPredicate(format: "source == %@", source)
-                let items = try moc.fetch(request)
-                return .success(items)
-            }
-            catch
-            {
-                return .failure(error)
-            }
-        case .failure(let error):
+        do
+        {
+            let request = NSFetchRequest<DBNews>(entityName: "DBNews")
+            request.predicate = NSPredicate(format: "source.active == YES")
+            request.sortDescriptors = [NSSortDescriptor(key: #keyPath(DBNews.time), ascending: false)]
+            let items = try moc.fetch(request)
+            return .success(items)
+        }
+        catch
+        {
             return .failure(error)
         }
     }
@@ -223,12 +213,12 @@ public class DBService
             if let settings = try moc.fetch(request).first {
                 return .success(Int(settings.updateInterval))
             }
-            
+
             let settings = DBSettings(context: moc)
             settings.updateInterval = 300
             moc.insert(settings)
             try moc.save()
-            
+
             return .success(Int(settings.updateInterval))
         }
         catch

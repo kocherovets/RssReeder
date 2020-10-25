@@ -16,15 +16,19 @@ enum NewsTVCModule
 {
     class Presenter: PresenterBase<AppState, TableProps, ViewController>
     {
-        private var localDate = Date.distantPast
+        private var firstPass = true
+        func isFirstPass() -> Bool {
+            let result = firstPass
+            firstPass = false
+            return result
+        }
         
         override func reaction(for box: StateBox<AppState>) -> ReactionToState
         {
-            if localDate == box.state.lastUpdateTS {
-                return .none
+            if isFirstPass() || box.lastAction is UIUpdateNews {
+                return .props
             }
-            localDate = box.state.lastUpdateTS
-            return .props
+            return .none
         }
 
         override func props(for box: StateBox<AppState>, trunk: Trunk) -> TableProps?
@@ -40,7 +44,7 @@ enum NewsTVCModule
                         imageURL: news.imageURL,
                         unread: news.unread,
                         selectCommand: Command {
-                            trunk.dispatch(RouterInteractor.ShowsNewsItemSE.ShowsAction(news: news))
+                            trunk.dispatch(AppState.SelectNewsAction(news: news))
                         })
             }
 

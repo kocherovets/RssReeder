@@ -30,7 +30,7 @@ class AppFramework: DIFramework
                                                firstPart: "RssReeder")
                          ])
         }
-            .lifetime(.single)
+            .lifetime(.single) 
 
         container.register(DBService.init).lifetime(.single)
 

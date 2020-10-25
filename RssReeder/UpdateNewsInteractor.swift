@@ -43,7 +43,7 @@ extension UpdateNewsInteractor
 
             for source in box.state.sources.keys {
 
-                if box.state.sources[source]?.active != true {
+                if box.state.sources[source] != true {
                     continue
                 }
                 if let feedURL = URL(string: source) {
@@ -57,18 +57,18 @@ extension UpdateNewsInteractor
                                 let rssFeed = feed.rssFeed,
                                 let items = rssFeed.items {
 
-                                    let news = items.map { item -> AppState.News in
+                                let news = items.map { item -> AppState.News in
 
-                                        AppState.News(sourceURL: source,
-                                                   source: rssFeed.title ?? "",
-                                                   guid: item.guid?.value ?? UUID().uuidString,
-                                                   title: item.title ?? "",
-                                                   body: item.description?.trimmingCharacters(in: .whitespacesAndNewlines) ?? "",
-                                                   time: item.pubDate ?? Date.distantPast,
-                                                   imageURL: item.enclosure?.attributes?.url ?? "",
-                                                   unread: true)
-                                    }
-                                    trunk.dispatch(SyncToDBInteractor.SetNewsSE.StartAction(sourceURL: source, news: news))
+                                    AppState.News(
+                                        source: rssFeed.title ?? "",
+                                        guid: item.guid?.value ?? UUID().uuidString,
+                                        title: item.title ?? "",
+                                        body: item.description?.trimmingCharacters(in: .whitespacesAndNewlines) ?? "",
+                                        time: item.pubDate ?? Date.distantPast,
+                                        imageURL: item.enclosure?.attributes?.url ?? "",
+                                        unread: true)
+                                }
+                                trunk.dispatch(SyncToDBInteractor.SetNewsSE.StartAction(sourceURL: source, news: news))
                             }
 
                         case .failure(let error):

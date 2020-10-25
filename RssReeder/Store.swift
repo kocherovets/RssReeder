@@ -12,7 +12,6 @@ import RedSwift
 struct AppState: RootStateType, Equatable
 {
     struct News: Equatable {
-        var sourceURL: String
         var source: String
         var guid: String
         var title: String
@@ -21,27 +20,13 @@ struct AppState: RootStateType, Equatable
         var imageURL: String
         var unread: Bool
     }
-    var hideBody = false { didSet { lastUpdateTS = Date() } }
+    var hideBody = false
     var selectedNews: News?
 
-    struct SourceInfo: Equatable {
-        var items = [News]()
-        var active = true
-    }
-    var sources: [String: SourceInfo] = [:] { didSet { lastUpdateTS = Date() } }
+    var sources: [String: Bool] = [:]
     var updateIntervalSeconds: Int = 10
-    var lastUpdateTS = Date()
 
-    var news: [News] {
-
-        sources.values
-            .filter({ $0.active })
-            .map({ $0.items })
-            .flatMap(({ (element: [News]) -> [News] in
-                    return element
-            }))
-            .sorted(by: { $0.time > $1.time })
-    }
+    var news = [News]()
 
     var error = StateError.none
 }
@@ -51,8 +36,16 @@ enum StateError: Error, Equatable {
     case error(String)
 }
 
+extension Action {
+
+    func updateState(_ state: inout AppState) { }
+}
+
+protocol UIUpdateNews { }
+
 extension AppState
 {
+
     struct ErrorAction: Action
     {
         let error: StateError
@@ -63,7 +56,7 @@ extension AppState
         }
     }
 
-    struct SetHideBodyAction: Action
+    struct SetHideBodyAction: Action, UIUpdateNews
     {
         let value: Bool
 
@@ -73,23 +66,13 @@ extension AppState
         }
     }
 
-    struct AppendNewsAction: Action
+    struct SetNewsAction: Action, UIUpdateNews
     {
-        let sourceURL: String
         let news: [News]
 
         func updateState(_ state: inout AppState)
         {
-            guard news.count > 0 else {
-                return
-            }
-            state.sources[sourceURL]?.items = news.sorted(by: { $0.time > $1.time })
-        }
-
-        init(sourceURL: String, news: [News])
-        {
-            self.sourceURL = sourceURL
-            self.news = news
+            state.news = news
         }
     }
 
@@ -106,7 +89,7 @@ extension AppState
         func updateState(_ state: inout AppState)
         {
             for source in sources {
-                state.sources[source.url] = SourceInfo(active: source.active)
+                state.sources[source.url] = source.active
             }
         }
     }
@@ -128,7 +111,7 @@ extension AppState
 
         func updateState(_ state: inout AppState)
         {
-            state.sources[sourceURL]?.active = activity
+            state.sources[sourceURL] = activity
         }
     }
 
@@ -140,6 +123,21 @@ extension AppState
         func updateState(_ state: inout AppState)
         {
             state.updateIntervalSeconds = max(10, seconds)
+        }
+    }
+    
+    struct SelectNewsAction: Action, UIUpdateNews {
+
+        let news: State.News
+
+        func updateState(_ state: inout AppState) {
+            
+            state.selectedNews = news
+
+            if let index = state.news.firstIndex(where: { $0.guid == news.guid }) {
+
+                state.news[index].unread = false
+            }
         }
     }
 }
