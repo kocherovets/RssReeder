@@ -30,10 +30,11 @@ class Router {
         return UIApplication.shared.keyWindow!.topmostViewController!.navigationController
     }
 
-    static func showNewsItem() {
+    static func showNewsItem(uuid: UUID) {
 
         ui {
             let vc = createVC(storyboardName: "Main", type: NewsViewTVC.self)
+            (vc.presenter as? NewsViewTVCModule.Presenter)?.uuid = uuid
             UIViewController.topNavigationController()?.pushViewController(vc, animated: true)
         }
     }

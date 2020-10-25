@@ -34,7 +34,9 @@ extension RouterInteractor
 
         func execute(box: StateBox<AppState>, trunk: Trunk, interactor: RouterInteractor) {
 
-            Router.showNewsItem()
+            if let uuid = (box.lastAction as? NewsState.SelectNewsAction)?.uuid {
+                Router.showNewsItem(uuid: uuid)
+            }
         }
     }
 }

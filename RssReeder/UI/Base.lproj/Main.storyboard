@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="GpT-0S-9V1">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="rbr-jQ-OF2">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17126"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -33,7 +33,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WrN-RP-s3K" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="619" y="67"/>
+            <point key="canvasLocation" x="348" y="68"/>
         </scene>
         <!--News ViewTVC-->
         <scene sceneID="jyN-T6-PBr">
@@ -51,7 +51,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6iK-uo-daJ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1384" y="68"/>
+            <point key="canvasLocation" x="1090" y="68"/>
         </scene>
         <!--Settings-->
         <scene sceneID="mZO-mm-aOm">
@@ -66,16 +66,37 @@
                             <outlet property="delegate" destination="L8P-FK-qMQ" id="lxG-td-fLm"/>
                         </connections>
                     </tableView>
+                    <tabBarItem key="tabBarItem" title="Settings" image="gearshape" catalog="system" id="eeq-EQ-kAM"/>
                     <navigationItem key="navigationItem" title="Settings" id="K68-UQ-hMe"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WCR-Sw-81x" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-97" y="792"/>
+            <point key="canvasLocation" x="-2084" y="773"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Tab Bar Controller-->
+        <scene sceneID="vmE-9T-EP1">
+            <objects>
+                <tabBarController id="rbr-jQ-OF2" sceneMemberID="viewController">
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="7yb-m8-Ekw">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="GpT-0S-9V1" kind="relationship" relationship="viewControllers" id="z59-c8-0aG"/>
+                        <segue destination="nxc-Pc-bdT" kind="relationship" relationship="viewControllers" id="pma-LR-PSS"/>
+                        <segue destination="L8P-FK-qMQ" kind="relationship" relationship="viewControllers" id="0Fz-wb-7Qv"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Fvd-iQ-IUA" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2084" y="68"/>
+        </scene>
+        <!--News 1-->
         <scene sceneID="m9q-Pq-yds">
             <objects>
                 <navigationController id="GpT-0S-9V1" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="News 1" image="newspaper" catalog="system" id="Sjq-ZR-mx5"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="pY7-lM-9bP">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -86,7 +107,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cCf-8I-L0c" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-823" y="67"/>
+            <point key="canvasLocation" x="-1245" y="-218"/>
         </scene>
         <!--NewsVC-->
         <scene sceneID="NJv-ym-QmX">
@@ -113,11 +134,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="56q-I4-1Zf">
-                        <barButtonItem key="leftBarButtonItem" image="gearshape" catalog="system" style="plain" id="U3R-1A-zMz">
-                            <connections>
-                                <segue destination="L8P-FK-qMQ" kind="show" id="19c-7Q-iXL"/>
-                            </connections>
-                        </barButtonItem>
+                        <barButtonItem key="leftBarButtonItem" image="gearshape" catalog="system" style="plain" id="U3R-1A-zMz"/>
                         <barButtonItem key="rightBarButtonItem" image="eye" catalog="system" style="plain" id="WIP-gP-KYS">
                             <connections>
                                 <action selector="changeMode" destination="kDN-zW-sqg" id="tmg-Q8-8Is"/>
@@ -127,12 +144,33 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zm8-Vu-UCW" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-97.101449275362327" y="66.964285714285708"/>
+            <point key="canvasLocation" x="-407" y="68"/>
+        </scene>
+        <!--News 2-->
+        <scene sceneID="Php-Jg-G76">
+            <objects>
+                <navigationController id="nxc-Pc-bdT" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="News 2" image="newspaper" catalog="system" id="1Ec-bi-Ulo"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Noa-TN-8wh">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="kDN-zW-sqg" kind="relationship" relationship="rootViewController" id="qhd-5k-o98"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="cvP-vj-joO" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1246" y="452"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="xr2-WB-CZ2"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <image name="eye" catalog="system" width="128" height="81"/>
         <image name="gearshape" catalog="system" width="128" height="121"/>
+        <image name="newspaper" catalog="system" width="128" height="108"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
