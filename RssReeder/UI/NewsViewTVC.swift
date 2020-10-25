@@ -16,7 +16,7 @@ enum NewsViewTVCModule
 {
     class Presenter: PresenterBase<AppState, TableProps, ViewController>
     {
-        var uuid = UUID()
+        var uuid: UUID?
         
         override func reaction(for box: StateBox<AppState>) -> ReactionToState
         {
@@ -25,6 +25,8 @@ enum NewsViewTVCModule
 
         override func props(for box: StateBox<AppState>, trunk: Trunk) -> TableProps?
         {
+            guard let uuid = uuid else { return nil }
+            
             var rows = [CellAnyModel]()
 
             if let news = box.state.news[uuid]?.selectedNews {

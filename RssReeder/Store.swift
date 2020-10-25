@@ -41,6 +41,7 @@ struct NewsState: StateType, Equatable
         var time: Date
         var imageURL: String
         var unread: Bool
+        var starred: Bool
     }
     var hideBody = false
     var selectedNews: News?
@@ -91,6 +92,24 @@ struct NewsState: StateType, Equatable
             for uuid in state.news.keys {
                 if let index = state.news[uuid]?.news.firstIndex(where: { $0.guid == news.guid }) {
                     state.news[uuid]?.news[index].unread = false
+                }
+            }
+        }
+    }
+    
+    struct SetStarAction: Action, UIUpdateNews
+    {
+        let guid: String
+        let starred: Bool
+
+        func updateState(_ state: inout AppState)
+        {
+            for uuid in state.news.keys {
+                if let index = state.news[uuid]?.news.firstIndex(where: { $0.guid == guid }) {
+                    state.news[uuid]?.news[index].starred = starred
+                }
+                if state.news[uuid]?.selectedNews?.guid == guid {
+                    state.news[uuid]?.selectedNews?.starred = starred
                 }
             }
         }

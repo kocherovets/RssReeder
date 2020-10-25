@@ -90,18 +90,7 @@ extension SyncFromDBInteractor
     func getNews(trunk: Trunk, interactor: SyncFromDBInteractor) {
 
         switch interactor.db.news() {
-        case .success(let dbNews):
-            let news = dbNews
-                .map {
-                NewsState.News(
-                    source: $0.sourceTitle,
-                    guid: $0.guid,
-                    title: $0.title,
-                    body: $0.body,
-                    time: $0.time,
-                    imageURL: $0.imageURL,
-                    unread: $0.unread)
-            }
+        case .success(let news):
             trunk.dispatch(NewsState.SetNewsAction(news: news))
         case .failure(let error):
             trunk.dispatch(AppState.ErrorAction(error: StateError.error(error.localizedDescription)))

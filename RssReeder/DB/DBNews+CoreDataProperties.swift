@@ -24,6 +24,7 @@ extension DBNews {
     @NSManaged public var imageURL: String
     @NSManaged public var unread: Bool
     @NSManaged public var source: DBSource
+    @NSManaged public var starred: Bool
 
 }
 

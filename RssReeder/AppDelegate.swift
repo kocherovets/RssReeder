@@ -44,6 +44,7 @@ class AppFramework: DIFramework
 
         container.append(part: NewsVCModule.DI.self)
         container.append(part: NewsTVCModule.DI.self)
+        container.append(part: NewsViewVCModule.DI.self)
         container.append(part: NewsViewTVCModule.DI.self)
         container.append(part: SettingsTVCModule.DI.self)
     }

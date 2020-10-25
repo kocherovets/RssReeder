@@ -44,12 +44,46 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="49g-k7-kbe" kind="relationship" relationship="rootViewController" id="Spr-84-Lua"/>
+                        <segue destination="X0e-or-idN" kind="relationship" relationship="rootViewController" id="6bl-a9-LPG"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="e9u-qt-rH0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1220" y="67"/>
+        </scene>
+        <!--News ViewVC-->
+        <scene sceneID="Ssx-d6-vKi">
+            <objects>
+                <viewController storyboardIdentifier="NewsViewVC" id="X0e-or-idN" customClass="NewsViewVC" customModule="RssReeder" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="JiU-3w-Ltq">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bUJ-e4-o0p">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <connections>
+                                    <segue destination="49g-k7-kbe" kind="embed" id="FSO-UK-i3a"/>
+                                </connections>
+                            </containerView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="yoI-4q-BHh"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="bUJ-e4-o0p" firstAttribute="leading" secondItem="yoI-4q-BHh" secondAttribute="leading" id="6sT-Zz-Ycm"/>
+                            <constraint firstItem="bUJ-e4-o0p" firstAttribute="trailing" secondItem="yoI-4q-BHh" secondAttribute="trailing" id="BB3-3d-FuQ"/>
+                            <constraint firstAttribute="bottom" secondItem="bUJ-e4-o0p" secondAttribute="bottom" id="Ycy-tM-Ac0"/>
+                            <constraint firstItem="bUJ-e4-o0p" firstAttribute="top" secondItem="JiU-3w-Ltq" secondAttribute="top" id="z2D-2M-f5d"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="U0w-8C-BfD">
+                        <barButtonItem key="rightBarButtonItem" image="star.fill" catalog="system" id="BMP-Hm-zUE">
+                            <color key="tintColor" red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </barButtonItem>
+                    </navigationItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="coY-jf-Ylk" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1956.521739130435" y="69.642857142857139"/>
         </scene>
         <!--News ViewTVC-->
         <scene sceneID="jyN-T6-PBr">
@@ -64,15 +98,10 @@
                             <outlet property="delegate" destination="49g-k7-kbe" id="fDm-hl-26A"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="fq7-u1-zAh">
-                        <barButtonItem key="rightBarButtonItem" image="star.fill" catalog="system" id="eCm-vM-sFg">
-                            <color key="tintColor" systemColor="systemYellowColor"/>
-                        </barButtonItem>
-                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6iK-uo-daJ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1971" y="67"/>
+            <point key="canvasLocation" x="2706" y="70"/>
         </scene>
         <!--Settings-->
         <scene sceneID="mZO-mm-aOm">
@@ -194,9 +223,6 @@
         <image name="star.fill" catalog="system" width="128" height="116"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="systemYellowColor">
-            <color red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

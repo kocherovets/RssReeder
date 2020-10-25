@@ -66,7 +66,8 @@ extension UpdateNewsInteractor
                                         body: item.description?.trimmingCharacters(in: .whitespacesAndNewlines) ?? "",
                                         time: item.pubDate ?? Date.distantPast,
                                         imageURL: item.enclosure?.attributes?.url ?? "",
-                                        unread: true)
+                                        unread: true,
+                                        starred: false)
                                 }
                                 trunk.dispatch(SyncToDBInteractor.SetNewsSE.StartAction(sourceURL: source, news: news))
                             }

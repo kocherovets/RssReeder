@@ -59,6 +59,7 @@ enum NewsTVCModule
                     time: dateFormatter.string(from: news.time),
                     imageURL: news.imageURL,
                     unread: news.unread,
+                    starred: news.starred,
                     selectCommand: Command {
                         trunk.dispatch(NewsState.SelectNewsAction(uuid: uuid, news: news))
                     })

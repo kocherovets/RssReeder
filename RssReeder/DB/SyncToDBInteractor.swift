@@ -31,6 +31,7 @@ class SyncToDBInteractor: Interactor<AppState>
             SetNewsSE(),
             SetUnreadSE(),
             SetUpdateIntervalSE(),
+            SetStarredSE(),
         ]
     }
 }
@@ -114,6 +115,22 @@ extension SyncToDBInteractor
         }
     }
 
+    struct SetStarredSE: SideEffect
+    {
+        func condition(box: StateBox<AppState>) -> Bool
+        {
+            box.lastAction is NewsState.SetStarAction
+        }
+
+        func execute(box: StateBox<AppState>, trunk: Trunk, interactor: SyncToDBInteractor)
+        {
+            if let lastAction = box.lastAction as? NewsState.SetStarAction {
+
+                _ = interactor.db.setStarred(guid: lastAction.guid, starred: lastAction.starred) 
+            }
+        }
+    }
+    
     struct SetNewsSE: SideEffect
     {
         struct StartAction: Action {

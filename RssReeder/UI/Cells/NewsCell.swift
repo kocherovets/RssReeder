@@ -16,6 +16,7 @@ class NewsCell: XibTableViewCell {
     @IBOutlet fileprivate weak var bodyLabel: UILabel!
     @IBOutlet fileprivate weak var timeLabel: UILabel!
     @IBOutlet fileprivate weak var imageIV: UIImageView!
+    @IBOutlet fileprivate weak var starImageIV: UIImageView!
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -33,6 +34,7 @@ struct NewsCellVM: CellModel, SelectableCellModel
     let time: String
     let imageURL: String
     let unread: Bool
+    let starred: Bool
     let selectCommand: Command
 
     func apply(to cell: NewsCell)
@@ -44,5 +46,8 @@ struct NewsCellVM: CellModel, SelectableCellModel
         cell.bodyLabel.isHidden = hideBody
         cell.timeLabel.text = time
         cell.imageIV.kf.setImage(with: URL(string: imageURL))
+        cell.starImageIV.isHidden = !starred
+        
+        cell.layoutIfNeeded()
     }
 }

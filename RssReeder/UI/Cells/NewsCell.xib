@@ -24,7 +24,7 @@
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="NQn-Ib-Z96">
                                 <rect key="frame" x="0.0" y="0.0" width="69.5" height="20"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="star" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="zVO-ep-yc2">
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="star.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="zVO-ep-yc2">
                                         <rect key="frame" x="0.0" y="-0.5" width="22" height="20"/>
                                         <color key="tintColor" systemColor="systemYellowColor"/>
                                     </imageView>
@@ -81,6 +81,7 @@
                 <outlet property="bodyLabel" destination="tiz-QJ-1xg" id="KDO-G3-SxS"/>
                 <outlet property="imageIV" destination="b6p-g8-oiF" id="Dzz-G5-inQ"/>
                 <outlet property="sourceLabel" destination="EEt-EX-HMU" id="PMy-ly-Kcx"/>
+                <outlet property="starImageIV" destination="zVO-ep-yc2" id="lH2-e1-mUb"/>
                 <outlet property="timeLabel" destination="bQL-ET-ORc" id="ozw-Tv-tPe"/>
                 <outlet property="titleLabel" destination="fwv-LF-adF" id="K3j-d2-qrP"/>
             </connections>
@@ -88,7 +89,7 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="star" catalog="system" width="128" height="116"/>
+        <image name="star.fill" catalog="system" width="128" height="116"/>
         <systemColor name="systemGray2Color">
             <color red="0.68235294117647061" green="0.68235294117647061" blue="0.69803921568627447" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

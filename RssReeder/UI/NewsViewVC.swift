@@ -12,16 +12,20 @@ import DITranquillity
 import RedSwift
 import DeclarativeTVC
 
-enum NewsVCModule {
+enum NewsViewVCModule {
 
     struct Props: Properties, Equatable {
         let rightBarButtonImageName: String
-        let changeViewModeCommand: Command
+        let starCommand: Command
     }
 
     class Presenter: PresenterBase<AppState, Props, ViewController> {
 
-        var uuid = UUID()
+        var uuid: UUID? {
+            didSet {
+                updateProps()
+            }
+        }
 
         override func reaction(for box: StateBox<AppState>) -> ReactionToState {
             return .props
@@ -29,23 +33,26 @@ enum NewsVCModule {
 
         override func props(for box: StateBox<AppState>, trunk: Trunk) -> Props? {
 
-            guard let news = box.state.news[uuid] else {
+            guard
+                let uuid = uuid,
+                let selectedNews = box.state.news[uuid]?.selectedNews else
+            {
                 return nil
             }
 
             return Props(
-                rightBarButtonImageName: news.hideBody ? "eye.slash" : "eye",
-                changeViewModeCommand: Command {
-                    trunk.dispatch(NewsState.SetHideBodyAction(uuid: self.uuid, value: !news.hideBody))
+                rightBarButtonImageName: selectedNews.starred ? "star.fill" : "star",
+                starCommand: Command {
+                    trunk.dispatch(NewsState.SetStarAction(guid: selectedNews.guid, starred: !selectedNews.starred))
                 }
             )
         }
     }
 }
 
-class NewsVC: VC, PropsReceiver {
+class NewsViewVC: VC, PropsReceiver {
 
-    typealias Props = NewsVCModule.Props
+    typealias Props = NewsViewVCModule.Props
 
     override func render() {
 
@@ -54,24 +61,25 @@ class NewsVC: VC, PropsReceiver {
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: props.rightBarButtonImageName),
                                                             style: .plain,
                                                             target: self,
-                                                            action: #selector(changeMode))
+                                                            action: #selector(starAction))
+        navigationItem.rightBarButtonItem?.tintColor = UIColor(red: 1, green: 204.0/255.0, blue: 0, alpha: 1)
     }
 
-    @objc func changeMode() {
-        props?.changeViewModeCommand.perform()
+    @objc func starAction() {
+        props?.starCommand.perform()
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 
-        if let vc = segue.destination as? NewsTVC {
-            (vc.presenter as? NewsTVCModule.Presenter)?.uuid = (presenter as? NewsVCModule.Presenter)?.uuid
+        if let vc = segue.destination as? NewsViewTVC {
+            (vc.presenter as? NewsViewTVCModule.Presenter)?.uuid = (presenter as? NewsViewVCModule.Presenter)?.uuid
         }
     }
 }
 
-extension NewsVCModule
+extension NewsViewVCModule
 {
-    typealias ViewController = NewsVC
+    typealias ViewController = NewsViewVC
 
     class DI: DIPart
     {

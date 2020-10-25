@@ -33,8 +33,8 @@ class Router {
     static func showNewsItem(uuid: UUID) {
 
         ui {
-            let vc = createVC(storyboardName: "Main", type: NewsViewTVC.self)
-            (vc.presenter as? NewsViewTVCModule.Presenter)?.uuid = uuid
+            let vc = createVC(storyboardName: "Main", type: NewsViewVC.self)
+            (vc.presenter as? NewsViewVCModule.Presenter)?.uuid = uuid
             UIViewController.topNavigationController()?.pushViewController(vc, animated: true)
         }
     }

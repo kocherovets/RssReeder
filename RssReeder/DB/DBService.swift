@@ -151,6 +151,7 @@ public class DBService
                         news.time = item.time
                         news.imageURL = item.imageURL
                         news.unread = true
+                        news.starred = false
                         moc.insert(news)
                     }
                 }
@@ -168,7 +169,7 @@ public class DBService
         }
     }
 
-    func news() -> Result<[DBNews], Error>
+    func news() -> Result<[NewsState.News], Error>
     {
         do
         {
@@ -176,7 +177,18 @@ public class DBService
             request.predicate = NSPredicate(format: "source.active == YES")
             request.sortDescriptors = [NSSortDescriptor(key: #keyPath(DBNews.time), ascending: false)]
             let items = try moc.fetch(request)
-            return .success(items)
+            let result = items.map {
+                NewsState.News(
+                    source: $0.sourceTitle,
+                    guid: $0.guid,
+                    title: $0.title,
+                    body: $0.body,
+                    time: $0.time,
+                    imageURL: $0.imageURL,
+                    unread: $0.unread,
+                    starred: $0.starred)
+            }
+            return .success(result)
         }
         catch
         {
@@ -190,6 +202,15 @@ public class DBService
                              predicate: NSPredicate(format: "guid == %@", guid),
                              handler: { (news: DBNews) in
                                  news.unread = false
+                             })
+    }
+
+    func setStarred(guid: String, starred: Bool) -> Error?
+    {
+        return DBNews.update(in: moc,
+                             predicate: NSPredicate(format: "guid == %@", guid),
+                             handler: { (news: DBNews) in
+                                 news.starred = starred
                              })
     }
 

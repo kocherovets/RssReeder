@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		4958AFBA07A7A4642E440E8B /* Pods_RssReeder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB1584D17927A06AAD81665C /* Pods_RssReeder.framework */; };
+		C310E4C32546137600DED8F6 /* NewsViewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C310E4B8254610D300DED8F6 /* NewsViewVC.swift */; };
 		C316871A251A803D001ED622 /* UpdateIntervalCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C316870D251A8010001ED622 /* UpdateIntervalCell.swift */; };
 		C316871B251A803D001ED622 /* UpdateIntervalCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C316870E251A8010001ED622 /* UpdateIntervalCell.xib */; };
 		C316872F251A8272001ED622 /* SectionHeaderCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C3168720251A8196001ED622 /* SectionHeaderCell.xib */; };
@@ -79,6 +80,8 @@
 		8614D370E6587A894668C1EE /* Pods-RssReeder.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RssReeder.debug.xcconfig"; path = "Target Support Files/Pods-RssReeder/Pods-RssReeder.debug.xcconfig"; sourceTree = "<group>"; };
 		982B3A209973ED4C1B4BFC4C /* Pods-RssReederTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RssReederTests.debug.xcconfig"; path = "Target Support Files/Pods-RssReederTests/Pods-RssReederTests.debug.xcconfig"; sourceTree = "<group>"; };
 		9DA56268C3CE093A67BF37A1 /* Pods_RssReederTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RssReederTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C310E4B425460EB200DED8F6 /* RssReeder 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "RssReeder 3.xcdatamodel"; sourceTree = "<group>"; };
+		C310E4B8254610D300DED8F6 /* NewsViewVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsViewVC.swift; sourceTree = "<group>"; };
 		C316870D251A8010001ED622 /* UpdateIntervalCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateIntervalCell.swift; sourceTree = "<group>"; };
 		C316870E251A8010001ED622 /* UpdateIntervalCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UpdateIntervalCell.xib; sourceTree = "<group>"; };
 		C316871F251A8196001ED622 /* SectionHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeaderCell.swift; sourceTree = "<group>"; };
@@ -244,6 +247,7 @@
 				C35BF7E2251909F100437A53 /* Router */,
 				C35BF7782518FB7400437A53 /* NewsVC.swift */,
 				C35BF74B2518EB9800437A53 /* NewsTVC.swift */,
+				C310E4B8254610D300DED8F6 /* NewsViewVC.swift */,
 				C35BF7C12519067E00437A53 /* NewsViewTVC.swift */,
 				C3691E8F251954E90037448D /* SettingsTVC.swift */,
 				C35BF7AD2519050B00437A53 /* Cells */,
@@ -545,6 +549,7 @@
 				C3691EAB2519599C0037448D /* SourceCell.swift in Sources */,
 				C35BF6FC2518E53600437A53 /* SceneDelegate.swift in Sources */,
 				C35BF7FD25190C1A00437A53 /* Router.swift in Sources */,
+				C310E4C32546137600DED8F6 /* NewsViewVC.swift in Sources */,
 				C3691E4C251942560037448D /* DBSource+CoreDataClass.swift in Sources */,
 				C3168736251A8DAF001ED622 /* DBSettings+CoreDataClass.swift in Sources */,
 				C3691E2A25193FD60037448D /* DBService.swift in Sources */,
@@ -889,6 +894,7 @@
 		C35BF7022518E53600437A53 /* RssReeder.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				C310E4B425460EB200DED8F6 /* RssReeder 3.xcdatamodel */,
 				C35BF7032518E53600437A53 /* RssReeder.xcdatamodel */,
 			);
 			currentVersion = C35BF7032518E53600437A53 /* RssReeder.xcdatamodel */;
