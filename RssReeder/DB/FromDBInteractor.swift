@@ -29,6 +29,7 @@ class FromDBInteractor: Interactor<AppState>
         [
             StartSyncSE(),
             LoadNewsSE(),
+            LoadNewsAfterStarredSE(),
         ]
     }
 }
@@ -55,6 +56,7 @@ extension FromDBInteractor
 
                 for uuid in box.state.news.keys {
                     interactor.getNews(uuid: uuid,
+                                       from: 0,
                                        showsOnlyStarred: box.state.news[uuid]?.showsStarredOnly ?? false,
                                        trunk: trunk,
                                        interactor: interactor)
@@ -76,39 +78,68 @@ extension FromDBInteractor
 
     struct LoadNewsSE: SideEffect
     {
-        struct StartAction: Action { }
+        struct StartAction: Action {
+            let from: Int
+        }
 
         func condition(box: StateBox<AppState>) -> Bool
         {
             box.lastAction is StartAction ||
                 box.lastAction is NewsState.AddNewsStateAction ||
-                box.lastAction is NewsState.ShowsOnlyStarredAction ||
-                box.lastAction is ToDBInteractor.SetStarredSE.FinishAction
+                (box.lastAction is NewsState.ShowsOnlyStarredAction && (box.lastAction as! NewsState.ShowsOnlyStarredAction).value == false)
         }
 
         func execute(box: StateBox<AppState>, trunk: Trunk, interactor: FromDBInteractor)
         {
             for uuid in box.state.news.keys {
-                if
-                    box.lastAction is ToDBInteractor.SetStarredSE.FinishAction,
-                    let showsStarredOnly = box.state.news[uuid]?.showsStarredOnly,
-                    showsStarredOnly == false
-                {
-                    continue
+                var from = 0 //box.state.news[uuid]?.from ?? 0
+                if let lastAction = box.lastAction as? StartAction {
+                    from = lastAction.from
                 }
                 interactor.getNews(uuid: uuid,
-                                   showsOnlyStarred: box.state.news[uuid]?.showsStarredOnly ?? false,
+                                   from: from,
+                                   showsOnlyStarred: false,
                                    trunk: trunk,
                                    interactor: interactor)
             }
         }
     }
 
-    func getNews(uuid: UUID, showsOnlyStarred: Bool, trunk: Trunk, interactor: FromDBInteractor) {
+    struct LoadNewsAfterStarredSE: SideEffect
+    {
+        func condition(box: StateBox<AppState>) -> Bool
+        {
+            if let lastAction = box.lastAction as? NewsState.ShowsOnlyStarredAction, lastAction.value {
+                return true
+            }
+            if box.lastAction is ToDBInteractor.SetStarredSE.FinishAction {
+                return true
+            }
+            return false
+        }
 
-        switch interactor.db.news(onlyStarred: showsOnlyStarred) {
+        func execute(box: StateBox<AppState>, trunk: Trunk, interactor: FromDBInteractor)
+        {
+            for uuid in box.state.news.keys {
+                if
+                    box.state.news[uuid]?.showsStarredOnly != true
+                {
+                    continue
+                }
+                interactor.getNews(uuid: uuid,
+                                   from: 0,
+                                   showsOnlyStarred: true,
+                                   trunk: trunk,
+                                   interactor: interactor)
+            }
+        }
+    }
+
+    func getNews(uuid: UUID, from: Int, showsOnlyStarred: Bool, trunk: Trunk, interactor: FromDBInteractor) {
+
+        switch interactor.db.news(onlyStarred: showsOnlyStarred, from: from, limit: 50) {
         case .success(let news):
-            trunk.dispatch(NewsState.SetNewsAction(uuid: uuid, news: news))
+            trunk.dispatch(NewsState.SetNewsAction(uuid: uuid, news: news, from: from))
         case .failure(let error):
             trunk.dispatch(AppState.ErrorAction(error: StateError.error(error.localizedDescription)))
         }

@@ -47,6 +47,7 @@ struct NewsState: StateType, Equatable
     var showsStarredOnly = false
     var selectedNews: News?
     var news = [News]()
+    var from = 0
 
     struct AddNewsStateAction: Action, UIUpdateNews
     {
@@ -73,10 +74,16 @@ struct NewsState: StateType, Equatable
     {
         let uuid: UUID
         let news: [News]
+        let from: Int
 
         func updateState(_ state: inout AppState)
         {
-            state.news[uuid]?.news = news
+            if from == 0 {
+                state.news[uuid]?.news = []
+                state.news[uuid]?.from = 0
+            } 
+            state.news[uuid]?.news += news
+            state.news[uuid]?.from += news.count
         }
     }
 

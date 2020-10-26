@@ -28,6 +28,8 @@ public class DBService
         let url = storeDirectory.appendingPathComponent("RssReeder.sqlite")
 
 //        clear()
+        
+        print(url)
 
         let description = NSPersistentStoreDescription(url: url)
         description.shouldInferMappingModelAutomatically = true
@@ -169,7 +171,7 @@ public class DBService
         }
     }
 
-    func news(onlyStarred: Bool) -> Result<[NewsState.News], Error>
+    func news(onlyStarred: Bool, from: Int, limit: Int) -> Result<[NewsState.News], Error>
     {
         do
         {
@@ -180,6 +182,8 @@ public class DBService
             }
             request.predicate = NSPredicate(format: predicate)
             request.sortDescriptors = [NSSortDescriptor(key: #keyPath(DBNews.time), ascending: false)]
+            request.fetchLimit = limit
+            request.fetchOffset = from
             let items = try moc.fetch(request)
             let result = items.map {
                 NewsState.News(
@@ -254,9 +258,10 @@ public class DBService
         do
         {
             let source = DBSource(context: moc)
-            source.url = "http:////testdata.com"
+            source.url = "testdata.com"
             source.active = true
             moc.insert(source)
+            try moc.save()
 
             var time = Date().timeIntervalSince1970
             for i in 1 ... 10000 {
@@ -271,7 +276,7 @@ public class DBService
                 news.unread = true
                 news.starred = false
                 moc.insert(news)
-                
+
                 time = time - 55 * 60
             }
             try moc.save()

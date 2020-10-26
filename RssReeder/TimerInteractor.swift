@@ -43,7 +43,6 @@ extension TimerInteractor {
 
             box.lastAction is StartAction ||
                 (box.lastAction is SettingsState.AddSourcesAction && !(box.lastAction as! SettingsState.AddSourcesAction).fromDB) ||
-                box.lastAction is SettingsState.SetSourceActivityAction ||
                 box.lastAction is SettingsState.SetUpdateIntervalAction
         }
 

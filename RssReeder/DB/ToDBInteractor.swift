@@ -73,7 +73,7 @@ extension ToDBInteractor
 
                 _ = interactor.db.removeSource(url: lastAction.sourceURL)
 
-                trunk.dispatch(FromDBInteractor.LoadNewsSE.StartAction())
+                trunk.dispatch(FromDBInteractor.LoadNewsSE.StartAction(from: 0))
             }
         }
     }
@@ -90,6 +90,8 @@ extension ToDBInteractor
             if let lastAction = box.lastAction as? SettingsState.SetSourceActivityAction {
 
                 _ = interactor.db.set(active: lastAction.activity, forSource: lastAction.sourceURL)
+                
+                trunk.dispatch(FromDBInteractor.LoadNewsSE.StartAction(from: 0))
             }
         }
     }
@@ -155,7 +157,7 @@ extension ToDBInteractor
                     trunk.dispatch(AppState.ErrorAction(error: StateError.error(error.localizedDescription)))
                 } else {
                     if box.state.settings.sources[lastAction.sourceURL] == true {
-                        trunk.dispatch(FromDBInteractor.LoadNewsSE.StartAction())
+                        trunk.dispatch(FromDBInteractor.LoadNewsSE.StartAction(from: 0))
                     }
                 }
             }
@@ -193,14 +195,13 @@ extension ToDBInteractor
                 trunk.dispatch(AppState.ErrorAction(error: StateError.error(error.localizedDescription)))
             } else {
                 trunk.dispatch(SettingsState.AddSourcesAction(
-                    sources: [SettingsState.AddSourcesAction.Info(url: "http:////testdata.com",
+                    sources: [SettingsState.AddSourcesAction.Info(url: "testdata.com",
                                                                   active: true)],
-                    fromDB: false))
-                trunk.dispatch(FromDBInteractor.LoadNewsSE.StartAction())
+                    fromDB: true))
+                trunk.dispatch(FromDBInteractor.LoadNewsSE.StartAction(from: 0))
             }
         }
     }
-
 }
 
 
