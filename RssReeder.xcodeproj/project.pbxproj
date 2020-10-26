@@ -29,9 +29,9 @@
 		C35BF7C22519067E00437A53 /* NewsViewTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C35BF7C12519067E00437A53 /* NewsViewTVC.swift */; };
 		C35BF7F625190C0D00437A53 /* RouterInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C35BF7D82519086000437A53 /* RouterInteractor.swift */; };
 		C35BF7FD25190C1A00437A53 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = C35BF7DD251909E200437A53 /* Router.swift */; };
-		C3691E2925193FD60037448D /* SyncFromDBInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3691E2625193FD60037448D /* SyncFromDBInteractor.swift */; };
+		C3691E2925193FD60037448D /* FromDBInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3691E2625193FD60037448D /* FromDBInteractor.swift */; };
 		C3691E2A25193FD60037448D /* DBService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3691E2725193FD60037448D /* DBService.swift */; };
-		C3691E2B25193FD60037448D /* SyncToDBInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3691E2825193FD60037448D /* SyncToDBInteractor.swift */; };
+		C3691E2B25193FD60037448D /* ToDBInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3691E2825193FD60037448D /* ToDBInteractor.swift */; };
 		C3691E4C251942560037448D /* DBSource+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3691E48251942560037448D /* DBSource+CoreDataClass.swift */; };
 		C3691E4D251942560037448D /* DBSource+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3691E49251942560037448D /* DBSource+CoreDataProperties.swift */; };
 		C3691E4E251942560037448D /* DBNews+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3691E4A251942560037448D /* DBNews+CoreDataClass.swift */; };
@@ -116,9 +116,9 @@
 		C35BF7CD2519077100437A53 /* NewsSourceCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewsSourceCell.xib; sourceTree = "<group>"; };
 		C35BF7D82519086000437A53 /* RouterInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouterInteractor.swift; sourceTree = "<group>"; };
 		C35BF7DD251909E200437A53 /* Router.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
-		C3691E2625193FD60037448D /* SyncFromDBInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SyncFromDBInteractor.swift; sourceTree = "<group>"; };
+		C3691E2625193FD60037448D /* FromDBInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FromDBInteractor.swift; sourceTree = "<group>"; };
 		C3691E2725193FD60037448D /* DBService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DBService.swift; sourceTree = "<group>"; };
-		C3691E2825193FD60037448D /* SyncToDBInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SyncToDBInteractor.swift; sourceTree = "<group>"; };
+		C3691E2825193FD60037448D /* ToDBInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToDBInteractor.swift; sourceTree = "<group>"; };
 		C3691E48251942560037448D /* DBSource+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DBSource+CoreDataClass.swift"; sourceTree = "<group>"; };
 		C3691E49251942560037448D /* DBSource+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DBSource+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		C3691E4A251942560037448D /* DBNews+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DBNews+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -267,8 +267,8 @@
 			isa = PBXGroup;
 			children = (
 				C3691E2725193FD60037448D /* DBService.swift */,
-				C3691E2825193FD60037448D /* SyncToDBInteractor.swift */,
-				C3691E2625193FD60037448D /* SyncFromDBInteractor.swift */,
+				C3691E2825193FD60037448D /* ToDBInteractor.swift */,
+				C3691E2625193FD60037448D /* FromDBInteractor.swift */,
 				C3691E56251944C70037448D /* NSManagedObject+Entity.swift */,
 				C35BF7022518E53600437A53 /* RssReeder.xcdatamodeld */,
 				C3691E48251942560037448D /* DBSource+CoreDataClass.swift */,
@@ -523,14 +523,14 @@
 			files = (
 				C3691E4E251942560037448D /* DBNews+CoreDataClass.swift in Sources */,
 				C3E84EBF251912FD00AB7D4F /* UpdateNewsInteractor.swift in Sources */,
-				C3691E2925193FD60037448D /* SyncFromDBInteractor.swift in Sources */,
+				C3691E2925193FD60037448D /* FromDBInteractor.swift in Sources */,
 				C35BF7642518EE5800437A53 /* Store.swift in Sources */,
 				C3691EBF251959E10037448D /* AddSourceCell.swift in Sources */,
 				C3691E57251944C70037448D /* NSManagedObject+Entity.swift in Sources */,
 				C3E84E9025190EFA00AB7D4F /* NewsSourceCell.swift in Sources */,
 				C3168730251A8272001ED622 /* SectionHeaderCell.swift in Sources */,
 				C3168737251A8DAF001ED622 /* DBSettings+CoreDataProperties.swift in Sources */,
-				C3691E2B25193FD60037448D /* SyncToDBInteractor.swift in Sources */,
+				C3691E2B25193FD60037448D /* ToDBInteractor.swift in Sources */,
 				C3E84E8E25190EFA00AB7D4F /* NewsTitleCell.swift in Sources */,
 				C3691E4F251942560037448D /* DBNews+CoreDataProperties.swift in Sources */,
 				C35BF7042518E53700437A53 /* RssReeder.xcdatamodeld in Sources */,

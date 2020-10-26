@@ -10,6 +10,8 @@ import DeclarativeTVC
 
 class AddSourceCell: XibTableViewCell {
 
+    @IBOutlet fileprivate weak var titleLabel: UILabel!
+
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -18,9 +20,11 @@ class AddSourceCell: XibTableViewCell {
 
 struct AddSourceCellVM: CellModel, SelectableCellModel
 {
+    let title: String
     let selectCommand: Command
 
     func apply(to cell: AddSourceCell)
     {
+        cell.titleLabel.text = title
     }
 }

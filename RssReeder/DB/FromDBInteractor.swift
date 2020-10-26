@@ -13,7 +13,7 @@ import RedSwift
 import DeclarativeTVC
 import CoreData
 
-class SyncFromDBInteractor: Interactor<AppState>
+class FromDBInteractor: Interactor<AppState>
 {
     fileprivate let db: DBService
 
@@ -33,7 +33,7 @@ class SyncFromDBInteractor: Interactor<AppState>
     }
 }
 
-extension SyncFromDBInteractor
+extension FromDBInteractor
 {
     struct StartSyncSE: SideEffect
     {
@@ -44,7 +44,7 @@ extension SyncFromDBInteractor
             box.lastAction is StartAction
         }
 
-        func execute(box: StateBox<AppState>, trunk: Trunk, interactor: SyncFromDBInteractor)
+        func execute(box: StateBox<AppState>, trunk: Trunk, interactor: FromDBInteractor)
         {
             switch interactor.db.sources() {
             case .success(let sources):
@@ -83,14 +83,14 @@ extension SyncFromDBInteractor
             box.lastAction is StartAction ||
                 box.lastAction is NewsState.AddNewsStateAction ||
                 box.lastAction is NewsState.ShowsOnlyStarredAction ||
-                box.lastAction is SyncToDBInteractor.SetStarredSE.FinishAction
+                box.lastAction is ToDBInteractor.SetStarredSE.FinishAction
         }
 
-        func execute(box: StateBox<AppState>, trunk: Trunk, interactor: SyncFromDBInteractor)
+        func execute(box: StateBox<AppState>, trunk: Trunk, interactor: FromDBInteractor)
         {
             for uuid in box.state.news.keys {
                 if
-                    box.lastAction is SyncToDBInteractor.SetStarredSE.FinishAction,
+                    box.lastAction is ToDBInteractor.SetStarredSE.FinishAction,
                     let showsStarredOnly = box.state.news[uuid]?.showsStarredOnly,
                     showsStarredOnly == false
                 {
@@ -104,7 +104,7 @@ extension SyncFromDBInteractor
         }
     }
 
-    func getNews(uuid: UUID, showsOnlyStarred: Bool, trunk: Trunk, interactor: SyncFromDBInteractor) {
+    func getNews(uuid: UUID, showsOnlyStarred: Bool, trunk: Trunk, interactor: FromDBInteractor) {
 
         switch interactor.db.news(onlyStarred: showsOnlyStarred) {
         case .success(let news):

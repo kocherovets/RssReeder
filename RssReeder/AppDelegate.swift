@@ -37,8 +37,8 @@ class AppFramework: DIFramework
         container.register(RouterInteractor.init).lifetime(.single)
         container.register(TimerInteractor.init).lifetime(.single)
         container.register(UpdateNewsInteractor.init).lifetime(.single)
-        container.register(SyncToDBInteractor.init).lifetime(.single)
-        container.register(SyncFromDBInteractor.init).lifetime(.single)
+        container.register(ToDBInteractor.init).lifetime(.single)
+        container.register(FromDBInteractor.init).lifetime(.single)
 
         container.registerStoryboard(name: "Main", bundle: Bundle(for: NewsVC.self)).lifetime(.single)
 
@@ -76,7 +76,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         InteractorLogger.loggingExcludedSideEffects = [
         ]
         
-        (container.resolve() as Store<AppState>).dispatch(SyncFromDBInteractor.StartSyncSE.StartAction())
+        (container.resolve() as Store<AppState>).dispatch(FromDBInteractor.StartSyncSE.StartAction())
 
         return true
     }

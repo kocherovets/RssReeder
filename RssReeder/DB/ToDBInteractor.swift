@@ -12,7 +12,7 @@ import DITranquillity
 import RedSwift
 import DeclarativeTVC
 
-class SyncToDBInteractor: Interactor<AppState>
+class ToDBInteractor: Interactor<AppState>
 {
     fileprivate let db: DBService
 
@@ -32,11 +32,12 @@ class SyncToDBInteractor: Interactor<AppState>
             SetUnreadSE(),
             SetUpdateIntervalSE(),
             SetStarredSE(),
+            FillTestDataSE(),
         ]
     }
 }
 
-extension SyncToDBInteractor
+extension ToDBInteractor
 {
     struct AddSourceSE: SideEffect
     {
@@ -48,7 +49,7 @@ extension SyncToDBInteractor
             return false
         }
 
-        func execute(box: StateBox<AppState>, trunk: Trunk, interactor: SyncToDBInteractor)
+        func execute(box: StateBox<AppState>, trunk: Trunk, interactor: ToDBInteractor)
         {
             if let lastAction = box.lastAction as? SettingsState.AddSourcesAction {
 
@@ -66,13 +67,13 @@ extension SyncToDBInteractor
             box.lastAction is SettingsState.RemoveSourceAction
         }
 
-        func execute(box: StateBox<AppState>, trunk: Trunk, interactor: SyncToDBInteractor)
+        func execute(box: StateBox<AppState>, trunk: Trunk, interactor: ToDBInteractor)
         {
             if let lastAction = box.lastAction as? SettingsState.RemoveSourceAction {
 
                 _ = interactor.db.removeSource(url: lastAction.sourceURL)
 
-                trunk.dispatch(SyncFromDBInteractor.LoadNewsSE.StartAction())
+                trunk.dispatch(FromDBInteractor.LoadNewsSE.StartAction())
             }
         }
     }
@@ -84,13 +85,11 @@ extension SyncToDBInteractor
             box.lastAction is SettingsState.SetSourceActivityAction
         }
 
-        func execute(box: StateBox<AppState>, trunk: Trunk, interactor: SyncToDBInteractor)
+        func execute(box: StateBox<AppState>, trunk: Trunk, interactor: ToDBInteractor)
         {
             if let lastAction = box.lastAction as? SettingsState.SetSourceActivityAction {
 
                 _ = interactor.db.set(active: lastAction.activity, forSource: lastAction.sourceURL)
-
-                trunk.dispatch(SyncFromDBInteractor.LoadNewsSE.StartAction())
             }
         }
     }
@@ -102,7 +101,7 @@ extension SyncToDBInteractor
             box.lastAction is NewsState.SelectNewsAction
         }
 
-        func execute(box: StateBox<AppState>, trunk: Trunk, interactor: SyncToDBInteractor)
+        func execute(box: StateBox<AppState>, trunk: Trunk, interactor: ToDBInteractor)
         {
             if let lastAction = box.lastAction as? NewsState.SelectNewsAction {
 
@@ -118,16 +117,16 @@ extension SyncToDBInteractor
             box.lastAction is NewsState.SetStarAction
         }
 
-        func execute(box: StateBox<AppState>, trunk: Trunk, interactor: SyncToDBInteractor)
+        func execute(box: StateBox<AppState>, trunk: Trunk, interactor: ToDBInteractor)
         {
             if let lastAction = box.lastAction as? NewsState.SetStarAction {
 
                 _ = interactor.db.setStarred(guid: lastAction.guid, starred: lastAction.starred)
-                
+
                 trunk.dispatch(FinishAction())
             }
         }
-        
+
         struct FinishAction: Action { }
     }
 
@@ -144,7 +143,7 @@ extension SyncToDBInteractor
             box.lastAction is StartAction
         }
 
-        func execute(box: StateBox<AppState>, trunk: Trunk, interactor: SyncToDBInteractor)
+        func execute(box: StateBox<AppState>, trunk: Trunk, interactor: ToDBInteractor)
         {
             if let lastAction = box.lastAction as? StartAction {
 
@@ -155,7 +154,9 @@ extension SyncToDBInteractor
 
                     trunk.dispatch(AppState.ErrorAction(error: StateError.error(error.localizedDescription)))
                 } else {
-                    trunk.dispatch(SyncFromDBInteractor.LoadNewsSE.StartAction())
+                    if box.state.settings.sources[lastAction.sourceURL] == true {
+                        trunk.dispatch(FromDBInteractor.LoadNewsSE.StartAction())
+                    }
                 }
             }
         }
@@ -168,7 +169,7 @@ extension SyncToDBInteractor
             box.lastAction is SettingsState.SetUpdateIntervalAction && !(box.lastAction as! SettingsState.SetUpdateIntervalAction).fromDB
         }
 
-        func execute(box: StateBox<AppState>, trunk: Trunk, interactor: SyncToDBInteractor)
+        func execute(box: StateBox<AppState>, trunk: Trunk, interactor: ToDBInteractor)
         {
             if let lastAction = box.lastAction as? SettingsState.SetUpdateIntervalAction {
 
@@ -176,6 +177,30 @@ extension SyncToDBInteractor
             }
         }
     }
+
+    struct FillTestDataSE: SideEffect
+    {
+        struct StartAction: Action { }
+
+        func condition(box: StateBox<AppState>) -> Bool
+        {
+            box.lastAction is StartAction
+        }
+
+        func execute(box: StateBox<AppState>, trunk: Trunk, interactor: ToDBInteractor)
+        {
+            if let error = interactor.db.fillTestData() {
+                trunk.dispatch(AppState.ErrorAction(error: StateError.error(error.localizedDescription)))
+            } else {
+                trunk.dispatch(SettingsState.AddSourcesAction(
+                    sources: [SettingsState.AddSourcesAction.Info(url: "http:////testdata.com",
+                                                                  active: true)],
+                    fromDB: false))
+                trunk.dispatch(FromDBInteractor.LoadNewsSE.StartAction())
+            }
+        }
+    }
+
 }
 
 

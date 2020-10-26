@@ -43,9 +43,6 @@ extension UpdateNewsInteractor
 
             for source in box.state.settings.sources.keys {
 
-                if box.state.settings.sources[source] != true {
-                    continue
-                }
                 if let feedURL = URL(string: source) {
 
                     let parser = FeedParser(URL: feedURL)
@@ -69,11 +66,10 @@ extension UpdateNewsInteractor
                                         unread: true,
                                         starred: false)
                                 }
-                                trunk.dispatch(SyncToDBInteractor.SetNewsSE.StartAction(sourceURL: source, news: news))
+                                trunk.dispatch(ToDBInteractor.SetNewsSE.StartAction(sourceURL: source, news: news))
                             }
-
                         case .failure(let error):
-                            print(error)
+                            trunk.dispatch(AppState.ErrorAction(error: StateError.error(error.localizedDescription)))
                         }
                     }
                 }

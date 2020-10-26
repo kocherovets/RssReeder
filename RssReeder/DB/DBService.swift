@@ -249,4 +249,37 @@ public class DBService
         }
     }
 
+    func fillTestData() -> Error?
+    {
+        do
+        {
+            let source = DBSource(context: moc)
+            source.url = "http:////testdata.com"
+            source.active = true
+            moc.insert(source)
+
+            var time = Date().timeIntervalSince1970
+            for i in 1 ... 10000 {
+                let news = DBNews(context: moc)
+                news.source = source
+                news.guid = UUID().uuidString
+                news.sourceTitle = "TEST DATA"
+                news.title = "title \(i)"
+                news.body = "body \(i) body body body body body body body body body body body body body body body body body"
+                news.time = Date(timeIntervalSince1970: time)
+                news.imageURL = ""
+                news.unread = true
+                news.starred = false
+                moc.insert(news)
+                
+                time = time - 55 * 60
+            }
+            try moc.save()
+        }
+        catch
+        {
+            return error
+        }
+        return nil
+    }
 }
