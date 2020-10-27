@@ -62,15 +62,15 @@ enum SettingsTVCModule
                                 fromDB: false))
                         }
                     }))
-            if box.state.settings.sources.keys.first(where: { $0 == "testdata.com" }) == nil {
-                rows.append(
-                    AddSourceCellVM(
-                        title: "Add test 10000 news",
-                        selectCommand: Command {
-                            trunk.dispatch(ToDBInteractor.FillTestDataSE.StartAction())
-                        })
-                )
-            }
+//            if box.state.settings.sources.keys.first(where: { $0 == "testdata.com" }) == nil {
+//                rows.append(
+//                    AddSourceCellVM(
+//                        title: "Add test 10000 news",
+//                        selectCommand: Command {
+//                            trunk.dispatch(ToDBInteractor.FillTestDataSE.StartAction())
+//                        })
+//                )
+//            }
 
             return TableProps(tableModel: TableModel(rows: rows), animations: DeclarativeTVC.fadeAnimations)
         }

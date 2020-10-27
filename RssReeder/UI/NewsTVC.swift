@@ -49,24 +49,38 @@ enum NewsTVCModule
                 return nil
             }
 
-            let rows = newsState.news
-                .map { news in
-                return NewsCellVM(
-                    source: news.source.uppercased(),
-                    title: news.title,
-                    body: news.body,
-                    hideBody: newsState.hideBody,
-                    time: dateFormatter.string(from: news.time),
-                    imageURL: news.imageURL,
-                    unread: news.unread,
-                    starred: news.starred,
-                    selectCommand: Command {
-                        trunk.dispatch(NewsState.SelectNewsAction(uuid: uuid, news: news))
-                    })
+            var sections = [TableSection]()
+
+            for (date, items) in newsState.news {
+
+                sections.append(
+                    TableSection(header: NewsHeaderCellVM(title: headerDateFormatter.string(from: date)),
+                                 rows: items.map { news in
+                                     NewsCellVM(source: news.source.uppercased(),
+                                                title: news.title,
+                                                body: news.body,
+                                                hideBody: newsState.hideBody,
+                                                time: dateFormatter.string(from: news.time),
+                                                imageURL: news.imageURL,
+                                                unread: news.unread,
+                                                starred: news.starred,
+                                                selectCommand: Command {
+                                                    trunk.dispatch(NewsState.SelectNewsAction(uuid: uuid, news: news))
+                                                })
+                                 },
+                                 footer: nil)
+                )
             }
 
-            return TableProps(tableModel: TableModel(rows: rows))
+            return TableProps(tableModel: TableModel(sections: sections))
         }
+
+        var headerDateFormatter: DateFormatter = {
+
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "EEEE, dd MMMM yyyy"
+            return dateFormatter
+        }()
 
         var dateFormatter: DateFormatter = {
 

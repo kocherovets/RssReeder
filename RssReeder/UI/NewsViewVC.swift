@@ -43,7 +43,7 @@ enum NewsViewVCModule {
             return Props(
                 rightBarButtonImageName: selectedNews.starred ? "star.fill" : "star",
                 starCommand: Command {
-                    trunk.dispatch(NewsState.SetStarAction(guid: selectedNews.guid, starred: !selectedNews.starred))
+                    trunk.dispatch(NewsState.SetStarAction(news: selectedNews, starred: !selectedNews.starred))
                 }
             )
         }

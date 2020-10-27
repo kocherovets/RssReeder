@@ -32,7 +32,6 @@ class ToDBInteractor: Interactor<AppState>
             SetUnreadSE(),
             SetUpdateIntervalSE(),
             SetStarredSE(),
-            FillTestDataSE(),
         ]
     }
 }
@@ -123,7 +122,7 @@ extension ToDBInteractor
         {
             if let lastAction = box.lastAction as? NewsState.SetStarAction {
 
-                _ = interactor.db.setStarred(guid: lastAction.guid, starred: lastAction.starred)
+                _ = interactor.db.setStarred(guid: lastAction.news.guid, starred: lastAction.starred)
 
                 trunk.dispatch(FinishAction())
             }
@@ -176,29 +175,6 @@ extension ToDBInteractor
             if let lastAction = box.lastAction as? SettingsState.SetUpdateIntervalAction {
 
                 _ = interactor.db.set(updateInterval: lastAction.seconds)
-            }
-        }
-    }
-
-    struct FillTestDataSE: SideEffect
-    {
-        struct StartAction: Action { }
-
-        func condition(box: StateBox<AppState>) -> Bool
-        {
-            box.lastAction is StartAction
-        }
-
-        func execute(box: StateBox<AppState>, trunk: Trunk, interactor: ToDBInteractor)
-        {
-            if let error = interactor.db.fillTestData() {
-                trunk.dispatch(AppState.ErrorAction(error: StateError.error(error.localizedDescription)))
-            } else {
-                trunk.dispatch(SettingsState.AddSourcesAction(
-                    sources: [SettingsState.AddSourcesAction.Info(url: "testdata.com",
-                                                                  active: true)],
-                    fromDB: true))
-                trunk.dispatch(FromDBInteractor.LoadNewsSE.StartAction(from: 0))
             }
         }
     }

@@ -10,6 +10,9 @@
         <attribute name="title" attributeType="String"/>
         <attribute name="unread" attributeType="Boolean" usesScalarValueType="YES"/>
         <relationship name="source" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DBSource" inverseName="news" inverseEntity="DBSource"/>
+        <fetchIndex name="tiemIndex">
+            <fetchIndexElement property="time" type="Binary" order="descending"/>
+        </fetchIndex>
     </entity>
     <entity name="DBSettings" representedClassName="DBSettings" syncable="YES">
         <attribute name="updateInterval" attributeType="Integer 16" defaultValueString="300" usesScalarValueType="YES"/>

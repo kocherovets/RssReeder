@@ -46,8 +46,7 @@ struct NewsState: StateType, Equatable
     var hideBody = false
     var showsStarredOnly = false
     var selectedNews: News?
-    var news = [News]()
-    var from = 0
+    var news = [Date: [NewsState.News]]()
 
     struct AddNewsStateAction: Action, UIUpdateNews
     {
@@ -73,17 +72,11 @@ struct NewsState: StateType, Equatable
     struct SetNewsAction: Action, UIUpdateNews
     {
         let uuid: UUID
-        let news: [News]
-        let from: Int
+        let news: [Date: [NewsState.News]]
 
         func updateState(_ state: inout AppState)
         {
-            if from == 0 {
-                state.news[uuid]?.news = []
-                state.news[uuid]?.from = 0
-            } 
-            state.news[uuid]?.news += news
-            state.news[uuid]?.from += news.count
+            state.news[uuid]?.news = news
         }
     }
 
@@ -97,8 +90,8 @@ struct NewsState: StateType, Equatable
             state.news[uuid]?.selectedNews = news
 
             for uuid in state.news.keys {
-                if let index = state.news[uuid]?.news.firstIndex(where: { $0.guid == news.guid }) {
-                    state.news[uuid]?.news[index].unread = false
+                if let index = state.news[uuid]?.news[news.time.removeTime()]?.firstIndex(where: { $0.guid == news.guid }) {
+                    state.news[uuid]?.news[news.time.removeTime()]?[index].unread = false
                 }
             }
         }
@@ -106,16 +99,16 @@ struct NewsState: StateType, Equatable
 
     struct SetStarAction: Action, UIUpdateNews
     {
-        let guid: String
+        let news: News
         let starred: Bool
 
         func updateState(_ state: inout AppState)
         {
             for uuid in state.news.keys {
-                if let index = state.news[uuid]?.news.firstIndex(where: { $0.guid == guid }) {
-                    state.news[uuid]?.news[index].starred = starred
+                if let index = state.news[uuid]?.news[news.time.removeTime()]?.firstIndex(where: { $0.guid == news.guid }) {
+                    state.news[uuid]?.news[news.time.removeTime()]?[index].starred = starred
                 }
-                if state.news[uuid]?.selectedNews?.guid == guid {
+                if state.news[uuid]?.selectedNews?.guid == news.guid {
                     state.news[uuid]?.selectedNews?.starred = starred
                 }
             }

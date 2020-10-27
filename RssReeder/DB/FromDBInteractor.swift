@@ -56,7 +56,6 @@ extension FromDBInteractor
 
                 for uuid in box.state.news.keys {
                     interactor.getNews(uuid: uuid,
-                                       from: 0,
                                        showsOnlyStarred: box.state.news[uuid]?.showsStarredOnly ?? false,
                                        trunk: trunk,
                                        interactor: interactor)
@@ -92,12 +91,7 @@ extension FromDBInteractor
         func execute(box: StateBox<AppState>, trunk: Trunk, interactor: FromDBInteractor)
         {
             for uuid in box.state.news.keys {
-                var from = 0 //box.state.news[uuid]?.from ?? 0
-                if let lastAction = box.lastAction as? StartAction {
-                    from = lastAction.from
-                }
                 interactor.getNews(uuid: uuid,
-                                   from: from,
                                    showsOnlyStarred: false,
                                    trunk: trunk,
                                    interactor: interactor)
@@ -127,7 +121,6 @@ extension FromDBInteractor
                     continue
                 }
                 interactor.getNews(uuid: uuid,
-                                   from: 0,
                                    showsOnlyStarred: true,
                                    trunk: trunk,
                                    interactor: interactor)
@@ -135,11 +128,11 @@ extension FromDBInteractor
         }
     }
 
-    func getNews(uuid: UUID, from: Int, showsOnlyStarred: Bool, trunk: Trunk, interactor: FromDBInteractor) {
+    func getNews(uuid: UUID, showsOnlyStarred: Bool, trunk: Trunk, interactor: FromDBInteractor) {
 
-        switch interactor.db.news(onlyStarred: showsOnlyStarred, from: from, limit: 50) {
+        switch interactor.db.news(onlyStarred: showsOnlyStarred) {
         case .success(let news):
-            trunk.dispatch(NewsState.SetNewsAction(uuid: uuid, news: news, from: from))
+            trunk.dispatch(NewsState.SetNewsAction(uuid: uuid, news: news))
         case .failure(let error):
             trunk.dispatch(AppState.ErrorAction(error: StateError.error(error.localizedDescription)))
         }

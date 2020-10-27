@@ -28,7 +28,7 @@ public class DBService
         let url = storeDirectory.appendingPathComponent("RssReeder.sqlite")
 
 //        clear()
-        
+
         print(url)
 
         let description = NSPersistentStoreDescription(url: url)
@@ -171,7 +171,7 @@ public class DBService
         }
     }
 
-    func news(onlyStarred: Bool, from: Int, limit: Int) -> Result<[NewsState.News], Error>
+    func news(onlyStarred: Bool) -> Result<[Date: [NewsState.News]], Error>
     {
         do
         {
@@ -182,19 +182,29 @@ public class DBService
             }
             request.predicate = NSPredicate(format: predicate)
             request.sortDescriptors = [NSSortDescriptor(key: #keyPath(DBNews.time), ascending: false)]
-            request.fetchLimit = limit
-            request.fetchOffset = from
             let items = try moc.fetch(request)
-            let result = items.map {
-                NewsState.News(
-                    source: $0.sourceTitle,
-                    guid: $0.guid,
-                    title: $0.title,
-                    body: $0.body,
-                    time: $0.time,
-                    imageURL: $0.imageURL,
-                    unread: $0.unread,
-                    starred: $0.starred)
+
+            var result = [Date: [NewsState.News]]()
+            var date: Date!
+            for item in items {
+
+                let news = NewsState.News(
+                    source: item.sourceTitle,
+                    guid: item.guid,
+                    title: item.title,
+                    body: item.body,
+                    time: item.time,
+                    imageURL: item.imageURL,
+                    unread: item.unread,
+                    starred: item.starred)
+
+                if date == nil || date > item.time {
+                    date = item.time.removeTime()
+                    result[date] = [news]
+                }
+                else {
+                    result[date]?.append(news)
+                }
             }
             return .success(result)
         }
@@ -251,40 +261,5 @@ public class DBService
         {
             return .failure(error)
         }
-    }
-
-    func fillTestData() -> Error?
-    {
-        do
-        {
-            let source = DBSource(context: moc)
-            source.url = "testdata.com"
-            source.active = true
-            moc.insert(source)
-            try moc.save()
-
-            var time = Date().timeIntervalSince1970
-            for i in 1 ... 10000 {
-                let news = DBNews(context: moc)
-                news.source = source
-                news.guid = UUID().uuidString
-                news.sourceTitle = "TEST DATA"
-                news.title = "title \(i)"
-                news.body = "body \(i) body body body body body body body body body body body body body body body body body"
-                news.time = Date(timeIntervalSince1970: time)
-                news.imageURL = ""
-                news.unread = true
-                news.starred = false
-                moc.insert(news)
-
-                time = time - 55 * 60
-            }
-            try moc.save()
-        }
-        catch
-        {
-            return error
-        }
-        return nil
     }
 }
