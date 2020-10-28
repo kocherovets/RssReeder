@@ -62,15 +62,31 @@ enum SettingsTVCModule
                                 fromDB: false))
                         }
                     }))
-//            if box.state.settings.sources.keys.first(where: { $0 == "testdata.com" }) == nil {
-//                rows.append(
-//                    AddSourceCellVM(
-//                        title: "Add test 10000 news",
-//                        selectCommand: Command {
-//                            trunk.dispatch(ToDBInteractor.FillTestDataSE.StartAction())
-//                        })
-//                )
-//            }
+
+            struct RssFeed {
+                let url: String
+                let title: String
+            }
+            [
+                RssFeed(url: "https://www.nasa.gov/rss/dyn/breaking_news.rss", title: "Add NASA breaking news"),
+                RssFeed(url: "https://www.nasa.gov/rss/dyn/educationnews.rss", title: "Add NASA education news"),
+                RssFeed(url: "https://www.smithsonianmag.com/rss/photos/", title: "Add photos feed")
+            ]
+                .forEach
+            { feed in
+                if box.state.settings.sources.keys.first(where: { $0 == feed.url }) == nil {
+                    rows.append(
+                        AddSourceCellVM(
+                            title: feed.title,
+                            selectCommand: Command {
+                                trunk.dispatch(SettingsState.AddSourcesAction(
+                                    sources: [SettingsState.AddSourcesAction.Info(url: feed.url,
+                                                                                  active: true)],
+                                    fromDB: false))
+                            })
+                    )
+                }
+            }
 
             return TableProps(tableModel: TableModel(rows: rows), animations: DeclarativeTVC.fadeAnimations)
         }
