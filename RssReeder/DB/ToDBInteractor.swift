@@ -72,9 +72,11 @@ extension ToDBInteractor
 
                 _ = interactor.db.removeSource(url: lastAction.sourceURL)
 
-                trunk.dispatch(FromDBInteractor.LoadNewsSE.StartAction(from: 0))
+                trunk.dispatch(FinishAction())
             }
         }
+        
+        struct FinishAction: Action { }
     }
 
     struct SetSourceActivitySE: SideEffect
@@ -90,9 +92,11 @@ extension ToDBInteractor
 
                 _ = interactor.db.set(active: lastAction.activity, forSource: lastAction.sourceURL)
                 
-                trunk.dispatch(FromDBInteractor.LoadNewsSE.StartAction(from: 0))
+                trunk.dispatch(FinishAction())
             }
         }
+        
+        struct FinishAction: Action { }
     }
 
     struct SetUnreadSE: SideEffect
@@ -156,11 +160,13 @@ extension ToDBInteractor
                     trunk.dispatch(AppState.ErrorAction(error: StateError.error(error.localizedDescription)))
                 } else {
                     if box.state.settings.sources[lastAction.sourceURL] == true {
-                        trunk.dispatch(FromDBInteractor.LoadNewsSE.StartAction(from: 0))
+                        trunk.dispatch(FinishAction())
                     }
                 }
             }
         }
+        
+        struct FinishAction: Action { }
     }
 
     struct SetUpdateIntervalSE: SideEffect

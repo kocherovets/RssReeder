@@ -89,9 +89,10 @@ struct NewsState: StateType, Equatable
 
             state.news[uuid]?.selectedNews = news
 
+            let date = news.time.removeTime()
             for uuid in state.news.keys {
-                if let index = state.news[uuid]?.news[news.time.removeTime()]?.firstIndex(where: { $0.guid == news.guid }) {
-                    state.news[uuid]?.news[news.time.removeTime()]?[index].unread = false
+                if let index = state.news[uuid]?.news[date]?.firstIndex(where: { $0.guid == news.guid }) {
+                    state.news[uuid]?.news[date]?[index].unread = false
                 }
             }
         }

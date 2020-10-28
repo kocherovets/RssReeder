@@ -138,8 +138,9 @@ public class DBService
             do
             {
                 let request: NSFetchRequest<DBNews> = DBNews.fetchRequest()
+                request.sortDescriptors = [NSSortDescriptor(key: #keyPath(DBNews.time), ascending: false)]
+                request.predicate = NSPredicate(format: "(source == %@)", source)
                 request.fetchLimit = 1
-                request.predicate = NSPredicate(format: "(source == %@) AND (time == max(time))", source)
                 let lastTime = try moc.fetch(request).first?.time ?? Date.distantPast
 
                 for item in items {

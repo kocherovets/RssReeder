@@ -29,7 +29,6 @@ class FromDBInteractor: Interactor<AppState>
         [
             StartSyncSE(),
             LoadNewsSE(),
-            LoadNewsAfterStarredSE(),
         ]
     }
 }
@@ -54,13 +53,6 @@ extension FromDBInteractor
                 trunk.dispatch(SettingsState.AddSourcesAction(sources: infos,
                                                               fromDB: true))
 
-                for uuid in box.state.news.keys {
-                    interactor.getNews(uuid: uuid,
-                                       showsOnlyStarred: box.state.news[uuid]?.showsStarredOnly ?? false,
-                                       trunk: trunk,
-                                       interactor: interactor)
-                }
-
                 switch interactor.db.updateInterval() {
                 case .success(let updateInterval):
                     trunk.dispatch(SettingsState.SetUpdateIntervalAction(seconds: updateInterval,
@@ -77,64 +69,26 @@ extension FromDBInteractor
 
     struct LoadNewsSE: SideEffect
     {
-        struct StartAction: Action {
-            let from: Int
-        }
-
         func condition(box: StateBox<AppState>) -> Bool
         {
-            box.lastAction is StartAction ||
-                box.lastAction is NewsState.AddNewsStateAction ||
-                (box.lastAction is NewsState.ShowsOnlyStarredAction && (box.lastAction as! NewsState.ShowsOnlyStarredAction).value == false)
+            box.lastAction is NewsState.AddNewsStateAction ||
+                box.lastAction is ToDBInteractor.RemoveSourceSE.FinishAction ||
+                box.lastAction is ToDBInteractor.SetSourceActivitySE.FinishAction ||
+                box.lastAction is ToDBInteractor.SetNewsSE.FinishAction ||
+                box.lastAction is NewsState.ShowsOnlyStarredAction ||
+                box.lastAction is ToDBInteractor.SetStarredSE.FinishAction
         }
 
         func execute(box: StateBox<AppState>, trunk: Trunk, interactor: FromDBInteractor)
         {
-            for uuid in box.state.news.keys {
-                interactor.getNews(uuid: uuid,
-                                   showsOnlyStarred: false,
-                                   trunk: trunk,
-                                   interactor: interactor)
-            }
-        }
-    }
-
-    struct LoadNewsAfterStarredSE: SideEffect
-    {
-        func condition(box: StateBox<AppState>) -> Bool
-        {
-            if let lastAction = box.lastAction as? NewsState.ShowsOnlyStarredAction, lastAction.value {
-                return true
-            }
-            if box.lastAction is ToDBInteractor.SetStarredSE.FinishAction {
-                return true
-            }
-            return false
-        }
-
-        func execute(box: StateBox<AppState>, trunk: Trunk, interactor: FromDBInteractor)
-        {
-            for uuid in box.state.news.keys {
-                if
-                    box.state.news[uuid]?.showsStarredOnly != true
-                {
-                    continue
+            for (uuid, newsState) in box.state.news {
+                switch interactor.db.news(onlyStarred: newsState.showsStarredOnly) {
+                case .success(let news):
+                    trunk.dispatch(NewsState.SetNewsAction(uuid: uuid, news: news))
+                case .failure(let error):
+                    trunk.dispatch(AppState.ErrorAction(error: StateError.error(error.localizedDescription)))
                 }
-                interactor.getNews(uuid: uuid,
-                                   showsOnlyStarred: true,
-                                   trunk: trunk,
-                                   interactor: interactor)
             }
-        }
-    }
-
-    func getNews(uuid: UUID, showsOnlyStarred: Bool, trunk: Trunk, interactor: FromDBInteractor) {
-
-        switch interactor.db.news(onlyStarred: showsOnlyStarred) {
-        case .success(let news):
-            trunk.dispatch(NewsState.SetNewsAction(uuid: uuid, news: news))
-        case .failure(let error):
-            trunk.dispatch(AppState.ErrorAction(error: StateError.error(error.localizedDescription)))
         }
     }
 }

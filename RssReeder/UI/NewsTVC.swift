@@ -51,8 +51,10 @@ enum NewsTVCModule
 
             var sections = [TableSection]()
 
-            for (date, items) in newsState.news {
+            for date in newsState.news.keys.sorted().reversed() {
 
+                guard let items = newsState.news[date] else { continue }
+                
                 sections.append(
                     TableSection(header: NewsHeaderCellVM(title: headerDateFormatter.string(from: date)),
                                  rows: items.map { news in
