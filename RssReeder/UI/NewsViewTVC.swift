@@ -35,6 +35,7 @@ enum NewsViewTVCModule
                 rows.append(NewsTitleCellVM(title: news.title))
                 rows.append(NewsSourceCellVM(source: news.source.uppercased()))
                 rows.append(NewsBodyCellVM(body: news.body))
+                rows.append(NewsImageCellVM(imageURL: news.imageURL))
             }
 
             return TableProps(tableModel: TableModel(rows: rows))
