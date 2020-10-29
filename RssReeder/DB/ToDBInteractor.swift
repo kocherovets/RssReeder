@@ -53,7 +53,9 @@ extension ToDBInteractor
             if let lastAction = box.lastAction as? SettingsState.AddSourcesAction {
 
                 for url in lastAction.sources.map({ $0.url }) {
-                    _ = interactor.db.addSource(url: url, active: true)
+                    if let error = interactor.db.addSource(url: url, active: true) {
+                        trunk.dispatch(AppState.ErrorAction(error: StateError.error(error.localizedDescription)))
+                    }
                 }
             }
         }
@@ -70,12 +72,15 @@ extension ToDBInteractor
         {
             if let lastAction = box.lastAction as? SettingsState.RemoveSourceAction {
 
-                _ = interactor.db.removeSource(url: lastAction.sourceURL)
-
-                trunk.dispatch(FinishAction())
+                if let error = interactor.db.removeSource(url: lastAction.sourceURL) {
+                    trunk.dispatch(AppState.ErrorAction(error: StateError.error(error.localizedDescription)))
+                }
+                else {
+                    trunk.dispatch(FinishAction())
+                }
             }
         }
-        
+
         struct FinishAction: Action { }
     }
 
@@ -90,12 +95,15 @@ extension ToDBInteractor
         {
             if let lastAction = box.lastAction as? SettingsState.SetSourceActivityAction {
 
-                _ = interactor.db.set(active: lastAction.activity, forSource: lastAction.sourceURL)
-                
-                trunk.dispatch(FinishAction())
+                if let error = interactor.db.set(active: lastAction.activity, forSource: lastAction.sourceURL) {
+                    trunk.dispatch(AppState.ErrorAction(error: StateError.error(error.localizedDescription)))
+                }
+                else {
+                    trunk.dispatch(FinishAction())
+                }
             }
         }
-        
+
         struct FinishAction: Action { }
     }
 
@@ -110,7 +118,9 @@ extension ToDBInteractor
         {
             if let lastAction = box.lastAction as? NewsState.SelectNewsAction {
 
-                _ = interactor.db.setRead(guid: lastAction.news.guid)
+                if let error = interactor.db.setRead(guid: lastAction.news.guid) {
+                    trunk.dispatch(AppState.ErrorAction(error: StateError.error(error.localizedDescription)))
+                }
             }
         }
     }
@@ -126,9 +136,12 @@ extension ToDBInteractor
         {
             if let lastAction = box.lastAction as? NewsState.SetStarAction {
 
-                _ = interactor.db.setStarred(guid: lastAction.news.guid, starred: lastAction.starred)
-
-                trunk.dispatch(FinishAction())
+                if let error = interactor.db.setStarred(guid: lastAction.news.guid, starred: lastAction.starred) {
+                    trunk.dispatch(AppState.ErrorAction(error: StateError.error(error.localizedDescription)))
+                }
+                else {
+                    trunk.dispatch(FinishAction())
+                }
             }
         }
 
@@ -165,7 +178,7 @@ extension ToDBInteractor
                 }
             }
         }
-        
+
         struct FinishAction: Action { }
     }
 
@@ -180,7 +193,9 @@ extension ToDBInteractor
         {
             if let lastAction = box.lastAction as? SettingsState.SetUpdateIntervalAction {
 
-                _ = interactor.db.set(updateInterval: lastAction.seconds)
+                if let error = interactor.db.set(updateInterval: lastAction.seconds) {
+                    trunk.dispatch(AppState.ErrorAction(error: StateError.error(error.localizedDescription)))
+                }
             }
         }
     }

@@ -25,6 +25,9 @@ enum NewsViewTVCModule
 
         override func props(for box: StateBox<AppState>, trunk: Trunk) -> TableProps?
         {
+            if uuid == nil, case .showsArticle(let uuid) = box.state.lastRouting {
+                self.uuid = uuid
+            }
             guard let uuid = uuid else { return nil }
             
             var rows = [CellAnyModel]()

@@ -21,11 +21,7 @@ enum NewsViewVCModule {
 
     class Presenter: PresenterBase<AppState, Props, ViewController> {
 
-        var uuid: UUID? {
-            didSet {
-                updateProps()
-            }
-        }
+        var uuid: UUID?
 
         override func reaction(for box: StateBox<AppState>) -> ReactionToState {
             return .props
@@ -33,6 +29,9 @@ enum NewsViewVCModule {
 
         override func props(for box: StateBox<AppState>, trunk: Trunk) -> Props? {
 
+            if uuid == nil, case .showsArticle(let uuid) = box.state.lastRouting {
+                self.uuid = uuid
+            }
             guard
                 let uuid = uuid,
                 let selectedNews = box.state.news[uuid]?.selectedNews else
@@ -67,13 +66,6 @@ class NewsViewVC: VC, PropsReceiver {
 
     @objc func starAction() {
         props?.starCommand.perform()
-    }
-
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-
-        if let vc = segue.destination as? NewsViewTVC {
-            (vc.presenter as? NewsViewTVCModule.Presenter)?.uuid = (presenter as? NewsViewVCModule.Presenter)?.uuid
-        }
     }
 }
 

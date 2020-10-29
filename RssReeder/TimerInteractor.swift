@@ -42,7 +42,7 @@ extension TimerInteractor {
         func condition(box: StateBox<AppState>) -> Bool {
 
             box.lastAction is StartAction ||
-                (box.lastAction is SettingsState.AddSourcesAction && !(box.lastAction as! SettingsState.AddSourcesAction).fromDB) ||
+                (box.lastAction as? SettingsState.AddSourcesAction)?.fromDB == false ||
                 box.lastAction is SettingsState.SetUpdateIntervalAction
         }
 

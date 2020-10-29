@@ -30,7 +30,6 @@
 		C35BF7F625190C0D00437A53 /* RouterInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C35BF7D82519086000437A53 /* RouterInteractor.swift */; };
 		C35BF7FD25190C1A00437A53 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = C35BF7DD251909E200437A53 /* Router.swift */; };
 		C3691E2925193FD60037448D /* FromDBInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3691E2625193FD60037448D /* FromDBInteractor.swift */; };
-		C3691E2A25193FD60037448D /* DBService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3691E2725193FD60037448D /* DBService.swift */; };
 		C3691E2B25193FD60037448D /* ToDBInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3691E2825193FD60037448D /* ToDBInteractor.swift */; };
 		C3691E4C251942560037448D /* DBSource+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3691E48251942560037448D /* DBSource+CoreDataClass.swift */; };
 		C3691E4D251942560037448D /* DBSource+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3691E49251942560037448D /* DBSource+CoreDataProperties.swift */; };
@@ -50,6 +49,7 @@
 		C3AE60C72548A8BD0020D70D /* NewsHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AE60B72548A79B0020D70D /* NewsHeaderCell.swift */; };
 		C3AE60D8254A1E0C0020D70D /* NewsImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C3AE60CC254A1DF60020D70D /* NewsImageCell.xib */; };
 		C3AE60D9254A1E0C0020D70D /* NewsImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AE60CB254A1DF60020D70D /* NewsImageCell.swift */; };
+		C3AE60F1254B48170020D70D /* DBService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3691E2725193FD60037448D /* DBService.swift */; };
 		C3E84E8E25190EFA00AB7D4F /* NewsTitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C35BF7B9251905F100437A53 /* NewsTitleCell.swift */; };
 		C3E84E8F25190EFA00AB7D4F /* NewsTitleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C35BF7B8251905F100437A53 /* NewsTitleCell.xib */; };
 		C3E84E9025190EFA00AB7D4F /* NewsSourceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C35BF7CC2519077100437A53 /* NewsSourceCell.swift */; };
@@ -129,7 +129,7 @@
 		C3691E49251942560037448D /* DBSource+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DBSource+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		C3691E4A251942560037448D /* DBNews+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DBNews+CoreDataClass.swift"; sourceTree = "<group>"; };
 		C3691E4B251942560037448D /* DBNews+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DBNews+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		C3691E56251944C70037448D /* NSManagedObject+Entity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSManagedObject+Entity.swift"; path = "../../../EchoCompanion/RecordFramework/RecordingLogic/DB/NSManagedObject+Entity.swift"; sourceTree = "<group>"; };
+		C3691E56251944C70037448D /* NSManagedObject+Entity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSManagedObject+Entity.swift"; sourceTree = "<group>"; };
 		C3691E5B251950910037448D /* SourceCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SourceCell.xib; sourceTree = "<group>"; };
 		C3691E5C251950910037448D /* SourceCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceCell.swift; sourceTree = "<group>"; };
 		C3691E83251953C80037448D /* AddSourceCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSourceCell.swift; sourceTree = "<group>"; };
@@ -255,9 +255,9 @@
 		C35BF7472518EB3400437A53 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				C35BF7E2251909F100437A53 /* Router */,
 				C35BF7072518E53900437A53 /* LaunchScreen.storyboard */,
 				C35BF6FF2518E53600437A53 /* Main.storyboard */,
-				C35BF7E2251909F100437A53 /* Router */,
 				C35BF7782518FB7400437A53 /* NewsVC.swift */,
 				C35BF74B2518EB9800437A53 /* NewsTVC.swift */,
 				C310E4B8254610D300DED8F6 /* NewsViewVC.swift */,
@@ -279,17 +279,9 @@
 		C35BF7492518EB5800437A53 /* DB */ = {
 			isa = PBXGroup;
 			children = (
-				C3691E2725193FD60037448D /* DBService.swift */,
 				C3691E2825193FD60037448D /* ToDBInteractor.swift */,
 				C3691E2625193FD60037448D /* FromDBInteractor.swift */,
-				C3691E56251944C70037448D /* NSManagedObject+Entity.swift */,
-				C35BF7022518E53600437A53 /* RssReeder.xcdatamodeld */,
-				C3691E48251942560037448D /* DBSource+CoreDataClass.swift */,
-				C3691E49251942560037448D /* DBSource+CoreDataProperties.swift */,
-				C3691E4A251942560037448D /* DBNews+CoreDataClass.swift */,
-				C3691E4B251942560037448D /* DBNews+CoreDataProperties.swift */,
-				C3168734251A8DAF001ED622 /* DBSettings+CoreDataClass.swift */,
-				C3168735251A8DAF001ED622 /* DBSettings+CoreDataProperties.swift */,
+				C3AE60DD254B42C30020D70D /* Service */,
 			);
 			path = DB;
 			sourceTree = "<group>";
@@ -326,8 +318,8 @@
 		C35BF7E2251909F100437A53 /* Router */ = {
 			isa = PBXGroup;
 			children = (
-				C35BF7DD251909E200437A53 /* Router.swift */,
 				C35BF7D82519086000437A53 /* RouterInteractor.swift */,
+				C35BF7DD251909E200437A53 /* Router.swift */,
 			);
 			path = Router;
 			sourceTree = "<group>";
@@ -339,6 +331,22 @@
 				C3AE60A82548A4CF0020D70D /* Date+.swift */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		C3AE60DD254B42C30020D70D /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				C3691E2725193FD60037448D /* DBService.swift */,
+				C3691E56251944C70037448D /* NSManagedObject+Entity.swift */,
+				C35BF7022518E53600437A53 /* RssReeder.xcdatamodeld */,
+				C3691E48251942560037448D /* DBSource+CoreDataClass.swift */,
+				C3691E49251942560037448D /* DBSource+CoreDataProperties.swift */,
+				C3691E4A251942560037448D /* DBNews+CoreDataClass.swift */,
+				C3691E4B251942560037448D /* DBNews+CoreDataProperties.swift */,
+				C3168734251A8DAF001ED622 /* DBSettings+CoreDataClass.swift */,
+				C3168735251A8DAF001ED622 /* DBSettings+CoreDataProperties.swift */,
+			);
+			path = Service;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -566,6 +574,7 @@
 				C3AE60B22548A6630020D70D /* Calendar+.swift in Sources */,
 				C35BF7042518E53700437A53 /* RssReeder.xcdatamodeld in Sources */,
 				C3691EA4251959520037448D /* SettingsTVC.swift in Sources */,
+				C3AE60F1254B48170020D70D /* DBService.swift in Sources */,
 				C35BF7C22519067E00437A53 /* NewsViewTVC.swift in Sources */,
 				C35BF7F625190C0D00437A53 /* RouterInteractor.swift in Sources */,
 				C3E84EBA251912C700AB7D4F /* TimerInteractor.swift in Sources */,
@@ -584,7 +593,6 @@
 				C310E4C32546137600DED8F6 /* NewsViewVC.swift in Sources */,
 				C3691E4C251942560037448D /* DBSource+CoreDataClass.swift in Sources */,
 				C3168736251A8DAF001ED622 /* DBSettings+CoreDataClass.swift in Sources */,
-				C3691E2A25193FD60037448D /* DBService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -690,7 +698,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -745,7 +753,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -771,7 +779,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.kocherovets.RssReeder;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -791,7 +799,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.kocherovets.RssReeder;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

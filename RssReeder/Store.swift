@@ -14,6 +14,12 @@ struct AppState: RootStateType, Equatable
     var news = [UUID: NewsState]()
     var settings = SettingsState()
     var error = StateError.none
+    
+    enum Routing: Equatable {
+        case none
+        case showsArticle(uuid: UUID)
+    }
+    var lastRouting = Routing.none
 
     struct ErrorAction: Action
     {
@@ -30,6 +36,12 @@ enum StateError: Error, Equatable {
     case none
     case error(String)
 }
+
+extension Action {
+    func updateState(_ state: inout AppState) { }
+}
+
+protocol UIUpdateNews { }
 
 struct NewsState: StateType, Equatable
 {
@@ -87,6 +99,7 @@ struct NewsState: StateType, Equatable
 
         func updateState(_ state: inout AppState) {
 
+            state.lastRouting = .showsArticle(uuid: uuid)
             state.news[uuid]?.selectedNews = news
 
             let date = news.time.removeTime()
@@ -183,10 +196,3 @@ struct SettingsState: StateType, Equatable
         }
     }
 }
-
-extension Action {
-
-    func updateState(_ state: inout AppState) { }
-}
-
-protocol UIUpdateNews { }

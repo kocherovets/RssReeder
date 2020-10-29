@@ -23,18 +23,17 @@ extension UIViewController {
 class Router {
 
     private static var topmostViewController: UIViewController {
-        return UIApplication.shared.keyWindow!.topmostViewController!
+        return UIApplication.shared.windows.first!.topmostViewController!
     }
 
     private static var navigationController: UINavigationController? {
-        return UIApplication.shared.keyWindow!.topmostViewController!.navigationController
+        return UIApplication.shared.windows.first!.topmostViewController!.navigationController
     }
 
-    static func showNewsItem(uuid: UUID) {
+    static func showNewsItem() {
 
         ui {
             let vc = createVC(storyboardName: "Main", type: NewsViewVC.self)
-            (vc.presenter as? NewsViewVCModule.Presenter)?.uuid = uuid
             UIViewController.topNavigationController()?.pushViewController(vc, animated: true)
         }
     }
@@ -43,7 +42,7 @@ class Router {
 extension UIViewController {
 
     static var topmostViewController: UIViewController? {
-        return UIApplication.shared.keyWindow?.topmostViewController
+        return UIApplication.shared.windows.first?.topmostViewController
     }
 
     @objc var topmostViewController: UIViewController? {
@@ -52,7 +51,7 @@ extension UIViewController {
 
     static func topNavigationController(vc: UIViewController? = nil) -> UINavigationController? {
 
-        let vc = vc ?? UIApplication.shared.keyWindow!.rootViewController
+        let vc = vc ?? UIApplication.shared.windows.first!.rootViewController
         if let nc = vc as? UINavigationController {
             return nc
         }

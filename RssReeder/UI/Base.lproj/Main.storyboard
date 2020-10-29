@@ -23,8 +23,8 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" largeTitleDisplayMode="never" id="tW8-Yr-GcJ">
-                        <barButtonItem key="leftBarButtonItem" image="gearshape" catalog="system" style="plain" id="2s1-Gg-AZh"/>
-                        <barButtonItem key="rightBarButtonItem" image="eye" catalog="system" style="plain" id="icg-qr-ogD">
+                        <barButtonItem key="leftBarButtonItem" image="gearshape" catalog="system" id="2s1-Gg-AZh"/>
+                        <barButtonItem key="rightBarButtonItem" image="eye" catalog="system" id="icg-qr-ogD">
                             <connections>
                                 <action selector="changeMode" destination="imo-D3-RWj" id="hQv-76-UHh"/>
                             </connections>
@@ -35,32 +35,16 @@
             </objects>
             <point key="canvasLocation" x="348" y="68"/>
         </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="0Vp-KT-nF1">
-            <objects>
-                <navigationController id="XZN-6g-opu" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Vok-QO-ac6">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <connections>
-                        <segue destination="X0e-or-idN" kind="relationship" relationship="rootViewController" id="6bl-a9-LPG"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="e9u-qt-rH0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1220" y="67"/>
-        </scene>
         <!--News ViewVC-->
         <scene sceneID="Ssx-d6-vKi">
             <objects>
                 <viewController storyboardIdentifier="NewsViewVC" id="X0e-or-idN" customClass="NewsViewVC" customModule="RssReeder" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="JiU-3w-Ltq">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bUJ-e4-o0p">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                                 <connections>
                                     <segue destination="49g-k7-kbe" kind="embed" id="FSO-UK-i3a"/>
                                 </connections>
@@ -80,17 +64,18 @@
                             <color key="tintColor" red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         </barButtonItem>
                     </navigationItem>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="coY-jf-Ylk" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1956.521739130435" y="69.642857142857139"/>
+            <point key="canvasLocation" x="1183" y="67"/>
         </scene>
         <!--News ViewTVC-->
         <scene sceneID="jyN-T6-PBr">
             <objects>
                 <tableViewController storyboardIdentifier="NewsViewTVC" id="49g-k7-kbe" customClass="NewsViewTVC" customModule="RssReeder" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="3sh-aC-oBg">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <connections>
@@ -101,7 +86,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6iK-uo-daJ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2706" y="70"/>
+            <point key="canvasLocation" x="1932" y="67"/>
         </scene>
         <!--Settings-->
         <scene sceneID="mZO-mm-aOm">
@@ -185,7 +170,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="56q-I4-1Zf">
                         <barButtonItem key="leftBarButtonItem" image="star" catalog="system" id="g7O-je-RAf"/>
-                        <barButtonItem key="rightBarButtonItem" image="eye" catalog="system" style="plain" id="WIP-gP-KYS">
+                        <barButtonItem key="rightBarButtonItem" image="eye" catalog="system" id="WIP-gP-KYS">
                             <connections>
                                 <action selector="changeMode" destination="kDN-zW-sqg" id="tmg-Q8-8Is"/>
                             </connections>
@@ -215,7 +200,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="xr2-WB-CZ2"/>
+        <segue reference="qhd-5k-o98"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="eye" catalog="system" width="128" height="81"/>

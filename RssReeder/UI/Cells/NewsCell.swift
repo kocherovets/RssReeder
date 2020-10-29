@@ -43,6 +43,7 @@ struct NewsCellVM: CellModel, SelectableCellModel
         cell.titleLabel.text = title
         cell.titleLabel.textColor = unread ? UIColor.black : UIColor.lightGray
         cell.bodyLabel.text = body
+        cell.bodyLabel.textColor = unread ? UIColor.darkGray : UIColor.lightGray
         cell.bodyLabel.isHidden = hideBody
         cell.timeLabel.text = time
         cell.imageIV.kf.setImage(with: URL(string: imageURL))

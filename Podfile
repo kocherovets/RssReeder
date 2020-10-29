@@ -1,7 +1,7 @@
 source 'https://github.com/CocoaPods/Specs.git'
 workspace 'RssReeder'
 use_frameworks!
-platform :ios, ‘13.0’
+platform :ios, ‘14.0’
 
 target 'RssReeder' do
     project 'RssReeder'
