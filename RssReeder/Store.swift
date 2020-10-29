@@ -1,11 +1,3 @@
-//
-//  Store.swift
-//  latoken
-//
-//  Created by Dmitry Kocherovets on 09.05.2020.
-//  Copyright © 2020 Dmitry Kocherovets. All rights reserved.
-//
-
 import Foundation
 import RedSwift
 
@@ -41,7 +33,8 @@ extension Action {
     func updateState(_ state: inout AppState) { }
 }
 
-protocol UIUpdateNews { }
+protocol UINews { }
+protocol UIArticle { }
 
 struct NewsState: StateType, Equatable
 {
@@ -60,7 +53,7 @@ struct NewsState: StateType, Equatable
     var selectedNews: News?
     var news = [Date: [NewsState.News]]()
 
-    struct AddNewsStateAction: Action, UIUpdateNews
+    struct AddNewsStateAction: Action, UINews
     {
         let uuid: UUID
 
@@ -70,7 +63,7 @@ struct NewsState: StateType, Equatable
         }
     }
 
-    struct SetHideBodyAction: Action, UIUpdateNews
+    struct SetHideBodyAction: Action, UINews, ThrottleAction
     {
         let uuid: UUID
         let value: Bool
@@ -81,7 +74,7 @@ struct NewsState: StateType, Equatable
         }
     }
 
-    struct SetNewsAction: Action, UIUpdateNews
+    struct SetNewsAction: Action, UINews
     {
         let uuid: UUID
         let news: [Date: [NewsState.News]]
@@ -92,7 +85,7 @@ struct NewsState: StateType, Equatable
         }
     }
 
-    struct SelectNewsAction: Action, UIUpdateNews {
+    struct SelectNewsAction: Action, UINews, UIArticle, ThrottleAction {
 
         let uuid: UUID
         let news: News
@@ -111,7 +104,7 @@ struct NewsState: StateType, Equatable
         }
     }
 
-    struct SetStarAction: Action, UIUpdateNews
+    struct SetStarAction: Action, UINews, UIArticle, ThrottleAction
     {
         let news: News
         let starred: Bool
@@ -129,7 +122,7 @@ struct NewsState: StateType, Equatable
         }
     }
 
-    struct ShowsOnlyStarredAction: Action, UIUpdateNews
+    struct ShowsOnlyStarredAction: Action, UINews, ThrottleAction
     {
         let uuid: UUID
         let value: Bool
@@ -174,7 +167,7 @@ struct SettingsState: StateType, Equatable
         }
     }
 
-    struct SetSourceActivityAction: Action
+    struct SetSourceActivityAction: Action, ThrottleAction
     {
         let sourceURL: String
         let activity: Bool

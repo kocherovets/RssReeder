@@ -1,11 +1,3 @@
-//
-//  Router.swift
-//  MoviesDB
-//
-//  Created by Dmitry Kocherovets on 15.12.2019.
-//  Copyright © 2019 Dmitry Kocherovets. All rights reserved.
-//
-
 import UIKit
 
 fileprivate func createVC<T: UIViewController>(storyboardName: String, type: T.Type) -> T {

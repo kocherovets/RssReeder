@@ -1,11 +1,3 @@
-//
-//  ToolsTVC.swift
-//  SwiftTrading
-//
-//  Created by Dmitry Kocherovets on 21.09.2020.
-//  Copyright © 2020 Dmitry Kocherovets. All rights reserved.
-//
-
 import Foundation
 import ReduxVM
 import DITranquillity
@@ -20,7 +12,7 @@ enum NewsViewTVCModule
         
         override func reaction(for box: StateBox<AppState>) -> ReactionToState
         {
-            return .props
+            box.lastAction is UIArticle ? .props : .none
         }
 
         override func props(for box: StateBox<AppState>, trunk: Trunk) -> TableProps?

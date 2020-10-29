@@ -1,10 +1,3 @@
-//
-//  NewsSmallCell.swift
-//  RssReeder
-//
-//  Created by Dmitry Kocherovets on 21.09.2020.
-//
-
 import UIKit
 import DeclarativeTVC
 import Kingfisher
@@ -17,12 +10,6 @@ class NewsCell: XibTableViewCell {
     @IBOutlet fileprivate weak var timeLabel: UILabel!
     @IBOutlet fileprivate weak var imageIV: UIImageView!
     @IBOutlet fileprivate weak var starImageIV: UIImageView!
-
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
-    
 }
 
 struct NewsCellVM: CellModel, SelectableCellModel

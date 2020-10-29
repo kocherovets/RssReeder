@@ -1,11 +1,3 @@
-//
-//  ViewController.swift
-//  MoviesDB
-//
-//  Created by Dmitry Kocherovets on 10.11.2019.
-//  Copyright © 2019 Dmitry Kocherovets. All rights reserved.
-//
-
 import Foundation
 import ReduxVM
 import DITranquillity
@@ -26,19 +18,26 @@ enum NewsVCModule {
 
         var uuid = UUID()
 
-        override func reaction(for box: StateBox<AppState>) -> ReactionToState {
-            return .props
+        override func onInit(state: AppState, trunk: Trunk)
+        {
+            if state.news[uuid] == nil
+            {
+                trunk.dispatch(NewsState.AddNewsStateAction(uuid: uuid))
+            }
         }
 
-        override func props(for box: StateBox<AppState>, trunk: Trunk) -> Props? {
+        override func reaction(for box: StateBox<AppState>) -> ReactionToState
+        {
+            box.lastAction is UINews ? .props : .none
+        }
 
-            guard let news = box.state.news[uuid] else {
-                return nil
-            }
+        override func props(for box: StateBox<AppState>, trunk: Trunk) -> Props?
+        {
+            guard let news = box.state.news[uuid] else { return nil }
 
             return Props(
                 leftBarButtonImageName: news.showsStarredOnly ? "star.fill" : "star",
-                leftBarButtonTintColor: news.showsStarredOnly ? UIColor(red: 1, green: 204.0/255.0, blue: 0, alpha: 1) : nil,
+                leftBarButtonTintColor: news.showsStarredOnly ? UIColor(red: 1, green: 204.0 / 255.0, blue: 0, alpha: 1) : nil,
                 showsStarredOnlyCommand: Command {
                     trunk.dispatch(NewsState.ShowsOnlyStarredAction(uuid: self.uuid, value: !news.showsStarredOnly))
                 },
@@ -60,9 +59,9 @@ class NewsVC: VC, PropsReceiver {
         guard let props = props else { return }
 
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: props.leftBarButtonImageName),
-                                                            style: .plain,
-                                                            target: self,
-                                                            action: #selector(showsStarredOnly))
+                                                           style: .plain,
+                                                           target: self,
+                                                           action: #selector(showsStarredOnly))
         navigationItem.leftBarButtonItem?.tintColor = props.leftBarButtonTintColor
 
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: props.rightBarButtonImageName),

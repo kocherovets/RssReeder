@@ -1,10 +1,3 @@
-//
-//  AppDelegate.swift
-//  RssReeder
-//
-//  Created by Dmitry Kocherovets on 21.09.2020.
-//
-
 import UIKit
 import CoreData
 import DITranquillity

@@ -1,11 +1,3 @@
-//
-//  SyncToDBInteractor.swift
-//  RecordingLogic
-//
-//  Created by Dmitry Kocherovets on 23.01.2020.
-//  Copyright © 2020 Gaika Group. All rights reserved.
-//
-
 import Foundation
 import ReduxVM
 import DITranquillity

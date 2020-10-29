@@ -1,11 +1,3 @@
-//
-// NSManagedObject+Entity.swift
-// DaTracker
-//
-// Created by prochol on 2019-01-29.
-// Copyright © 2019 Gaika Group. All rights reserved.
-//
-
 import Foundation
 import CoreData
 

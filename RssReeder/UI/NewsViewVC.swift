@@ -1,11 +1,3 @@
-//
-//  ViewController.swift
-//  MoviesDB
-//
-//  Created by Dmitry Kocherovets on 10.11.2019.
-//  Copyright © 2019 Dmitry Kocherovets. All rights reserved.
-//
-
 import Foundation
 import ReduxVM
 import DITranquillity
@@ -23,8 +15,9 @@ enum NewsViewVCModule {
 
         var uuid: UUID?
 
-        override func reaction(for box: StateBox<AppState>) -> ReactionToState {
-            return .props
+        override func reaction(for box: StateBox<AppState>) -> ReactionToState
+        {
+            box.lastAction is UIArticle ? .props : .none
         }
 
         override func props(for box: StateBox<AppState>, trunk: Trunk) -> Props? {

@@ -1,11 +1,3 @@
-//
-//  ToolsTVC.swift
-//  SwiftTrading
-//
-//  Created by Dmitry Kocherovets on 21.09.2020.
-//  Copyright © 2020 Dmitry Kocherovets. All rights reserved.
-//
-
 import Foundation
 import ReduxVM
 import DITranquillity
@@ -16,36 +8,19 @@ enum NewsTVCModule
 {
     class Presenter: PresenterBase<AppState, TableProps, ViewController>
     {
-        private var firstPass = true
-        func isFirstPass() -> Bool {
-            let result = firstPass
-            firstPass = false
-            return result
-        }
-
         var uuid: UUID?
-
-        override func onInit(state: AppState, trunk: Trunk) {
-
-            if let uuid = uuid
-            {
-                trunk.dispatch(NewsState.AddNewsStateAction(uuid: uuid))
-            }
-        }
 
         override func reaction(for box: StateBox<AppState>) -> ReactionToState
         {
-            if isFirstPass() || box.lastAction is UIUpdateNews {
-                return .props
-            }
-            return .none
+            box.lastAction is UINews ? .props : .none
         }
 
         override func props(for box: StateBox<AppState>, trunk: Trunk) -> TableProps?
         {
             guard
                 let uuid = uuid,
-                let newsState = box.state.news[uuid] else {
+                let newsState = box.state.news[uuid] else
+            {
                 return nil
             }
 
