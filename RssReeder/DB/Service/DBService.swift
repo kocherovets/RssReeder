@@ -61,19 +61,24 @@ public class DBService
 
     func addSource(url: String, active: Bool) -> Error?
     {
-        do
+        var result: Error?
+        moc.performAndWait
         {
-            let source = DBSource(context: moc)
-            source.url = url
-            source.active = active
-            moc.insert(source)
-            try moc.save()
+            do
+            {
+                let source = DBSource(context: moc)
+                source.url = url
+                source.active = active
+                moc.insert(source)
+                try moc.save()
+            }
+            catch
+            {
+                print(error)
+                result = error
+            }
         }
-        catch
-        {
-            return error
-        }
-        return nil
+        return result
     }
 
     func removeSource(url: String) -> Error?
@@ -91,83 +96,95 @@ public class DBService
                         })
     }
 
-    func source(url: String) -> Result<DBSource, Error>
+    func source(url: String, complete: (Result<DBSource, Error>) -> Void)
     {
-        do
+        moc.performAndWait
         {
-            let request = NSFetchRequest<DBSource>(entityName: "DBSource")
-            request.predicate = NSPredicate(format: "url == %@", url)
-            guard let source = try moc.fetch(request).first else
-            {
-                return .failure(DBServiceError.objectIsNotExists)
-            }
-            return .success(source)
-        }
-        catch
-        {
-            return .failure(error)
-        }
-    }
-
-    func sources() -> Result<[DBSource], Error>
-    {
-        do
-        {
-            let request = NSFetchRequest<DBSource>(entityName: "DBSource")
-            let sources = try moc.fetch(request)
-            return .success(sources)
-        }
-        catch
-        {
-            return .failure(error)
-        }
-    }
-
-    func set(news items: [NewsState.News], forSource url: String) -> Error?
-    {
-        switch source(url: url) {
-        case .success(let source):
             do
             {
-                let request: NSFetchRequest<DBNews> = DBNews.fetchRequest()
-                request.sortDescriptors = [NSSortDescriptor(key: #keyPath(DBNews.time), ascending: false)]
-                request.predicate = NSPredicate(format: "(source == %@)", source)
-                request.fetchLimit = 1
-                let lastTime = try moc.fetch(request).first?.time ?? Date.distantPast
-
-                for item in items {
-                    if item.time > lastTime {
-                        let news = DBNews(context: moc)
-                        news.source = source
-                        news.guid = item.guid
-                        news.sourceTitle = item.source
-                        news.title = item.title
-                        news.body = item.body
-                        news.time = item.time
-                        news.imageURL = item.imageURL
-                        news.unread = true
-                        news.starred = false
-                        moc.insert(news)
-                    }
+                let request = NSFetchRequest<DBSource>(entityName: "DBSource")
+                request.predicate = NSPredicate(format: "url == %@", url)
+                if let source = try moc.fetch(request).first
+                {
+                    complete(.success(source))
                 }
-                try moc.save()
-
-                return nil
+                else
+                {
+                    complete(.failure(DBServiceError.objectIsNotExists))
+                }
             }
             catch
             {
-                print(error)
-                return error
+                complete(.failure(error))
             }
-        case .failure(let error):
-            return error
         }
     }
 
-    func news(onlyStarred: Bool) -> Result<[NewsState.DayArticles], Error>
+    func sources(complete: (Result<[DBSource], Error>) -> Void)
     {
-        var result: Result<[NewsState.DayArticles], Error> = .failure(StateError.unknownDBError)
+        moc.performAndWait
+        {
+            do
+            {
+                let request = NSFetchRequest<DBSource>(entityName: "DBSource")
+                let sources = try moc.fetch(request)
+                complete(.success(sources))
+            }
+            catch
+            {
+                complete(.failure(error))
+            }
+        }
+    }
 
+    func set(news items: [NewsState.Article], forSource url: String, complete: (Result<Void, Error>) -> Void)
+    {
+        moc.performAndWait
+        {
+            source(url: url) { result in
+                switch result
+                {
+                case .success(let source):
+                    do
+                    {
+                        let request: NSFetchRequest<DBNews> = DBNews.fetchRequest()
+                        request.sortDescriptors = [NSSortDescriptor(key: #keyPath(DBNews.time), ascending: false)]
+                        request.predicate = NSPredicate(format: "(source == %@)", source)
+                        request.fetchLimit = 1
+                        let lastTime = try moc.fetch(request).first?.time ?? Date.distantPast
+
+                        for item in items {
+                            if item.time > lastTime {
+                                let news = DBNews(context: moc)
+                                news.source = source
+                                news.guid = item.guid
+                                news.sourceTitle = item.source
+                                news.title = item.title
+                                news.body = item.body
+                                news.time = item.time
+                                news.imageURL = item.imageURL
+                                news.unread = true
+                                news.starred = false
+                                moc.insert(news)
+                            }
+                        }
+                        try moc.save()
+                        complete(.success(()))
+                    }
+                    catch
+                    {
+                        print(error)
+                        complete(.failure(error))
+                    }
+                case .failure(let error):
+                    complete(.failure(error))
+                }
+            }
+        }
+    }
+
+    func news(onlyStarred: Bool, complete: (Result<[NewsState.DayArticles], Error>) -> Void)
+    {
         moc.performAndWait {
             do
             {
@@ -185,7 +202,7 @@ public class DBService
                 var dayArticles: NewsState.DayArticles?
                 for item in items {
 
-                    let news = NewsState.News(
+                    let news = NewsState.Article(
                         source: item.sourceTitle,
                         guid: item.guid,
                         title: item.title,
@@ -209,19 +226,18 @@ public class DBService
                 if let dayArticles = dayArticles {
                     articles.append(dayArticles)
                 }
-                result = .success(articles)
+                complete(.success(articles))
             }
             catch
             {
-                result = .failure(error)
+                complete(.failure(error))
             }
         }
-        return result
     }
 
     func setRead(guid: String) -> Error?
     {
-        return DBNews.update(in: moc,
+         DBNews.update(in: moc,
                              predicate: NSPredicate(format: "guid == %@", guid),
                              handler: { (news: DBNews) in
                                  news.unread = false
@@ -230,7 +246,7 @@ public class DBService
 
     func setStarred(guid: String, starred: Bool) -> Error?
     {
-        return DBNews.update(in: moc,
+         DBNews.update(in: moc,
                              predicate: NSPredicate(format: "guid == %@", guid),
                              handler: { (news: DBNews) in
                                  news.starred = starred
@@ -239,32 +255,39 @@ public class DBService
 
     func set(updateInterval: Int) -> Error?
     {
-        return DBSettings.update(in: moc,
+         DBSettings.update(in: moc,
                                  predicate: nil,
                                  handler: { (settings: DBSettings) in
                                      settings.updateInterval = Int16(updateInterval)
                                  })
     }
 
-    func updateInterval() -> Result<Int, Error>
+    func updateInterval(complete: (Result<Int, Error>) -> Void)
     {
-        do
+        moc.performAndWait
         {
-            let request = NSFetchRequest<DBSettings>(entityName: "DBSettings")
-            if let settings = try moc.fetch(request).first {
-                return .success(Int(settings.updateInterval))
+            do
+            {
+                let request = NSFetchRequest<DBSettings>(entityName: "DBSettings")
+                if
+                    let settings = try moc.fetch(request).first
+                {
+                    complete(.success(Int(settings.updateInterval)))
+                }
+                else
+                {
+                    let settings = DBSettings(context: moc)
+                    settings.updateInterval = 300
+                    moc.insert(settings)
+                    try moc.save()
+
+                    complete(.success(Int(settings.updateInterval)))
+                }
             }
-
-            let settings = DBSettings(context: moc)
-            settings.updateInterval = 300
-            moc.insert(settings)
-            try moc.save()
-
-            return .success(Int(settings.updateInterval))
-        }
-        catch
-        {
-            return .failure(error)
+            catch
+            {
+                complete(.failure(error))
+            }
         }
     }
 }

@@ -17,9 +17,9 @@ extension NSManagedObject
     class func entityName() -> String
     {
         if #available(iOS 10.0, *)
-            {
+        {
             if let entityName = self.entity().name
-                {
+            {
                 return entityName
             }
             else
@@ -33,7 +33,7 @@ extension NSManagedObject
     class func create(in context: NSManagedObjectContext) -> Self
     {
         if #available(iOS 10.0, *)
-            {
+        {
             return self.init(context: context)
         }
         else
@@ -46,44 +46,61 @@ extension NSManagedObject
                                           predicate: NSPredicate?,
                                           handler: (T) -> ()) -> Error?
     {
-        do
+        var result: Error?
+        context.performAndWait
         {
-            let request = NSFetchRequest<T>(entityName: String(describing: self))
-            request.predicate = predicate
-            guard let object = try? context.fetch(request).first else
+            do
             {
-                return DBServiceError.objectIsNotExists
+                let request = NSFetchRequest<T>(entityName: String(describing: self))
+                request.predicate = predicate
+                if
+                    let object = try? context.fetch(request).first
+                {
+                    handler(object)
+                    try context.save()
+                }
+                else
+                {
+                    result = DBServiceError.objectIsNotExists
+                }
             }
-            handler(object)
-            try context.save()
+            catch
+            {
+                print(error)
+                result = error
+            }
         }
-        catch
-        {
-            print(error)
-            return error
-        }
-        return nil
+        return result
     }
 
     class func delete(in context: NSManagedObjectContext,
                       predicate: NSPredicate) -> Error?
     {
-        do
+        var result: Error?
+        context.performAndWait
         {
-            let request = NSFetchRequest<Self>(entityName: String(describing: self))
-            request.predicate = predicate
-            guard let object = try? context.fetch(request).first else
+            do
             {
-                return DBServiceError.objectIsNotExists
+                let request = NSFetchRequest<Self>(entityName: String(describing: self))
+                request.predicate = predicate
+                if
+                    let object = try? context.fetch(request).first
+                {
+                    context.delete(object)
+                    try context.save()
+                }
+                else
+                {
+                    result = DBServiceError.objectIsNotExists
+                }
             }
-            context.delete(object)
-            try context.save()
+            catch
+            {
+                print(error)
+                result = error
+            }
         }
-        catch
-        {
-            return error
-        }
-        return nil
+        return result
     }
 
     class func deleteArray(in context: NSManagedObjectContext,
@@ -108,7 +125,7 @@ extension NSManagedObject
     private func object<T: NSManagedObject>(inContext context: NSManagedObjectContext) -> T?
     {
         if self.objectID.isTemporaryID
-            {
+        {
             do
             {
                 try self.managedObjectContext?.obtainPermanentIDs(for: [self])

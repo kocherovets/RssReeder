@@ -47,9 +47,9 @@ extension UpdateNewsInteractor
                                 let rssFeed = feed.rssFeed,
                                 let items = rssFeed.items {
 
-                                let news = items.map { item -> NewsState.News in
+                                let news = items.map { item -> NewsState.Article in
 
-                                    NewsState.News(
+                                    NewsState.Article(
                                         source: rssFeed.title ?? "",
                                         guid: item.guid?.value ?? UUID().uuidString,
                                         title: item.title ?? "",

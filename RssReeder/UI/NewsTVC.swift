@@ -26,7 +26,7 @@ enum NewsTVCModule
 
             var sections = [TableSection]()
 
-            for dayArticles in newsState.news {
+            for dayArticles in newsState.days {
 
                 guard dayArticles.articles.count > 0 else { continue }
                 

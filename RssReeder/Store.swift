@@ -39,7 +39,7 @@ protocol UIArticle { }
 
 struct NewsState: StateType, Equatable
 {
-    struct News: Equatable {
+    struct Article: Equatable {
         var source: String
         var guid: String
         var title: String
@@ -51,13 +51,13 @@ struct NewsState: StateType, Equatable
     }
     var hideBody = false
     var showsStarredOnly = false
-    var selectedNews: News?
+    var selectedNews: Article?
     struct DayArticles: Equatable
     {
         var date: Date
-        var articles: [NewsState.News]
+        var articles: [NewsState.Article]
     }
-    var news = [NewsState.DayArticles]()
+    var days = [NewsState.DayArticles]()
 
     struct AddNewsStateAction: Action, UINews
     {
@@ -80,21 +80,23 @@ struct NewsState: StateType, Equatable
         }
     }
 
-    struct SetNewsAction: Action, UINews
+    struct SetNewsAction: Action, UINews, LogMaxItems
     {
         let uuid: UUID
-        let news: [NewsState.DayArticles]
+        let days: [NewsState.DayArticles]
 
         func updateState(_ state: inout AppState)
         {
-            state.news[uuid]?.news = news
+            state.news[uuid]?.days = days
         }
+        
+        var logMaxItems: Int { 17 }
     }
 
     struct SelectNewsAction: Action, UINews, UIArticle, ThrottleAction {
 
         let uuid: UUID
-        let news: News
+        let news: Article
 
         func updateState(_ state: inout AppState) {
 
@@ -104,10 +106,10 @@ struct NewsState: StateType, Equatable
             let date = news.time.removeTime()
             for uuid in state.news.keys {
                 if
-                    let dateIndex = state.news[uuid]?.news.firstIndex(where: { $0.date == date }),
-                    let index = state.news[uuid]?.news[dateIndex].articles.firstIndex(where: { $0.guid == news.guid })
+                    let dayIndex = state.news[uuid]?.days.firstIndex(where: { $0.date == date }),
+                    let index = state.news[uuid]?.days[dayIndex].articles.firstIndex(where: { $0.guid == news.guid })
                 {
-                    state.news[uuid]?.news[dateIndex].articles[index].unread = false
+                    state.news[uuid]?.days[dayIndex].articles[index].unread = false
                 }
             }
         }
@@ -115,7 +117,7 @@ struct NewsState: StateType, Equatable
 
     struct SetStarAction: Action, UINews, UIArticle, ThrottleAction
     {
-        let news: News
+        let news: Article
         let starred: Bool
 
         func updateState(_ state: inout AppState)
@@ -123,10 +125,10 @@ struct NewsState: StateType, Equatable
             let date = news.time.removeTime()
             for uuid in state.news.keys {
                 if
-                    let dateIndex = state.news[uuid]?.news.firstIndex(where: { $0.date == date }),
-                    let index = state.news[uuid]?.news[dateIndex].articles.firstIndex(where: { $0.guid == news.guid })
+                    let dayIndex = state.news[uuid]?.days.firstIndex(where: { $0.date == date }),
+                    let index = state.news[uuid]?.days[dayIndex].articles.firstIndex(where: { $0.guid == news.guid })
                 {
-                    state.news[uuid]?.news[dateIndex].articles[index].starred = starred
+                    state.news[uuid]?.days[dayIndex].articles[index].starred = starred
                 }
                 if state.news[uuid]?.selectedNews?.guid == news.guid {
                     state.news[uuid]?.selectedNews?.starred = starred

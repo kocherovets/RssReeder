@@ -155,7 +155,7 @@ extension ToDBInteractor
         struct StartAction: Action {
 
             let sourceURL: String
-            let news: [NewsState.News]
+            let news: [NewsState.Article]
         }
 
         func condition(box: StateBox<AppState>) -> Bool
@@ -170,12 +170,15 @@ extension ToDBInteractor
                 guard lastAction.news.count > 0 else {
                     return
                 }
-                if let error = interactor.db.set(news: lastAction.news, forSource: lastAction.sourceURL) {
-
-                    trunk.dispatch(AppState.ErrorAction(error: StateError.error(error.localizedDescription)))
-                } else {
-                    if box.state.settings.sources[lastAction.sourceURL] == true {
-                        trunk.dispatch(FinishAction())
+                interactor.db.set(news: lastAction.news, forSource: lastAction.sourceURL) { result in
+                    switch result
+                    {
+                    case .success:
+                        if box.state.settings.sources[lastAction.sourceURL] == true {
+                            trunk.dispatch(FinishAction())
+                        }
+                    case .failure(let error):
+                        trunk.dispatch(AppState.ErrorAction(error: StateError.error(error.localizedDescription)))
                     }
                 }
             }
