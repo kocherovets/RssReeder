@@ -21,11 +21,7 @@ extension UpdateNewsInteractor
 {
     struct UpdateNewsSE: SideEffect
     {
-        public struct StartAction: Action {
-
-            func updateState(_ state: inout State) {
-            }
-        }
+        public struct StartAction: Action { }
 
         func condition(box: StateBox<AppState>) -> Bool {
 
