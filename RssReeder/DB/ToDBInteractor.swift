@@ -4,6 +4,16 @@ import DITranquillity
 import RedSwift
 import DeclarativeTVC
 
+fileprivate let dbQueue = DispatchQueue(label: "DBQueue", qos: .userInitiated)
+
+protocol DBSideEffect: SideEffect {
+}
+
+extension DBSideEffect {
+    var queue: DispatchQueue? { dbQueue }
+}
+
+
 class ToDBInteractor: Interactor<AppState>
 {
     fileprivate let db: DBService
@@ -30,7 +40,7 @@ class ToDBInteractor: Interactor<AppState>
 
 extension ToDBInteractor
 {
-    struct AddSourceSE: SideEffect
+    struct AddSourceSE: DBSideEffect
     {
         func condition(box: StateBox<AppState>) -> Bool
         {
@@ -53,7 +63,7 @@ extension ToDBInteractor
         }
     }
 
-    struct RemoveSourceSE: SideEffect
+    struct RemoveSourceSE: DBSideEffect
     {
         func condition(box: StateBox<AppState>) -> Bool
         {
@@ -76,7 +86,7 @@ extension ToDBInteractor
         struct FinishAction: Action { }
     }
 
-    struct SetSourceActivitySE: SideEffect
+    struct SetSourceActivitySE: DBSideEffect
     {
         func condition(box: StateBox<AppState>) -> Bool
         {
@@ -99,7 +109,7 @@ extension ToDBInteractor
         struct FinishAction: Action { }
     }
 
-    struct SetUnreadSE: SideEffect
+    struct SetUnreadSE: DBSideEffect
     {
         func condition(box: StateBox<AppState>) -> Bool
         {
@@ -117,7 +127,7 @@ extension ToDBInteractor
         }
     }
 
-    struct SetStarredSE: SideEffect
+    struct SetStarredSE: DBSideEffect
     {
         func condition(box: StateBox<AppState>) -> Bool
         {
@@ -140,7 +150,7 @@ extension ToDBInteractor
         struct FinishAction: Action { }
     }
 
-    struct SetNewsSE: SideEffect
+    struct SetNewsSE: DBSideEffect
     {
         struct StartAction: Action {
 
@@ -174,7 +184,7 @@ extension ToDBInteractor
         struct FinishAction: Action { }
     }
 
-    struct SetUpdateIntervalSE: SideEffect
+    struct SetUpdateIntervalSE: DBSideEffect
     {
         func condition(box: StateBox<AppState>) -> Bool
         {

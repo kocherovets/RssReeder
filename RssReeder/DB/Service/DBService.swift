@@ -164,47 +164,59 @@ public class DBService
         }
     }
 
-    func news(onlyStarred: Bool) -> Result<[Date: [NewsState.News]], Error>
+    func news(onlyStarred: Bool) -> Result<[NewsState.DayArticles], Error>
     {
-        do
-        {
-            let request = NSFetchRequest<DBNews>(entityName: "DBNews")
-            var predicate = "(source.active == YES)"
-            if onlyStarred {
-                predicate += "AND (starred == YES)"
-            }
-            request.predicate = NSPredicate(format: predicate)
-            request.sortDescriptors = [NSSortDescriptor(key: #keyPath(DBNews.time), ascending: false)]
-            let items = try moc.fetch(request)
+        var result: Result<[NewsState.DayArticles], Error> = .failure(StateError.unknownDBError)
 
-            var result = [Date: [NewsState.News]]()
-            var date: Date!
-            for item in items {
-
-                let news = NewsState.News(
-                    source: item.sourceTitle,
-                    guid: item.guid,
-                    title: item.title,
-                    body: item.body,
-                    time: item.time,
-                    imageURL: item.imageURL,
-                    unread: item.unread,
-                    starred: item.starred)
-
-                if date == nil || date > item.time {
-                    date = item.time.removeTime()
-                    result[date] = [news]
+        moc.performAndWait {
+            do
+            {
+                let request = NSFetchRequest<DBNews>(entityName: "DBNews")
+                var predicate = "(source.active == YES)"
+                if onlyStarred {
+                    predicate += "AND (starred == YES)"
                 }
-                else {
-                    result[date]?.append(news)
+                request.predicate = NSPredicate(format: predicate)
+                request.sortDescriptors = [NSSortDescriptor(key: #keyPath(DBNews.time), ascending: false)]
+                let items = try moc.fetch(request)
+
+                var articles = [NewsState.DayArticles]()
+                var date: Date!
+                var dayArticles: NewsState.DayArticles?
+                for item in items {
+
+                    let news = NewsState.News(
+                        source: item.sourceTitle,
+                        guid: item.guid,
+                        title: item.title,
+                        body: item.body,
+                        time: item.time,
+                        imageURL: item.imageURL,
+                        unread: item.unread,
+                        starred: item.starred)
+
+                    if date == nil || date > item.time {
+                        date = item.time.removeTime()
+                        if let dayArticles = dayArticles {
+                            articles.append(dayArticles)
+                        }
+                        dayArticles = NewsState.DayArticles(date: date, articles: [news])
+                    }
+                    else {
+                        dayArticles?.articles.append(news)
+                    }
                 }
+                if let dayArticles = dayArticles {
+                    articles.append(dayArticles)
+                }
+                result = .success(articles)
             }
-            return .success(result)
+            catch
+            {
+                result = .failure(error)
+            }
         }
-        catch
-        {
-            return .failure(error)
-        }
+        return result
     }
 
     func setRead(guid: String) -> Error?

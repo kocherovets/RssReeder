@@ -26,13 +26,13 @@ enum NewsTVCModule
 
             var sections = [TableSection]()
 
-            for date in newsState.news.keys.sorted().reversed() {
+            for dayArticles in newsState.news {
 
-                guard let items = newsState.news[date] else { continue }
+                guard dayArticles.articles.count > 0 else { continue }
                 
                 sections.append(
-                    TableSection(header: NewsHeaderCellVM(title: headerDateFormatter.string(from: date)),
-                                 rows: items.map { news in
+                    TableSection(header: NewsHeaderCellVM(title: headerDateFormatter.string(from: dayArticles.date)),
+                                 rows: dayArticles.articles.map { news in
                                      NewsCellVM(source: news.source.uppercased(),
                                                 title: news.title,
                                                 body: news.body,

@@ -16,14 +16,14 @@ class AppFramework: DIFramework
 
         container.register {
             Store<AppState>(state: $0,
-                         queue: $1,
-                         middleware: [
-                             LoggingMiddleware(loggingExcludedActions: [
-                                               ],
-                                               firstPart: "RssReeder")
-                         ])
+                            queue: $1,
+                            middleware: [LoggingMiddleware(loggingExcludedActions: [
+//                                                                NewsState.SetNewsAction.self
+                                                           ],
+                                                           firstPart: "RssReeder")
+                            ])
         }
-            .lifetime(.single) 
+            .lifetime(.single)
 
         container.register(DBService.init).lifetime(.single)
 
@@ -59,16 +59,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         container.append(framework: AppFramework.self)
 
         #if DEBUG
-        if !container.makeGraph().checkIsValid(checkGraphCycles: true) {
-            fatalError("invalid graph")
-        }
+            if !container.makeGraph().checkIsValid(checkGraphCycles: true) {
+                fatalError("invalid graph")
+            }
         #endif
 
         container.initializeSingletonObjects()
 
         InteractorLogger.loggingExcludedSideEffects = [
         ]
-        
+
         (container.resolve() as Store<AppState>).dispatch(FromDBInteractor.StartSyncSE.StartAction())
 
         return true

@@ -27,7 +27,7 @@ class FromDBInteractor: Interactor<AppState>
 
 extension FromDBInteractor
 {
-    struct StartSyncSE: SideEffect
+    struct StartSyncSE: DBSideEffect
     {
         struct StartAction: Action { }
 
@@ -59,7 +59,7 @@ extension FromDBInteractor
         }
     }
 
-    struct LoadNewsSE: SideEffect
+    struct LoadNewsSE: DBSideEffect
     {
         func condition(box: StateBox<AppState>) -> Bool
         {

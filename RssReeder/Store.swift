@@ -6,7 +6,7 @@ struct AppState: RootStateType, Equatable
     var news = [UUID: NewsState]()
     var settings = SettingsState()
     var error = StateError.none
-    
+
     enum Routing: Equatable {
         case none
         case showsArticle(uuid: UUID)
@@ -27,6 +27,7 @@ struct AppState: RootStateType, Equatable
 enum StateError: Error, Equatable {
     case none
     case error(String)
+    case unknownDBError
 }
 
 extension Action {
@@ -51,7 +52,12 @@ struct NewsState: StateType, Equatable
     var hideBody = false
     var showsStarredOnly = false
     var selectedNews: News?
-    var news = [Date: [NewsState.News]]()
+    struct DayArticles: Equatable
+    {
+        var date: Date
+        var articles: [NewsState.News]
+    }
+    var news = [NewsState.DayArticles]()
 
     struct AddNewsStateAction: Action, UINews
     {
@@ -77,7 +83,7 @@ struct NewsState: StateType, Equatable
     struct SetNewsAction: Action, UINews
     {
         let uuid: UUID
-        let news: [Date: [NewsState.News]]
+        let news: [NewsState.DayArticles]
 
         func updateState(_ state: inout AppState)
         {
@@ -97,8 +103,11 @@ struct NewsState: StateType, Equatable
 
             let date = news.time.removeTime()
             for uuid in state.news.keys {
-                if let index = state.news[uuid]?.news[date]?.firstIndex(where: { $0.guid == news.guid }) {
-                    state.news[uuid]?.news[date]?[index].unread = false
+                if
+                    let dateIndex = state.news[uuid]?.news.firstIndex(where: { $0.date == date }),
+                    let index = state.news[uuid]?.news[dateIndex].articles.firstIndex(where: { $0.guid == news.guid })
+                {
+                    state.news[uuid]?.news[dateIndex].articles[index].unread = false
                 }
             }
         }
@@ -111,9 +120,13 @@ struct NewsState: StateType, Equatable
 
         func updateState(_ state: inout AppState)
         {
+            let date = news.time.removeTime()
             for uuid in state.news.keys {
-                if let index = state.news[uuid]?.news[news.time.removeTime()]?.firstIndex(where: { $0.guid == news.guid }) {
-                    state.news[uuid]?.news[news.time.removeTime()]?[index].starred = starred
+                if
+                    let dateIndex = state.news[uuid]?.news.firstIndex(where: { $0.date == date }),
+                    let index = state.news[uuid]?.news[dateIndex].articles.firstIndex(where: { $0.guid == news.guid })
+                {
+                    state.news[uuid]?.news[dateIndex].articles[index].starred = starred
                 }
                 if state.news[uuid]?.selectedNews?.guid == news.guid {
                     state.news[uuid]?.selectedNews?.starred = starred
