@@ -106,19 +106,24 @@ extension NSManagedObject
     class func deleteArray(in context: NSManagedObjectContext,
                            predicate: NSPredicate) -> Error?
     {
-        do
+        var result: Error?
+        context.performAndWait
         {
-            let request = NSFetchRequest<NSFetchRequestResult>(entityName: String(describing: self))
-            request.predicate = predicate
-            let batchRequest = NSBatchDeleteRequest(fetchRequest: request)
-            try context.execute(batchRequest)
-            try context.save()
+            do
+            {
+                let request = NSFetchRequest<NSFetchRequestResult>(entityName: String(describing: self))
+                request.predicate = predicate
+                let batchRequest = NSBatchDeleteRequest(fetchRequest: request)
+                try context.execute(batchRequest)
+                try context.save()
+            }
+            catch
+            {
+                print(error)
+                result = error
+            }
         }
-        catch
-        {
-            return error
-        }
-        return nil
+        return result
     }
 
     // MARK: - Private functions

@@ -19,30 +19,30 @@ class NewsStateSetNewsActionTests: XCTestCase {
     fileprivate static let time2 = date2.addingTimeInterval(1000)
     fileprivate static let time3 = date2.addingTimeInterval(500)
 
-    fileprivate let news1 = NewsState.Article(source: "source1",
-                                           guid: "giud1",
-                                           title: "title1",
-                                           body: "body1",
-                                           time: time1,
-                                           imageURL: "imageURL1",
-                                           unread: true,
-                                           starred: false)
-    fileprivate let news2 = NewsState.Article(source: "source2",
-                                           guid: "giud2",
-                                           title: "title2",
-                                           body: "body2",
-                                           time: time2,
-                                           imageURL: "imageURL2",
-                                           unread: true,
-                                           starred: false)
-    fileprivate let news3 = NewsState.Article(source: "source3",
-                                           guid: "giud3",
-                                           title: "title3",
-                                           body: "body3",
-                                           time: time3,
-                                           imageURL: "imageURL3",
-                                           unread: false,
-                                           starred: false)
+    fileprivate let article1 = NewsState.Article(source: "source1",
+                                                 guid: "giud1",
+                                                 title: "title1",
+                                                 body: "body1",
+                                                 time: time1,
+                                                 imageURL: "imageURL1",
+                                                 unread: true,
+                                                 starred: false)
+    fileprivate let article2 = NewsState.Article(source: "source2",
+                                                 guid: "giud2",
+                                                 title: "title2",
+                                                 body: "body2",
+                                                 time: time2,
+                                                 imageURL: "imageURL2",
+                                                 unread: true,
+                                                 starred: false)
+    fileprivate let article3 = NewsState.Article(source: "source3",
+                                                 guid: "giud3",
+                                                 title: "title3",
+                                                 body: "body3",
+                                                 time: time3,
+                                                 imageURL: "imageURL3",
+                                                 unread: false,
+                                                 starred: false)
     fileprivate let uuid = UUID()
 
     fileprivate func createState() -> AppState {
@@ -51,10 +51,10 @@ class NewsStateSetNewsActionTests: XCTestCase {
         return state
     }
 
-    fileprivate func news() -> [Date: [NewsState.Article]] {
+    fileprivate func days() -> [NewsState.DayArticles] {
         [
-            Self.date1: [news1],
-            Self.date2: [news2, news3]
+            NewsState.DayArticles(date: Self.date1, articles: [article1]),
+            NewsState.DayArticles(date: Self.date2, articles: [article2, article3])
         ]
     }
 
@@ -62,30 +62,30 @@ class NewsStateSetNewsActionTests: XCTestCase {
 
         let initState = createState()
         var state = initState
-        
+
         let action = NewsState.SetNewsAction(uuid: uuid,
-                                             news: [Date: [NewsState.Article]]())
+                                             days: [NewsState.DayArticles]())
         action.updateState(&state)
 
-        XCTAssertEqual(state.news[uuid]?.news, [Date: [NewsState.Article]]())
+        XCTAssertEqual(state.news[uuid]?.days, [NewsState.DayArticles]())
 
-        state.news[uuid]?.news = [Date: [NewsState.Article]]()
+        state.news[uuid]?.days =  [NewsState.DayArticles]()
 
         XCTAssertEqual(initState, state)
     }
-    
+
     func test2() {
 
         let initState = createState()
         var state = initState
-        
+
         let action = NewsState.SetNewsAction(uuid: uuid,
-                                             news: news())
+                                             days: days())
         action.updateState(&state)
 
-        XCTAssertEqual(state.news[uuid]?.news, news())
+        XCTAssertEqual(state.news[uuid]?.days, days())
 
-        state.news[uuid]?.news = [Date: [NewsState.Article]]()
+        state.news[uuid]?.days =  [NewsState.DayArticles]()
 
         XCTAssertEqual(initState, state)
     }
