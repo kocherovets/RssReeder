@@ -9,8 +9,8 @@ class TimerInteractor: Interactor<AppState> {
 
     override var sideEffects: [AnySideEffect] {
         [
-            StartSE(),
-            FinishSE()
+            StartTimerSE(),
+            FinishTimerSE()
         ]
     }
 
@@ -23,18 +23,11 @@ class TimerInteractor: Interactor<AppState> {
 
 extension TimerInteractor {
 
-    struct StartSE: SideEffect {
-
-        struct StartAction: Action {
-
-            func updateState(_ state: inout State) {
-            }
-        }
+    struct StartTimerSE: SideEffect {
 
         func condition(box: StateBox<AppState>) -> Bool {
 
-            box.lastAction is StartAction ||
-                (box.lastAction as? SettingsState.AddSourcesAction)?.fromDB == false ||
+            box.lastAction is ToDBInteractor.AddSourceSE.FinishAction ||
                 box.lastAction is SettingsState.SetUpdateIntervalAction
         }
 
@@ -52,7 +45,7 @@ extension TimerInteractor {
         }
     }
 
-    struct FinishSE: SideEffect {
+    struct FinishTimerSE: SideEffect {
 
         struct FinishAction: Action {
 

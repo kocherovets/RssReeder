@@ -20,6 +20,7 @@ class FromDBInteractor: Interactor<AppState>
     {
         [
             StartSyncSE(),
+            UpdateIntervalSE(),
             LoadNewsSE(),
         ]
     }
@@ -42,20 +43,37 @@ extension FromDBInteractor
                 switch result
                 {
                 case .success(let sources):
-                    let infos = sources
-                        .map { SettingsState.AddSourcesAction.Info(url: $0.url, active: $0.active) }
-                    trunk.dispatch(SettingsState.AddSourcesAction(sources: infos,
-                                                                  fromDB: true))
+                    trunk.dispatch(
+                        SettingsState.AddSourcesAction(
+                            sources: sources.map {
+                                SettingsState.AddSourcesAction.Info(url: $0.url,
+                                                                    active: $0.active)
+                            },
+                            fromDB: true)
+                    )
+                case .failure(let error):
+                    trunk.dispatch(AppState.ErrorAction(error: StateError.error(error.localizedDescription)))
+                }
+            }
+        }
+    }
 
-                    interactor.db.updateInterval() { result in
-                        switch result {
-                        case .success(let updateInterval):
-                            trunk.dispatch(SettingsState.SetUpdateIntervalAction(seconds: updateInterval,
-                                                                                 fromDB: true))
-                        case .failure(let error):
-                            trunk.dispatch(AppState.ErrorAction(error: StateError.error(error.localizedDescription)))
-                        }
-                    }
+    struct UpdateIntervalSE: DBSideEffect
+    {
+        func condition(box: StateBox<AppState>) -> Bool
+        {
+            (box.lastAction as? SettingsState.AddSourcesAction)?.fromDB == true
+        }
+
+        func execute(box: StateBox<AppState>, trunk: Trunk, interactor: FromDBInteractor)
+        {
+            interactor.db.updateInterval() { result in
+                switch result {
+                case .success(let updateInterval):
+                    trunk.dispatch(
+                        SettingsState.SetUpdateIntervalAction(seconds: updateInterval,
+                                                              fromDB: true)
+                    )
                 case .failure(let error):
                     trunk.dispatch(AppState.ErrorAction(error: StateError.error(error.localizedDescription)))
                 }

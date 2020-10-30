@@ -54,13 +54,19 @@ extension ToDBInteractor
         {
             if let lastAction = box.lastAction as? SettingsState.AddSourcesAction {
 
-                for url in lastAction.sources.map({ $0.url }) {
+                if let url = lastAction.sources.first.map({ $0.url })
+                {
                     if let error = interactor.db.addSource(url: url, active: true) {
                         trunk.dispatch(AppState.ErrorAction(error: StateError.error(error.localizedDescription)))
+                    }
+                    else {
+                        trunk.dispatch(FinishAction())
                     }
                 }
             }
         }
+        
+        struct FinishAction: Action { }
     }
 
     struct RemoveSourceSE: DBSideEffect
