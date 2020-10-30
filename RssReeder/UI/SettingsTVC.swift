@@ -62,7 +62,9 @@ enum SettingsTVCModule
             [
                 RssFeed(url: "https://www.nasa.gov/rss/dyn/breaking_news.rss", title: "Add NASA breaking news"),
                 RssFeed(url: "https://www.nasa.gov/rss/dyn/educationnews.rss", title: "Add NASA education news"),
-                RssFeed(url: "https://www.smithsonianmag.com/rss/photos/", title: "Add photos feed")
+                RssFeed(url: "https://www.smithsonianmag.com/rss/photos/", title: "Add photos feed"),
+                RssFeed(url: "https://www.washingtontimes.com/rss/headlines/news/local/", title: "Washington Times: Local"),
+                RssFeed(url: "https://www.washingtontimes.com/rss/headlines/news/politics/", title: "Washington Times: Politics"),
             ]
                 .forEach
             { feed in
