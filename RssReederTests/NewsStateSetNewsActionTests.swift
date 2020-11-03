@@ -63,7 +63,7 @@ class NewsStateSetNewsActionTests: XCTestCase {
         let initState = createState()
         var state = initState
 
-        let action = NewsState.SetNewsAction(uuid: uuid,
+        let action = NewsState.SetNewsAction(newsUUID: uuid,
                                              days: [NewsState.DayArticles]())
         action.updateState(&state)
 
@@ -79,7 +79,7 @@ class NewsStateSetNewsActionTests: XCTestCase {
         let initState = createState()
         var state = initState
 
-        let action = NewsState.SetNewsAction(uuid: uuid,
+        let action = NewsState.SetNewsAction(newsUUID: uuid,
                                              days: days())
         action.updateState(&state)
 

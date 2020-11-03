@@ -21,15 +21,13 @@ extension UpdateNewsInteractor
 {
     struct UpdateNewsSE: SideEffect
     {
-        public struct StartAction: Action { }
-
-        func condition(box: StateBox<AppState>) -> Bool {
-
-            box.lastAction is StartAction
+        func condition(box: StateBox<AppState>) -> Bool
+        {
+            box.lastAction is TimerInteractor.StartTimerSE.FinishAction
         }
 
-        func execute(box: StateBox<AppState>, trunk: Trunk, interactor: UpdateNewsInteractor) {
-
+        func execute(box: StateBox<AppState>, trunk: Trunk, interactor: UpdateNewsInteractor)
+        {
             for source in box.state.settings.sources.keys {
 
                 if let feedURL = URL(string: source) {
@@ -37,7 +35,8 @@ extension UpdateNewsInteractor
                     let parser = FeedParser(URL: feedURL)
                     parser.parseAsync(queue: DispatchQueue.global(qos: .userInitiated)) { (result) in
 
-                        switch result {
+                        switch result
+                        {
                         case .success(let feed):
                             if
                                 let rssFeed = feed.rssFeed,
@@ -49,7 +48,7 @@ extension UpdateNewsInteractor
                                         source: rssFeed.title ?? "",
                                         guid: item.guid?.value ?? UUID().uuidString,
                                         title: item.title ?? "",
-                                        body: item.description?.trimmingCharacters(in: .whitespacesAndNewlines) ?? "",
+                                        body: item.description ?? "",
                                         time: item.pubDate ?? Date.distantPast,
                                         imageURL: item.enclosure?.attributes?.url ?? "",
                                         unread: true,

@@ -93,10 +93,7 @@ class SettingsTVC: TVC, PropsReceiver
 
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
 
-        if props?.tableModel.sections.first?.rows[indexPath.row] is SourceCellVM {
-            return true
-        }
-        return false
+        props?.tableModel.sections.first?.rows[indexPath.row] is SourceCellVM
     }
 
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {

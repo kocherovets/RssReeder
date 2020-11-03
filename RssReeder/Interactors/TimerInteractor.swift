@@ -39,23 +39,21 @@ extension TimerInteractor {
                             repeating: .seconds(box.state.settings.updateIntervalSeconds),
                             leeway: .milliseconds(100))
             timer?.setEventHandler {
-                trunk.dispatch(UpdateNewsInteractor.UpdateNewsSE.StartAction())
+                trunk.dispatch(FinishAction())
             }
             timer?.resume()
         }
+        
+        struct FinishAction: Action { }
     }
 
     struct FinishTimerSE: SideEffect {
 
-        struct FinishAction: Action {
-
-            func updateState(_ state: inout State) {
-            }
-        }
+        struct StartAction: Action { }
 
         func condition(box: StateBox<AppState>) -> Bool {
 
-            box.lastAction is FinishAction
+            box.lastAction is StartAction
         }
 
         func execute(box: StateBox<AppState>, trunk: Trunk, interactor: TimerInteractor) {

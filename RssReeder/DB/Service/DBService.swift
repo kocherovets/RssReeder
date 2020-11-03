@@ -161,6 +161,8 @@ public class DBService
                                 news.sourceTitle = item.source
                                 news.title = item.title
                                 news.body = item.body
+                                    .trimmingCharacters(in: .whitespacesAndNewlines)
+                                    .replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
                                 news.time = item.time
                                 news.imageURL = item.imageURL
                                 news.unread = true
@@ -237,29 +239,29 @@ public class DBService
 
     func setRead(guid: String) -> Error?
     {
-         DBNews.update(in: moc,
-                             predicate: NSPredicate(format: "guid == %@", guid),
-                             handler: { (news: DBNews) in
-                                 news.unread = false
-                             })
+        DBNews.update(in: moc,
+                      predicate: NSPredicate(format: "guid == %@", guid),
+                      handler: { (news: DBNews) in
+                          news.unread = false
+                      })
     }
 
     func setStarred(guid: String, starred: Bool) -> Error?
     {
-         DBNews.update(in: moc,
-                             predicate: NSPredicate(format: "guid == %@", guid),
-                             handler: { (news: DBNews) in
-                                 news.starred = starred
-                             })
+        DBNews.update(in: moc,
+                      predicate: NSPredicate(format: "guid == %@", guid),
+                      handler: { (news: DBNews) in
+                          news.starred = starred
+                      })
     }
 
     func set(updateInterval: Int) -> Error?
     {
-         DBSettings.update(in: moc,
-                                 predicate: nil,
-                                 handler: { (settings: DBSettings) in
-                                     settings.updateInterval = Int16(updateInterval)
-                                 })
+        DBSettings.update(in: moc,
+                          predicate: nil,
+                          handler: { (settings: DBSettings) in
+                              settings.updateInterval = Int16(updateInterval)
+                          })
     }
 
     func updateInterval(complete: (Result<Int, Error>) -> Void)
