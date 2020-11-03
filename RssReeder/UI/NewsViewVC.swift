@@ -27,15 +27,15 @@ enum NewsViewVCModule {
             }
             guard
                 let uuid = uuid,
-                let selectedNews = box.state.news[uuid]?.selectedNews else
+                let selectedArticle = box.state.news[uuid]?.selectedArticle else
             {
                 return nil
             }
 
             return Props(
-                rightBarButtonImageName: selectedNews.starred ? "star.fill" : "star",
+                rightBarButtonImageName: selectedArticle.starred ? "star.fill" : "star",
                 starCommand: Command {
-                    trunk.dispatch(NewsState.SetStarAction(news: selectedNews, starred: !selectedNews.starred))
+                    trunk.dispatch(NewsState.SetStarAction(article: selectedArticle, starred: !selectedArticle.starred))
                 }
             )
         }

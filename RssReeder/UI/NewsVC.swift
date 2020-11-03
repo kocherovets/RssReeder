@@ -22,7 +22,7 @@ enum NewsVCModule {
         {
             if state.news[uuid] == nil
             {
-                trunk.dispatch(NewsState.AddNewsStateAction(uuid: uuid))
+                trunk.dispatch(NewsState.AddNewsStateAction(newsUUID: uuid))
             }
         }
 
@@ -39,11 +39,11 @@ enum NewsVCModule {
                 leftBarButtonImageName: news.showsStarredOnly ? "star.fill" : "star",
                 leftBarButtonTintColor: news.showsStarredOnly ? UIColor(red: 1, green: 204.0 / 255.0, blue: 0, alpha: 1) : nil,
                 showsStarredOnlyCommand: Command {
-                    trunk.dispatch(NewsState.ShowsOnlyStarredAction(uuid: self.uuid, value: !news.showsStarredOnly))
+                    trunk.dispatch(NewsState.ShowsOnlyStarredAction(newsUUID: self.uuid, value: !news.showsStarredOnly))
                 },
                 rightBarButtonImageName: news.hideBody ? "eye.slash" : "eye",
                 changeViewModeCommand: Command {
-                    trunk.dispatch(NewsState.SetHideBodyAction(uuid: self.uuid, value: !news.hideBody))
+                    trunk.dispatch(NewsState.SetHideBodyAction(newsUUID: self.uuid, value: !news.hideBody))
                 }
             )
         }

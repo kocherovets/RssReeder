@@ -29,20 +29,21 @@ enum NewsTVCModule
             for dayArticles in newsState.days {
 
                 guard dayArticles.articles.count > 0 else { continue }
-                
+
                 sections.append(
                     TableSection(header: NewsHeaderCellVM(title: headerDateFormatter.string(from: dayArticles.date)),
-                                 rows: dayArticles.articles.map { news in
-                                     NewsCellVM(source: news.source.uppercased(),
-                                                title: news.title,
-                                                body: news.body,
+                                 rows: dayArticles.articles.map { article in
+                                     NewsCellVM(source: article.source.uppercased(),
+                                                title: article.title,
+                                                body: article.body,
                                                 hideBody: newsState.hideBody,
-                                                time: dateFormatter.string(from: news.time),
-                                                imageURL: news.imageURL,
-                                                unread: news.unread,
-                                                starred: news.starred,
+                                                time: dateFormatter.string(from: article.time),
+                                                imageURL: article.imageURL,
+                                                unread: article.unread,
+                                                starred: article.starred,
                                                 selectCommand: Command {
-                                                    trunk.dispatch(NewsState.SelectNewsAction(uuid: uuid, news: news))
+                                                    trunk.dispatch(NewsState.SelectNewsAction(newsUUID: uuid,
+                                                                                              article: article))
                                                 })
                                  },
                                  footer: nil)

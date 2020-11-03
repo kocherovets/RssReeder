@@ -126,7 +126,7 @@ extension ToDBInteractor
         {
             if let lastAction = box.lastAction as? NewsState.SelectNewsAction {
 
-                if let error = interactor.db.setRead(guid: lastAction.news.guid) {
+                if let error = interactor.db.setRead(guid: lastAction.article.guid) {
                     trunk.dispatch(AppState.ErrorAction(error: StateError.error(error.localizedDescription)))
                 }
             }
@@ -144,7 +144,7 @@ extension ToDBInteractor
         {
             if let lastAction = box.lastAction as? NewsState.SetStarAction {
 
-                if let error = interactor.db.setStarred(guid: lastAction.news.guid, starred: lastAction.starred) {
+                if let error = interactor.db.setStarred(guid: lastAction.article.guid, starred: lastAction.starred) {
                     trunk.dispatch(AppState.ErrorAction(error: StateError.error(error.localizedDescription)))
                 }
                 else {

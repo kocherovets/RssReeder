@@ -99,7 +99,7 @@ extension FromDBInteractor
                 interactor.db.news(onlyStarred: newsState.showsStarredOnly) { result in
                     switch result {
                     case .success(let days):
-                        trunk.dispatch(NewsState.SetNewsAction(uuid: uuid, days: days))
+                        trunk.dispatch(NewsState.SetNewsAction(newsUUID: uuid, days: days))
                     case .failure(let error):
                         trunk.dispatch(AppState.ErrorAction(error: StateError.error(error.localizedDescription)))
                     }

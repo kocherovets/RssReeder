@@ -24,7 +24,7 @@ enum NewsViewTVCModule
             
             var rows = [CellAnyModel]()
 
-            if let news = box.state.news[uuid]?.selectedNews {
+            if let news = box.state.news[uuid]?.selectedArticle {
                 
                 rows.append(NewsDateCellVM(date: dateFormatter.string(from: news.time).uppercased()))
                 rows.append(NewsTitleCellVM(title: news.title))
