@@ -69,9 +69,9 @@ class NewsStateSetNewsActionTests: XCTestCase {
 
         XCTAssertEqual(state.news[uuid]?.days, [NewsState.DayArticles]())
 
-//        state.news[uuid]?.days =  [NewsState.DayArticles]()
+        state.news[uuid]?.days =  [NewsState.DayArticles]()
 
-//        XCTAssertEqual(initState, state)
+        XCTAssertEqual(initState, state)
     }
 
     func test2() {
@@ -85,8 +85,8 @@ class NewsStateSetNewsActionTests: XCTestCase {
 
         XCTAssertEqual(state.news[uuid]?.days, days())
 
-//        state.news[uuid]?.days =  [NewsState.DayArticles]()
+        state.news[uuid]?.days =  [NewsState.DayArticles]()
 
-//        XCTAssertEqual(initState, state)
+        XCTAssertEqual(initState, state)
     }
 }

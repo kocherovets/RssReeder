@@ -17,17 +17,17 @@ struct NewsState: StateType, Equatable
         var unread: Bool
         var starred: Bool
     }
-    fileprivate(set) var selectedArticle: Article?
+    var selectedArticle: Article?
 
     struct DayArticles: Equatable
     {
         var date: Date
         var articles: [NewsState.Article]
     }
-    fileprivate(set) var days = [NewsState.DayArticles]()
+    var days = [NewsState.DayArticles]()
 
-    fileprivate(set) var hideBody = false
-    fileprivate(set) var showsStarredOnly = false
+    var hideBody = false
+    var showsStarredOnly = false
 }
 
 extension NewsState
