@@ -9,8 +9,8 @@ class TimerInteractor: Interactor<AppState> {
 
     override var sideEffects: [AnySideEffect] {
         [
-            StartTimerSE(),
-            FinishTimerSE()
+            RestartTimerSE(),
+            StopTimerSE()
         ]
     }
 
@@ -23,7 +23,7 @@ class TimerInteractor: Interactor<AppState> {
 
 extension TimerInteractor {
 
-    struct StartTimerSE: SideEffect {
+    struct RestartTimerSE: SideEffect {
 
         func condition(box: StateBox<AppState>) -> Bool {
 
@@ -47,7 +47,7 @@ extension TimerInteractor {
         struct FinishAction: Action { }
     }
 
-    struct FinishTimerSE: SideEffect {
+    struct StopTimerSE: SideEffect {
 
         struct StartAction: Action { }
 

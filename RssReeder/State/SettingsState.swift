@@ -3,8 +3,8 @@ import RedSwift
 
 struct SettingsState: StateType, Equatable
 {
-    var sources: [String: Bool] = [:]
-    var updateIntervalSeconds: Int = 10
+    fileprivate(set) var sources: [String: Bool] = [:]
+    fileprivate(set) var updateIntervalSeconds: Int = 10
 }
 
 extension SettingsState

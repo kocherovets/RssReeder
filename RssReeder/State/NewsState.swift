@@ -17,17 +17,17 @@ struct NewsState: StateType, Equatable
         var unread: Bool
         var starred: Bool
     }
-    var selectedArticle: Article?
-    
+    fileprivate(set) var selectedArticle: Article?
+
     struct DayArticles: Equatable
     {
         var date: Date
         var articles: [NewsState.Article]
     }
-    var days = [NewsState.DayArticles]()
-    
-    var hideBody = false
-    var showsStarredOnly = false
+    fileprivate(set) var days = [NewsState.DayArticles]()
+
+    fileprivate(set) var hideBody = false
+    fileprivate(set) var showsStarredOnly = false
 }
 
 extension NewsState
@@ -42,7 +42,7 @@ extension NewsState
             days[dayIndex].articles[index].unread = false
         }
     }
-    
+
     fileprivate mutating func set(starred: Bool, for article: Article)
     {
         let date = article.time.removeTime()
@@ -70,10 +70,10 @@ extension NewsState
         {
             state.news[newsUUID]?.days = days
         }
-        
+
         var logMaxItems: Int { 17 }
     }
-    
+
     struct AddNewsStateAction: Action, UINews
     {
         let newsUUID: UUID

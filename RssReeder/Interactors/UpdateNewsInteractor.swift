@@ -23,7 +23,7 @@ extension UpdateNewsInteractor
     {
         func condition(box: StateBox<AppState>) -> Bool
         {
-            box.lastAction is TimerInteractor.StartTimerSE.FinishAction
+            box.lastAction is TimerInteractor.RestartTimerSE.FinishAction
         }
 
         func execute(box: StateBox<AppState>, trunk: Trunk, interactor: UpdateNewsInteractor)
