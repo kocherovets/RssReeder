@@ -12,7 +12,7 @@ enum SettingsTVCModule
 
         override func reaction(for box: StateBox<AppState>) -> ReactionToState
         {
-            return .props
+            box.lastAction is UISettings ? .props : .none
         }
 
         override func props(for box: StateBox<AppState>, trunk: Trunk) -> TableProps?

@@ -25,7 +25,7 @@ class Router {
     static func showNewsItem() {
 
         ui {
-            let vc = createVC(storyboardName: "Main", type: NewsViewVC.self)
+            let vc = createVC(storyboardName: "Main", type: ArticleVC.self)
             UIViewController.topNavigationController()?.pushViewController(vc, animated: true)
         }
     }

@@ -4,7 +4,7 @@ import DITranquillity
 import RedSwift
 import DeclarativeTVC
 
-enum NewsViewTVCModule
+enum ArticleTVCModule
 {
     class Presenter: PresenterBase<AppState, TableProps, ViewController>
     {
@@ -45,14 +45,14 @@ enum NewsViewTVCModule
     }
 }
 
-class NewsViewTVC: TVC, PropsReceiver
+class ArticleTVC: TVC, PropsReceiver
 {
     typealias Props = TableProps
 }
 
-extension NewsViewTVCModule
+extension ArticleTVCModule
 {
-    typealias ViewController = NewsViewTVC
+    typealias ViewController = ArticleTVC
 
     class DI: DIPart
     {

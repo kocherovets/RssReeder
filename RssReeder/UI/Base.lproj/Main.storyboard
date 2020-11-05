@@ -2,7 +2,6 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="rbr-jQ-OF2">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17126"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -35,10 +34,10 @@
             </objects>
             <point key="canvasLocation" x="348" y="68"/>
         </scene>
-        <!--News ViewVC-->
+        <!--ArticleVC-->
         <scene sceneID="Ssx-d6-vKi">
             <objects>
-                <viewController storyboardIdentifier="NewsViewVC" id="X0e-or-idN" customClass="NewsViewVC" customModule="RssReeder" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ArticleVC" id="X0e-or-idN" customClass="ArticleVC" customModule="RssReeder" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="JiU-3w-Ltq">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -70,12 +69,12 @@
             </objects>
             <point key="canvasLocation" x="1183" y="67"/>
         </scene>
-        <!--News ViewTVC-->
+        <!--ArticleTVC-->
         <scene sceneID="jyN-T6-PBr">
             <objects>
-                <tableViewController storyboardIdentifier="NewsViewTVC" id="49g-k7-kbe" customClass="NewsViewTVC" customModule="RssReeder" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="NewsViewTVC" id="49g-k7-kbe" customClass="ArticleTVC" customModule="RssReeder" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="3sh-aC-oBg">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="556"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <connections>
@@ -86,7 +85,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6iK-uo-daJ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1932" y="67"/>
+            <point key="canvasLocation" x="2138" y="67"/>
         </scene>
         <!--Settings-->
         <scene sceneID="mZO-mm-aOm">

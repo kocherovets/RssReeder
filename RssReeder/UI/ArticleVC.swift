@@ -4,7 +4,7 @@ import DITranquillity
 import RedSwift
 import DeclarativeTVC
 
-enum NewsViewVCModule {
+enum ArticleVCModule {
 
     struct Props: Properties, Equatable {
         let rightBarButtonImageName: String
@@ -42,9 +42,9 @@ enum NewsViewVCModule {
     }
 }
 
-class NewsViewVC: VC, PropsReceiver {
+class ArticleVC: VC, PropsReceiver {
 
-    typealias Props = NewsViewVCModule.Props
+    typealias Props = ArticleVCModule.Props
 
     override func render() {
 
@@ -62,9 +62,9 @@ class NewsViewVC: VC, PropsReceiver {
     }
 }
 
-extension NewsViewVCModule
+extension ArticleVCModule
 {
-    typealias ViewController = NewsViewVC
+    typealias ViewController = ArticleVC
 
     class DI: DIPart
     {

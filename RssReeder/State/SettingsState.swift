@@ -1,6 +1,8 @@
 import Foundation
 import RedSwift
 
+protocol UISettings { }
+
 struct SettingsState: StateType, Equatable
 {
     var sources: [String: Bool] = [:]
@@ -9,7 +11,7 @@ struct SettingsState: StateType, Equatable
 
 extension SettingsState
 {
-    struct AddSourcesAction: Action
+    struct AddSourcesAction: Action, UISettings
     {
         struct Info {
             let url: String
@@ -27,7 +29,7 @@ extension SettingsState
         }
     }
 
-    struct RemoveSourceAction: Action
+    struct RemoveSourceAction: Action, UISettings
     {
         let sourceURL: String
 
@@ -37,7 +39,7 @@ extension SettingsState
         }
     }
 
-    struct SetSourceActivityAction: Action, ThrottleAction
+    struct SetSourceActivityAction: Action, ThrottleAction, UISettings
     {
         let sourceURL: String
         let activity: Bool
@@ -48,7 +50,7 @@ extension SettingsState
         }
     }
 
-    struct SetUpdateIntervalAction: Action
+    struct SetUpdateIntervalAction: Action, UISettings
     {
         let seconds: Int
         let fromDB: Bool
