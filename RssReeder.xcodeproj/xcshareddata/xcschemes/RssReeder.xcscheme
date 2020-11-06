@@ -48,6 +48,16 @@
                ReferencedContainer = "container:RssReeder.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "C3EEDD232555297E00C21788"
+               BuildableName = "RssStateTests.xctest"
+               BlueprintName = "RssStateTests"
+               ReferencedContainer = "container:RssReeder.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction

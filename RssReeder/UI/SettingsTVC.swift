@@ -3,6 +3,7 @@ import ReduxVM
 import DITranquillity
 import RedSwift
 import DeclarativeTVC
+import RssState
 
 enum SettingsTVCModule
 {

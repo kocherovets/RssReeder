@@ -10,7 +10,6 @@ target 'RssReeder' do
 
     pod 'ReduxVM'
     pod 'DITranquillity'
-    pod 'FeedKit', '~> 9.0'
     pod 'Kingfisher', '~> 5.0'
 end
 
@@ -18,5 +17,17 @@ target 'RssReederTests' do
   project 'RssReeder'
   use_frameworks!
   inhibit_all_warnings!
+end
 
+target 'RssState' do
+  pod 'RedSwift'
+  pod 'ReduxVM'
+  pod 'DITranquillity'
+  pod 'FeedKit', '~> 9.0'
+end
+
+target 'RssStateTests' do
+  project 'RssReeder'
+  use_frameworks!
+  inhibit_all_warnings!
 end

@@ -6,7 +6,7 @@
 //
 
 import XCTest
-@testable import RssReeder
+@testable import RssState
 
 class NewsStateSetNewsActionTests: XCTestCase {
 

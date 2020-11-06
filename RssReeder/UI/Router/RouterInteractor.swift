@@ -1,5 +1,6 @@
 import UIKit
 import RedSwift
+import RssState
 
 class RouterInteractor: Interactor<AppState>
 {
