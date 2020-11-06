@@ -17,9 +17,7 @@ class AppFramework: DIFramework
         container.register {
             Store<AppState>(state: $0,
                             queue: $1,
-                            middleware: [LoggingMiddleware(loggingExcludedActions: [
-//                                                                NewsState.SetNewsAction.self
-                                                           ],
+                            middleware: [LoggingMiddleware(loggingExcludedActions: [],
                                                            firstPart: "RssReeder")
                             ])
         }

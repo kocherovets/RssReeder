@@ -72,9 +72,9 @@
         <!--ArticleTVC-->
         <scene sceneID="jyN-T6-PBr">
             <objects>
-                <tableViewController storyboardIdentifier="NewsViewTVC" id="49g-k7-kbe" customClass="ArticleTVC" customModule="RssReeder" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="ArticleTVC" id="49g-k7-kbe" customClass="ArticleTVC" customModule="RssReeder" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="3sh-aC-oBg">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="556"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <connections>
