@@ -70,6 +70,12 @@
 		C3EEDD8425552CF300C21788 /* RssStateModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EEDD8325552CF300C21788 /* RssStateModule.swift */; };
 		C3EEDD892555B60D00C21788 /* NewsStateSetNewsActionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C35BF7132518E53900437A53 /* NewsStateSetNewsActionTests.swift */; };
 		C3EEDDA62555B71D00C21788 /* RssReederTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EEDDA52555B71D00C21788 /* RssReederTests.swift */; };
+		C3EEDDE52555B94300C21788 /* RssSwiftUIApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EEDDE42555B94300C21788 /* RssSwiftUIApp.swift */; };
+		C3EEDDE72555B94300C21788 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EEDDE62555B94300C21788 /* ContentView.swift */; };
+		C3EEDDE92555B94400C21788 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C3EEDDE82555B94400C21788 /* Assets.xcassets */; };
+		C3EEDDEC2555B94400C21788 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C3EEDDEB2555B94400C21788 /* Preview Assets.xcassets */; };
+		C3EEDDF72555B94500C21788 /* RssSwiftUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EEDDF62555B94500C21788 /* RssSwiftUITests.swift */; };
+		C3EEDE022555B94500C21788 /* RssSwiftUIUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EEDE012555B94500C21788 /* RssSwiftUIUITests.swift */; };
 		D19136AA353D1DA3B4020A1E /* Pods_RssReederTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9DA56268C3CE093A67BF37A1 /* Pods_RssReederTests.framework */; };
 /* End PBXBuildFile section */
 
@@ -108,6 +114,20 @@
 			proxyType = 1;
 			remoteGlobalIDString = C3EEDD1B2555297E00C21788;
 			remoteInfo = RssState;
+		};
+		C3EEDDF32555B94400C21788 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C35BF6EE2518E53600437A53 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C3EEDDE12555B94300C21788;
+			remoteInfo = RssSwiftUI;
+		};
+		C3EEDDFE2555B94500C21788 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C35BF6EE2518E53600437A53 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C3EEDDE12555B94300C21788;
+			remoteInfo = RssSwiftUI;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -201,6 +221,18 @@
 		C3EEDD2D2555297E00C21788 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C3EEDD8325552CF300C21788 /* RssStateModule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RssStateModule.swift; sourceTree = "<group>"; };
 		C3EEDDA52555B71D00C21788 /* RssReederTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RssReederTests.swift; sourceTree = "<group>"; };
+		C3EEDDE22555B94300C21788 /* RssSwiftUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RssSwiftUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C3EEDDE42555B94300C21788 /* RssSwiftUIApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RssSwiftUIApp.swift; sourceTree = "<group>"; };
+		C3EEDDE62555B94300C21788 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		C3EEDDE82555B94400C21788 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		C3EEDDEB2555B94400C21788 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		C3EEDDED2555B94400C21788 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C3EEDDF22555B94400C21788 /* RssSwiftUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RssSwiftUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C3EEDDF62555B94500C21788 /* RssSwiftUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RssSwiftUITests.swift; sourceTree = "<group>"; };
+		C3EEDDF82555B94500C21788 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C3EEDDFD2555B94500C21788 /* RssSwiftUIUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RssSwiftUIUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C3EEDE012555B94500C21788 /* RssSwiftUIUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RssSwiftUIUITests.swift; sourceTree = "<group>"; };
+		C3EEDE032555B94500C21788 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C3F31E032550BB0F00FE4ADD /* NewsState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsState.swift; sourceTree = "<group>"; };
 		C3F31E132550C33300FE4ADD /* SettingsState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsState.swift; sourceTree = "<group>"; };
 		CBA049CCDABDE3F14B071F81 /* Pods_RssState.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RssState.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -250,6 +282,27 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C3EEDDDF2555B94300C21788 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C3EEDDEF2555B94400C21788 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C3EEDDFA2555B94500C21788 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -287,6 +340,9 @@
 				C35BF71D2518E53900437A53 /* RssReederUITests */,
 				C3EEDD1D2555297E00C21788 /* RssState */,
 				C3EEDD2A2555297E00C21788 /* RssStateTests */,
+				C3EEDDE32555B94300C21788 /* RssSwiftUI */,
+				C3EEDDF52555B94500C21788 /* RssSwiftUITests */,
+				C3EEDE002555B94500C21788 /* RssSwiftUIUITests */,
 				C35BF6F72518E53600437A53 /* Products */,
 				472C070BE34C916E8EC82C89 /* Pods */,
 				451DD2AF415E70ECAB4B4209 /* Frameworks */,
@@ -301,6 +357,9 @@
 				C35BF71A2518E53900437A53 /* RssReederUITests.xctest */,
 				C3EEDD1C2555297E00C21788 /* RssState.framework */,
 				C3EEDD242555297E00C21788 /* RssStateTests.xctest */,
+				C3EEDDE22555B94300C21788 /* RssSwiftUI.app */,
+				C3EEDDF22555B94400C21788 /* RssSwiftUITests.xctest */,
+				C3EEDDFD2555B94500C21788 /* RssSwiftUIUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -455,6 +514,44 @@
 			path = RssStateTests;
 			sourceTree = "<group>";
 		};
+		C3EEDDE32555B94300C21788 /* RssSwiftUI */ = {
+			isa = PBXGroup;
+			children = (
+				C3EEDDE42555B94300C21788 /* RssSwiftUIApp.swift */,
+				C3EEDDE62555B94300C21788 /* ContentView.swift */,
+				C3EEDDE82555B94400C21788 /* Assets.xcassets */,
+				C3EEDDED2555B94400C21788 /* Info.plist */,
+				C3EEDDEA2555B94400C21788 /* Preview Content */,
+			);
+			path = RssSwiftUI;
+			sourceTree = "<group>";
+		};
+		C3EEDDEA2555B94400C21788 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				C3EEDDEB2555B94400C21788 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		C3EEDDF52555B94500C21788 /* RssSwiftUITests */ = {
+			isa = PBXGroup;
+			children = (
+				C3EEDDF62555B94500C21788 /* RssSwiftUITests.swift */,
+				C3EEDDF82555B94500C21788 /* Info.plist */,
+			);
+			path = RssSwiftUITests;
+			sourceTree = "<group>";
+		};
+		C3EEDE002555B94500C21788 /* RssSwiftUIUITests */ = {
+			isa = PBXGroup;
+			children = (
+				C3EEDE012555B94500C21788 /* RssSwiftUIUITests.swift */,
+				C3EEDE032555B94500C21788 /* Info.plist */,
+			);
+			path = RssSwiftUIUITests;
+			sourceTree = "<group>";
+		};
 		C3F31E082550BC7A00FE4ADD /* State */ = {
 			isa = PBXGroup;
 			children = (
@@ -586,6 +683,59 @@
 			productReference = C3EEDD242555297E00C21788 /* RssStateTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		C3EEDDE12555B94300C21788 /* RssSwiftUI */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C3EEDE0A2555B94500C21788 /* Build configuration list for PBXNativeTarget "RssSwiftUI" */;
+			buildPhases = (
+				C3EEDDDE2555B94300C21788 /* Sources */,
+				C3EEDDDF2555B94300C21788 /* Frameworks */,
+				C3EEDDE02555B94300C21788 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = RssSwiftUI;
+			productName = RssSwiftUI;
+			productReference = C3EEDDE22555B94300C21788 /* RssSwiftUI.app */;
+			productType = "com.apple.product-type.application";
+		};
+		C3EEDDF12555B94400C21788 /* RssSwiftUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C3EEDE0B2555B94500C21788 /* Build configuration list for PBXNativeTarget "RssSwiftUITests" */;
+			buildPhases = (
+				C3EEDDEE2555B94400C21788 /* Sources */,
+				C3EEDDEF2555B94400C21788 /* Frameworks */,
+				C3EEDDF02555B94400C21788 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C3EEDDF42555B94400C21788 /* PBXTargetDependency */,
+			);
+			name = RssSwiftUITests;
+			productName = RssSwiftUITests;
+			productReference = C3EEDDF22555B94400C21788 /* RssSwiftUITests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		C3EEDDFC2555B94500C21788 /* RssSwiftUIUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C3EEDE0C2555B94500C21788 /* Build configuration list for PBXNativeTarget "RssSwiftUIUITests" */;
+			buildPhases = (
+				C3EEDDF92555B94500C21788 /* Sources */,
+				C3EEDDFA2555B94500C21788 /* Frameworks */,
+				C3EEDDFB2555B94500C21788 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C3EEDDFF2555B94500C21788 /* PBXTargetDependency */,
+			);
+			name = RssSwiftUIUITests;
+			productName = RssSwiftUIUITests;
+			productReference = C3EEDDFD2555B94500C21788 /* RssSwiftUIUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -614,6 +764,17 @@
 						CreatedOnToolsVersion = 12.1;
 						TestTargetID = C35BF6F52518E53600437A53;
 					};
+					C3EEDDE12555B94300C21788 = {
+						CreatedOnToolsVersion = 12.1;
+					};
+					C3EEDDF12555B94400C21788 = {
+						CreatedOnToolsVersion = 12.1;
+						TestTargetID = C3EEDDE12555B94300C21788;
+					};
+					C3EEDDFC2555B94500C21788 = {
+						CreatedOnToolsVersion = 12.1;
+						TestTargetID = C3EEDDE12555B94300C21788;
+					};
 				};
 			};
 			buildConfigurationList = C35BF6F12518E53600437A53 /* Build configuration list for PBXProject "RssReeder" */;
@@ -634,6 +795,9 @@
 				C35BF7192518E53900437A53 /* RssReederUITests */,
 				C3EEDD1B2555297E00C21788 /* RssState */,
 				C3EEDD232555297E00C21788 /* RssStateTests */,
+				C3EEDDE12555B94300C21788 /* RssSwiftUI */,
+				C3EEDDF12555B94400C21788 /* RssSwiftUITests */,
+				C3EEDDFC2555B94500C21788 /* RssSwiftUIUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -682,6 +846,29 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		C3EEDD222555297E00C21788 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C3EEDDE02555B94300C21788 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C3EEDDEC2555B94400C21788 /* Preview Assets.xcassets in Resources */,
+				C3EEDDE92555B94400C21788 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C3EEDDF02555B94400C21788 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C3EEDDFB2555B94500C21788 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -893,6 +1080,31 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C3EEDDDE2555B94300C21788 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C3EEDDE72555B94300C21788 /* ContentView.swift in Sources */,
+				C3EEDDE52555B94300C21788 /* RssSwiftUIApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C3EEDDEE2555B94400C21788 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C3EEDDF72555B94500C21788 /* RssSwiftUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C3EEDDF92555B94500C21788 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C3EEDE022555B94500C21788 /* RssSwiftUIUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -920,6 +1132,16 @@
 			isa = PBXTargetDependency;
 			target = C3EEDD1B2555297E00C21788 /* RssState */;
 			targetProxy = C3EEDD2F2555297E00C21788 /* PBXContainerItemProxy */;
+		};
+		C3EEDDF42555B94400C21788 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C3EEDDE12555B94300C21788 /* RssSwiftUI */;
+			targetProxy = C3EEDDF32555B94400C21788 /* PBXContainerItemProxy */;
+		};
+		C3EEDDFF2555B94500C21788 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C3EEDDE12555B94300C21788 /* RssSwiftUI */;
+			targetProxy = C3EEDDFE2555B94500C21788 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1292,6 +1514,136 @@
 			};
 			name = Release;
 		};
+		C3EEDE042555B94500C21788 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_ASSET_PATHS = "\"RssSwiftUI/Preview Content\"";
+				DEVELOPMENT_TEAM = 42K94E5YQD;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = RssSwiftUI/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.kocherovets.RssSwiftUI;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		C3EEDE052555B94500C21788 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_ASSET_PATHS = "\"RssSwiftUI/Preview Content\"";
+				DEVELOPMENT_TEAM = 42K94E5YQD;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = RssSwiftUI/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.kocherovets.RssSwiftUI;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		C3EEDE062555B94500C21788 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 42K94E5YQD;
+				INFOPLIST_FILE = RssSwiftUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.kocherovets.RssSwiftUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RssSwiftUI.app/RssSwiftUI";
+			};
+			name = Debug;
+		};
+		C3EEDE072555B94500C21788 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 42K94E5YQD;
+				INFOPLIST_FILE = RssSwiftUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.kocherovets.RssSwiftUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RssSwiftUI.app/RssSwiftUI";
+			};
+			name = Release;
+		};
+		C3EEDE082555B94500C21788 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 42K94E5YQD;
+				INFOPLIST_FILE = RssSwiftUIUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.kocherovets.RssSwiftUIUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = RssSwiftUI;
+			};
+			name = Debug;
+		};
+		C3EEDE092555B94500C21788 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 42K94E5YQD;
+				INFOPLIST_FILE = RssSwiftUIUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.kocherovets.RssSwiftUIUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = RssSwiftUI;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1345,6 +1697,33 @@
 			buildConfigurations = (
 				C3EEDD362555297E00C21788 /* Debug */,
 				C3EEDD372555297E00C21788 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C3EEDE0A2555B94500C21788 /* Build configuration list for PBXNativeTarget "RssSwiftUI" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C3EEDE042555B94500C21788 /* Debug */,
+				C3EEDE052555B94500C21788 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C3EEDE0B2555B94500C21788 /* Build configuration list for PBXNativeTarget "RssSwiftUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C3EEDE062555B94500C21788 /* Debug */,
+				C3EEDE072555B94500C21788 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C3EEDE0C2555B94500C21788 /* Build configuration list for PBXNativeTarget "RssSwiftUIUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C3EEDE082555B94500C21788 /* Debug */,
+				C3EEDE092555B94500C21788 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
