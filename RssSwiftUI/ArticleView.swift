@@ -19,13 +19,13 @@ struct ArticleView: View {
         var rightBarButtonImageName = "star"
         var starCommand = Command { }
         var article = NewsState.Article(
-            source: "www.washingtontimes.com stories: Politics",
-            guid: "https://www.washingtontimes.com/news/2020/nov/6/mark-meadows-tests-positive-coronavirus-reports/?utm_source=RSS_Feed&utm_medium=RSS",
-            title: "Mark Meadows tests positive for coronavirus: Reports",
-            body: "WASHINGTON &mdash; President Donald Trump\'s chief of staff Mark Meadows has been diagnosed with the coronavirus as the nation sets daily records for confirmed cases for the pandemic. Two senior administration officials confirmed Friday that Meadows had tested positive for the virus, which has killed more than 236,000 Americans so ...",
+            source: "",
+            guid: "",
+            title: "",
+            body: "",
             time: Date(),
-            imageURL: "https://twt-thumbs.washtimes.com/media/image/2020/10/26/Trump_92332.jpg-658e8_s1440x960.jpg?f72536d07237fdd262042ae8f5e6e6de3b865f3c",
-            unread: true,
+            imageURL: "",
+            unread: false,
             starred: false)
     }
 
@@ -110,8 +110,12 @@ struct ArticleView: View {
                                      Image(systemName: props.rightBarButtonImageName)
                                          .foregroundColor(Color(red: 1, green: 204.0 / 255.0, blue: 0))
                                  }))
-            .onAppear() { presenter.subscribe() }
-            .onDisappear { presenter.unsubscribe() }
+            .onAppear() {
+                presenter.subscribe()
+            }
+            .onDisappear {
+                presenter.unsubscribe()
+            }
     }
 
 //    init(presenter: Presenter? = nil, articleUUID: UUID? = nil) {
@@ -129,3 +133,17 @@ struct ArticleView_Previews: PreviewProvider {
         ArticleView()
     }
 }
+//
+//struct Props: SwiftUIProperties {
+//    var rightBarButtonImageName = "star"
+//    var starCommand = Command { }
+//    var article = NewsState.Article(
+//        source: "www.washingtontimes.com stories: Politics",
+//        guid: "https://www.washingtontimes.com/news/2020/nov/6/mark-meadows-tests-positive-coronavirus-reports/?utm_source=RSS_Feed&utm_medium=RSS",
+//        title: "Mark Meadows tests positive for coronavirus: Reports",
+//        body: "WASHINGTON &mdash; President Donald Trump\'s chief of staff Mark Meadows has been diagnosed with the coronavirus as the nation sets daily records for confirmed cases for the pandemic. Two senior administration officials confirmed Friday that Meadows had tested positive for the virus, which has killed more than 236,000 Americans so ...",
+//        time: Date(),
+//        imageURL: "https://twt-thumbs.washtimes.com/media/image/2020/10/26/Trump_92332.jpg-658e8_s1440x960.jpg?f72536d07237fdd262042ae8f5e6e6de3b865f3c",
+//        unread: true,
+//        starred: false)
+//}

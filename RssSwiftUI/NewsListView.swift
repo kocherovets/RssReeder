@@ -113,7 +113,7 @@ struct NewsListView: View {
                     ForEach(props.days, id: \.self) { day in
                         Section(header: headerView(title: headerDateFormatter.string(from: day.date)),
                                 content: {
-                                    ForEach(day.articles, id: \.guid) { article in
+                                    ForEach(day.articles, id: \.self) { article in
                                         NavigationLink(destination: ArticleView())
                                         {
                                             articleRow(source: article.source.uppercased(),
@@ -126,13 +126,17 @@ struct NewsListView: View {
                                                        starred: article.starred)
                                         }
                                             .simultaneousGesture(TapGesture().onEnded {
+                                                                     presenter.freezed = true
                                                                      props.selectCommand.perform(with: article)
                                                                  })
                                     }
                                 })
                     }
-                }
+                }.id(UUID())
             }
+                .onAppear() {
+                    presenter.freezed = false
+                }
                 .navigationBarTitle("", displayMode: .inline)
                 .navigationBarItems(
                     leading: Button(action: { props.showsStarredOnlyCommand.perform() },
@@ -143,8 +147,14 @@ struct NewsListView: View {
                     trailing: Button(action: { props.changeViewModeCommand.perform() },
                                      label: { Image(systemName: props.rightBarButtonImageName) }))
         }
-            .onAppear() { presenter.subscribe() }
-            .onDisappear { presenter.unsubscribe() }
+            .onAppear() {
+                presenter.subscribe()
+
+            }
+            .onDisappear {
+                presenter.unsubscribe()
+
+        }
     }
 
     func headerView(title: String) -> some View {
@@ -169,14 +179,27 @@ struct NewsListView: View {
         VStack {
             HStack(alignment: .top) {
                 VStack(alignment: .leading) {
-                    Text(source)
-                        .font(.callout)
-                        .foregroundColor(Color(red: 0.8, green: 0.8, blue: 0.8))
-                        .padding([.bottom], 1)
+                    HStack {
+                        Group {
+                            if starred {
+                                Image(systemName: "star.fill")
+                                    .frame(width: 20, height: 20)
+                                    .foregroundColor(Color(red: 1, green: 204.0 / 255.0, blue: 0))
+                                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 0.5, trailing: 5))
+                            }
+                            else {
+                                EmptyView()
+                            }
+                        }
+                        Text(source)
+                            .font(.callout)
+                            .foregroundColor(Color(red: 0.8, green: 0.8, blue: 0.8))
+                            .padding([.bottom], 1)
+                    }
                     Text(title)
                         .font(.callout)
                         .bold()
-                        .foregroundColor(Color.black)
+                        .foregroundColor(unread ? Color(UIColor.black) : Color(UIColor.lightGray))
                         .padding([.bottom], 1)
                     Group {
                         if hideBody {
@@ -184,7 +207,7 @@ struct NewsListView: View {
                         } else {
                             Text(body)
                                 .font(.callout)
-                                .foregroundColor(Color(red: 0.5, green: 0.5, blue: 0.5))
+                                .foregroundColor(unread ? Color(UIColor.darkGray) : Color(UIColor.lightGray))
                                 .padding([.bottom], 1)
                                 .lineLimit(3)
                         }
@@ -284,3 +307,4 @@ struct RemoteImage: View {
         }
     }
 }
+
