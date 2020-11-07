@@ -6,7 +6,7 @@ public protocol UIArticle { }
 
 public struct NewsState: StateType, Equatable
 {
-    public struct Article: Equatable
+    public struct Article: Equatable, Hashable
     {
         public var source: String
         public var guid: String
@@ -16,13 +16,37 @@ public struct NewsState: StateType, Equatable
         public var imageURL: String
         public var unread: Bool
         public var starred: Bool
+        
+        public func hash(into hasher: inout Hasher) {
+            hasher.combine(guid)
+        }
+
+        public init(source: String, guid: String, title: String, body: String, time: Date, imageURL: String, unread: Bool, starred: Bool) {
+            self.source = source
+            self.guid = guid
+            self.title = title
+            self.body = body
+            self.time = time
+            self.imageURL = imageURL
+            self.unread = unread
+            self.starred = starred
+        }
     }
     public var selectedArticle: Article?
 
-    public struct DayArticles: Equatable
+    public struct DayArticles: Equatable, Hashable
     {
         public var date: Date
         public var articles: [NewsState.Article]
+        
+        public func hash(into hasher: inout Hasher) {
+            hasher.combine(date)
+        }
+
+        public init(date: Date, articles: [NewsState.Article]) {
+            self.date = date
+            self.articles = articles
+        }
     }
     public var days = [NewsState.DayArticles]()
 
