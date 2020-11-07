@@ -69,6 +69,20 @@ extension SettingsState
         }
     }
 
+    public struct SetTempUpdateIntervalAction: Action
+    {
+        public let seconds: Int
+
+        public func updateState(_ state: inout AppState)
+        {
+            state.settings.updateIntervalSeconds = seconds
+        }
+        
+        public init(seconds: Int) {
+            self.seconds = seconds
+        }
+    }
+
     public struct SetUpdateIntervalAction: Action, UISettings
     {
         public let seconds: Int

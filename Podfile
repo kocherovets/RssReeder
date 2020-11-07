@@ -19,6 +19,22 @@ target 'RssReederTests' do
   inhibit_all_warnings!
 end
 
+target 'RssSwiftUI' do
+    project 'RssReeder'
+    use_frameworks!
+    inhibit_all_warnings!
+
+    pod 'ReduxVM'
+    pod 'DITranquillity'
+    pod 'Kingfisher', '~> 5.0'
+end
+
+target 'RssSwiftUITests' do
+  project 'RssReeder'
+  use_frameworks!
+  inhibit_all_warnings!
+end
+
 target 'RssState' do
   pod 'RedSwift'
   pod 'ReduxVM'
