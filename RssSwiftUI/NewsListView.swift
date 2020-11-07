@@ -36,6 +36,7 @@ struct NewsListView: View {
                         unread: true,
                         starred: false)])
         ]
+        var selectCommand = CommandWith<NewsState.Article> { article in }
     }
 
     class Presenter: SwiftUIPresenter<AppState, Props> {
@@ -82,7 +83,11 @@ struct NewsListView: View {
                     trunk.dispatch(NewsState.SetHideBodyAction(newsUUID: self.uuid, value: !news.hideBody))
                 },
                 hideBody: news.hideBody,
-                days: news.days
+                days: news.days,
+                selectCommand: CommandWith<NewsState.Article> { article in
+                    trunk.dispatch(NewsState.SelectNewsAction(newsUUID: self.uuid,
+                                                              article: article))
+                }
             )
         }
     }
@@ -108,25 +113,33 @@ struct NewsListView: View {
                     ForEach(props.days, id: \.self) { day in
                         Section(header: headerView(title: headerDateFormatter.string(from: day.date)),
                                 content: {
-                                    ForEach(day.articles, id: \.self) { article in
-                                        articleRow(source: article.source.uppercased(),
-                                                   title: article.title,
-                                                   body: article.body,
-                                                   hideBody: props.hideBody,
-                                                   time: dateFormatter.string(from: article.time),
-                                                   imageURL: article.imageURL,
-                                                   unread: article.unread,
-                                                   starred: article.starred)
+                                    ForEach(day.articles, id: \.guid) { article in
+                                        NavigationLink(destination: ArticleView())
+                                        {
+                                            articleRow(source: article.source.uppercased(),
+                                                       title: article.title,
+                                                       body: article.body,
+                                                       hideBody: props.hideBody,
+                                                       time: dateFormatter.string(from: article.time),
+                                                       imageURL: article.imageURL,
+                                                       unread: article.unread,
+                                                       starred: article.starred)
+                                        }
+                                            .simultaneousGesture(TapGesture().onEnded {
+                                                                     props.selectCommand.perform(with: article)
+                                                                 })
                                     }
                                 })
                     }
                 }
-                    .id(UUID())
             }
                 .navigationBarTitle("", displayMode: .inline)
                 .navigationBarItems(
                     leading: Button(action: { props.showsStarredOnlyCommand.perform() },
-                                    label: { Image(systemName: props.leftBarButtonImageName) }),
+                                    label: {
+                                        Image(systemName: props.leftBarButtonImageName)
+                                            .foregroundColor(Color(red: 1, green: 204.0 / 255.0, blue: 0))
+                                    }),
                     trailing: Button(action: { props.changeViewModeCommand.perform() },
                                      label: { Image(systemName: props.rightBarButtonImageName) }))
         }
