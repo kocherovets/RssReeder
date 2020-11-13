@@ -32,16 +32,16 @@ enum SettingsTVCModule
             rows.append(contentsOf:
                 box.state.settings.sources.keys.sorted()
                 .map { url in
-                let isActive = box.state.settings.sources[url] == true
-                return SourceCellVM(title: url,
-                                    isActive: isActive,
-                                    valueChangedCommand: Command {
-                                        trunk.dispatch(SettingsState.SetSourceActivityAction(sourceURL: url,
-                                                                                             activity: !isActive))
-                                    },
-                                    removeCommand: Command {
-                                        trunk.dispatch(SettingsState.RemoveSourceAction(sourceURL: url))
-                                    })
+                    let isActive = box.state.settings.sources[url] == true
+                    return SourceCellVM(title: url,
+                                        isActive: isActive,
+                                        valueChangedCommand: Command {
+                                            trunk.dispatch(SettingsState.SetSourceActivityAction(sourceURL: url,
+                                                                                                 activity: !isActive))
+                                        },
+                                        removeCommand: Command {
+                                            trunk.dispatch(SettingsState.RemoveSourceAction(sourceURL: url))
+                                        })
             })
 
             rows.append(
@@ -118,8 +118,8 @@ extension SettingsTVCModule
         {
             container.register(ViewController.self)
                 .injection(\ViewController.presenter) {
-                $0 as Presenter
-            }
+                    $0 as Presenter
+                }
                 .lifetime(.objectGraph)
 
             container.register(Presenter.init)
