@@ -19,7 +19,7 @@ public class RssStateModule
         {
             container.register(AppState.init).lifetime(.single)
 
-            container.register { DispatchQueue(label: "rssReeder", qos: .userInteractive) }
+            container.register { DispatchQueue(label: "rssReeder", qos: .userInitiated) }
                 .as(DispatchQueue.self, name: "storeQueue")
                 .lifetime(.single)
 
