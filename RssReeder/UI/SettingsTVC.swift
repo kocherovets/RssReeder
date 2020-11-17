@@ -18,17 +18,20 @@ enum SettingsTVCModule
 
         override func props(for box: StateBox<AppState>, trunk: Trunk) -> TableProps?
         {
-            var rows: [CellAnyModel] = [
+            let generalSection = TableSection(
+                header: TitleWithoutViewTableHeaderModel(title: "General"),
+                rows: [
+                    UpdateIntervalCellVM(
+                        text: String(box.state.settings.updateIntervalSeconds),
+                        valueChangedCommand: CommandWith<Int> { value in
+                            trunk.dispatch(SettingsState.SetUpdateIntervalAction(seconds: value,
+                                                                                 fromDB: false))
+                        }
+                    )
+                ],
+                footer: nil)
 
-                SectionHeaderCellVM(title: "General"),
-                UpdateIntervalCellVM(text: String(box.state.settings.updateIntervalSeconds),
-                                     valueChangedCommand: CommandWith<Int> { value in
-                                         trunk.dispatch(SettingsState.SetUpdateIntervalAction(seconds: value,
-                                                                                              fromDB: false))
-                                     }),
-                SectionHeaderCellVM(title: "Sources"),
-            ]
-
+            var rows = [CellAnyModel]()
             rows.append(contentsOf:
                 box.state.settings.sources.keys.sorted()
                 .map { url in
@@ -83,7 +86,13 @@ enum SettingsTVCModule
                 }
             }
 
-            return TableProps(tableModel: TableModel(rows: rows), animations: DeclarativeTVC.fadeAnimations)
+            let sourcesSection = TableSection(
+                header: TitleWithoutViewTableHeaderModel(title: "Sources"),
+                rows: rows,
+                footer: nil)
+                                                                        
+            return TableProps(tableModel: TableModel(sections: [generalSection, sourcesSection]),
+                              animations: DeclarativeTVC.fadeAnimations)
         }
     }
 }
@@ -94,14 +103,14 @@ class SettingsTVC: TVC, PropsReceiver
 
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
 
-        props?.tableModel.sections.first?.rows[indexPath.row] is SourceCellVM
+        props?.tableModel.sections[indexPath.section].rows[indexPath.row] is SourceCellVM
     }
 
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
 
         if editingStyle == .delete {
 
-            if let vm = props?.tableModel.sections.first?.rows[indexPath.row] as? SourceCellVM {
+            if let vm = props?.tableModel.sections[indexPath.section].rows[indexPath.row] as? SourceCellVM {
                 vm.removeCommand.perform()
             }
         }

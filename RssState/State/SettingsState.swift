@@ -6,7 +6,7 @@ public protocol UISettings { }
 public struct SettingsState: StateType, Equatable
 {
     public var sources: [String: Bool] = [:]
-    public var updateIntervalSeconds: Int = 10
+    public var updateIntervalSeconds: Int = 300
 }
 
 extension SettingsState

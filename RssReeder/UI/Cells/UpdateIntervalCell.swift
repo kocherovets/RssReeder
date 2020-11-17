@@ -21,7 +21,11 @@ class UpdateIntervalCell: XibTableViewCell, UITextFieldDelegate {
     
     func textFieldDidEndEditing(_ textField: UITextField) {
 
-        valueChangedCommand?.perform(with: Int(textField.text ?? "300") ?? 300)
+        let value = Int(textField.text ?? "300") ?? 300
+            
+        valueChangedCommand?.perform(with:  value)
+        
+        textField.text = String(value)
     }
 }
 
