@@ -2,16 +2,16 @@ import UIKit
 import RedSwift
 import FeedKit
 
-class UpdateNewsInteractor: Interactor<AppState>
+public class UpdateNewsInteractor: Interactor<AppState>
 {
     typealias Dependencies = UpdateNewsInteractor
     
-    override init(store: Store<AppState>)
+    public override init(store: Store<AppState>)
     {
         super.init(store: store)
     }
 
-    override var sideEffects: [AnySideEffect]
+    public override var sideEffects: [AnySideEffect]
     {
         [
             UpdateNewsSE(),

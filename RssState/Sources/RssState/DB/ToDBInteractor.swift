@@ -1,8 +1,5 @@
 import Foundation
-import ReduxVM
-import DITranquillity
 import RedSwift
-import DeclarativeTVC
 
 fileprivate let dbQueue = DispatchQueue(label: "DBQueue", qos: .userInitiated)
 
@@ -14,11 +11,11 @@ extension DBSideEffect {
 }
 
 
-class ToDBInteractor: Interactor<AppState>
+public class ToDBInteractor: Interactor<AppState>
 {
     fileprivate let db: DBService
 
-    init(store: Store<AppState>, db: DBService)
+    public init(store: Store<AppState>, db: DBService)
     {
         self.db = db
         super.init(store: store)

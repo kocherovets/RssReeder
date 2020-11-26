@@ -1,13 +1,12 @@
 import Foundation
 import RedSwift
-import ReduxVM
 
 fileprivate var timer: DispatchSourceTimer?
 fileprivate let queue = DispatchQueue(label: "com.TimerInteractor", attributes: .concurrent)
 
-class TimerInteractor: Interactor<AppState> {
+public class TimerInteractor: Interactor<AppState> {
 
-    override var sideEffects: [AnySideEffect] {
+    public override var sideEffects: [AnySideEffect] {
         [
             RestartTimerSE(),
             StopTimerSE()

@@ -30,13 +30,3 @@ target 'RssSwiftUITests' do
   use_frameworks!
   inhibit_all_warnings!
 end
-
-target 'RssState' do
-  pod 'DITranquillity'
-end
-
-target 'RssStateTests' do
-  project 'RssReeder'
-  use_frameworks!
-  inhibit_all_warnings!
-end

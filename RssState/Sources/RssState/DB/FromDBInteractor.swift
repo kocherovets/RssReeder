@@ -1,22 +1,19 @@
 import Foundation
-import ReduxVM
-import DITranquillity
 import RedSwift
-import DeclarativeTVC
 import CoreData
 
-class FromDBInteractor: Interactor<AppState>
+public class FromDBInteractor: Interactor<AppState>
 {
     fileprivate let db: DBService
 
-    init(store: Store<AppState>, db: DBService)
+    public init(store: Store<AppState>, db: DBService)
     {
         self.db = db
 
         super.init(store: store)
     }
 
-    override var sideEffects: [AnySideEffect]
+    public override var sideEffects: [AnySideEffect]
     {
         [
             StartSyncSE(),
@@ -26,15 +23,18 @@ class FromDBInteractor: Interactor<AppState>
     }
 }
 
+public struct StartAppAction: Action {
+    public init() {}
+    public func updateState(_ state: inout State) {}
+}
+
 extension FromDBInteractor
 {
     struct StartSyncSE: DBSideEffect
     {
-        struct StartAction: Action { }
-
         func condition(box: StateBox<AppState>) -> Bool
         {
-            box.lastAction is StartAction
+            box.lastAction is StartAppAction
         }
 
         func execute(box: StateBox<AppState>, trunk: Trunk, interactor: FromDBInteractor)

@@ -9,8 +9,30 @@ class AppFramework: DIFramework
 {
     static func load(container: DIContainer)
     {
-        container.append(part: RssStateModule.DI.self)
+        container.register(AppState.init).lifetime(.single)
 
+        container.register { DispatchQueue(label: "rssReeder", qos: .userInitiated) }
+            .as(DispatchQueue.self, name: "storeQueue")
+            .lifetime(.single)
+
+        container.register {
+            Store<AppState>(state: $0,
+                            queue: $1,
+                            middleware: [LoggingMiddleware(loggingExcludedActions: [],
+                                                           firstPart: "RssReeder")
+                            ])
+        }
+            .lifetime(.single)
+
+        container.register(DBService.init).lifetime(.single)
+
+        container.register(TimerInteractor.init).lifetime(.single)
+        container.register(UpdateNewsInteractor.init).lifetime(.single)
+        container.register(ToDBInteractor.init).lifetime(.single)
+        container.register(FromDBInteractor.init).lifetime(.single)
+        
+        //
+        
         container.register(RouterInteractor.init).lifetime(.single)
 
         container.registerStoryboard(name: "Main", bundle: Bundle(for: NewsVC.self)).lifetime(.single)
@@ -47,7 +69,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         InteractorLogger.loggingExcludedSideEffects = [
         ]
 
-        RssStateModule.onAppStart(appContainer: container)
+        (container.resolve() as Store<AppState>).dispatch(StartAppAction())
 
         return true
     }

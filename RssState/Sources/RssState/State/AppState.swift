@@ -1,9 +1,10 @@
 import Foundation
 import RedSwift
-import DITranquillity
 
 public struct AppState: RootStateType, Equatable
 {
+    public init() {}
+    
     public var news = [UUID: NewsState]()
     public var settings = SettingsState()
 
@@ -39,6 +40,6 @@ extension AppState
 
 extension Action
 {
-    func updateState(_ state: inout AppState) { }
+    public func updateState(_ state: inout AppState) { }
 }
 

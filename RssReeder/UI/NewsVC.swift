@@ -4,6 +4,7 @@ import DITranquillity
 import RedSwift
 import DeclarativeTVC
 import RssState
+import UIKit
 
 enum NewsVCModule {
 

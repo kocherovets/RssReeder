@@ -6,7 +6,7 @@ public class DBService
 {
     private var persistentContainer: NSPersistentContainer = {
         guard
-            let modelURL = Bundle(for: DBService.self).url(forResource: "RssReeder", withExtension: "momd") else
+            let modelURL = Bundle.module.url(forResource: "RssReeder", withExtension: "momd") else
         {
             fatalError("Error loading model from bundle")
         }
