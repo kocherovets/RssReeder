@@ -4,6 +4,8 @@ import FeedKit
 
 class UpdateNewsInteractor: Interactor<AppState>
 {
+    typealias Dependencies = UpdateNewsInteractor
+    
     override init(store: Store<AppState>)
     {
         super.init(store: store)
@@ -26,7 +28,7 @@ extension UpdateNewsInteractor
             box.lastAction is TimerInteractor.RestartTimerSE.FinishAction
         }
 
-        func execute(box: StateBox<AppState>, trunk: Trunk, interactor: UpdateNewsInteractor)
+        func execute(box: StateBox<AppState>, trunk: Trunk, interactor: Dependencies)
         {
             for source in box.state.settings.sources.keys {
 

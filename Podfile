@@ -8,10 +8,7 @@ target 'RssReeder' do
     use_frameworks!
     inhibit_all_warnings!
 
-    pod 'RedSwift', :git => 'https://github.com/kocherovets/RedSwift.git', :branch => 'v2'
-    pod 'ReduxVM', :git => 'https://github.com/kocherovets/ReduxVM.git', :branch => 'v2'
     pod 'DITranquillity'
-    pod 'Kingfisher', '~> 5.0'
 end
 
 target 'RssReederTests' do
@@ -25,10 +22,7 @@ target 'RssSwiftUI' do
     use_frameworks!
     inhibit_all_warnings!
 
-    pod 'RedSwift', :git => 'https://github.com/kocherovets/RedSwift.git', :branch => 'v2'
-    pod 'ReduxVM', :git => 'https://github.com/kocherovets/ReduxVM.git', :branch => 'v2'
     pod 'DITranquillity'
-    pod 'Kingfisher', '~> 5.0'
 end
 
 target 'RssSwiftUITests' do
@@ -38,10 +32,7 @@ target 'RssSwiftUITests' do
 end
 
 target 'RssState' do
-  pod 'RedSwift', :git => 'https://github.com/kocherovets/RedSwift.git', :branch => 'v2'
-  pod 'ReduxVM', :git => 'https://github.com/kocherovets/ReduxVM.git', :branch => 'v2'
   pod 'DITranquillity'
-  pod 'FeedKit', '~> 9.0'
 end
 
 target 'RssStateTests' do

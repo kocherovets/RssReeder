@@ -33,7 +33,7 @@ enum ArticleTVCModule
                 rows.append(NewsBodyCellVM(body: news.body))
                 rows.append(NewsImageCellVM(imageURL: news.imageURL))
             }
-
+            
             return TableProps(tableModel: TableModel(rows: rows))
         }
 
