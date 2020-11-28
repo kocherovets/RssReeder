@@ -9,6 +9,7 @@ target 'RssReeder' do
     inhibit_all_warnings!
 
     pod 'DITranquillity'
+    pod 'Kingfisher', '~> 5.0'
 end
 
 target 'RssReederTests' do
@@ -33,6 +34,8 @@ end
 
 target 'RssState' do
   pod 'DITranquillity'
+  pod 'ReduxVM'
+  pod 'FeedKit', '~> 9.0'
 end
 
 target 'RssStateTests' do

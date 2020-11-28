@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -17,9 +17,6 @@
 		C316871B251A803D001ED622 /* UpdateIntervalCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C316870E251A8010001ED622 /* UpdateIntervalCell.xib */; };
 		C316872F251A8272001ED622 /* SectionHeaderCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C3168720251A8196001ED622 /* SectionHeaderCell.xib */; };
 		C3168730251A8272001ED622 /* SectionHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C316871F251A8196001ED622 /* SectionHeaderCell.swift */; };
-		C3260827257023B8000405B6 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = C3260826257023B8000405B6 /* Kingfisher */; };
-		C326085D257024EA000405B6 /* ReduxVM in Frameworks */ = {isa = PBXBuildFile; productRef = C326085C257024EA000405B6 /* ReduxVM */; };
-		C32608732570252C000405B6 /* FeedKit in Frameworks */ = {isa = PBXBuildFile; productRef = C32608722570252C000405B6 /* FeedKit */; };
 		C34D99A82555C62A001193B1 /* NewsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C34D99A72555C62A001193B1 /* NewsListView.swift */; };
 		C34D99D12555C79C001193B1 /* RssState.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3EEDD1C2555297E00C21788 /* RssState.framework */; };
 		C34D99D22555C79C001193B1 /* RssState.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C3EEDD1C2555297E00C21788 /* RssState.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -282,7 +279,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C3260827257023B8000405B6 /* Kingfisher in Frameworks */,
 				4958AFBA07A7A4642E440E8B /* Pods_RssReeder.framework in Frameworks */,
 				C3EEDD312555297E00C21788 /* RssState.framework in Frameworks */,
 			);
@@ -307,8 +303,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C32608732570252C000405B6 /* FeedKit in Frameworks */,
-				C326085D257024EA000405B6 /* ReduxVM in Frameworks */,
 				21F929A3B7C2E51FA650B1ED /* Pods_RssState.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -655,7 +649,6 @@
 			);
 			name = RssReeder;
 			packageProductDependencies = (
-				C3260826257023B8000405B6 /* Kingfisher */,
 			);
 			productName = RssReeder;
 			productReference = C35BF6F62518E53600437A53 /* RssReeder.app */;
@@ -714,8 +707,6 @@
 			);
 			name = RssState;
 			packageProductDependencies = (
-				C326085C257024EA000405B6 /* ReduxVM */,
-				C32608722570252C000405B6 /* FeedKit */,
 			);
 			productName = RssState;
 			productReference = C3EEDD1C2555297E00C21788 /* RssState.framework */;
@@ -851,9 +842,6 @@
 			);
 			mainGroup = C35BF6ED2518E53600437A53;
 			packageReferences = (
-				C3260825257023B8000405B6 /* XCRemoteSwiftPackageReference "Kingfisher" */,
-				C326082E25702405000405B6 /* XCRemoteSwiftPackageReference "ReduxVM" */,
-				C326084525702464000405B6 /* XCRemoteSwiftPackageReference "FeedKit" */,
 			);
 			productRefGroup = C35BF6F72518E53600437A53 /* Products */;
 			projectDirPath = "";
@@ -1871,51 +1859,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		C3260825257023B8000405B6 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 5.15.7;
-			};
-		};
-		C326082E25702405000405B6 /* XCRemoteSwiftPackageReference "ReduxVM" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/kocherovets/ReduxVM";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.0.4;
-			};
-		};
-		C326084525702464000405B6 /* XCRemoteSwiftPackageReference "FeedKit" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/nmdias/FeedKit.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 9.1.2;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		C3260826257023B8000405B6 /* Kingfisher */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = C3260825257023B8000405B6 /* XCRemoteSwiftPackageReference "Kingfisher" */;
-			productName = Kingfisher;
-		};
-		C326085C257024EA000405B6 /* ReduxVM */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = C326082E25702405000405B6 /* XCRemoteSwiftPackageReference "ReduxVM" */;
-			productName = ReduxVM;
-		};
-		C32608722570252C000405B6 /* FeedKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = C326084525702464000405B6 /* XCRemoteSwiftPackageReference "FeedKit" */;
-			productName = FeedKit;
-		};
-/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		C35BF7022518E53600437A53 /* RssReeder.xcdatamodeld */ = {
